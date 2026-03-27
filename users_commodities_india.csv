@@ -1,0 +1,1001 @@
+user_id,commodity,role,city,state,min_quantity_mt,max_quantity_mt
+1,sugar;rice,trader,Mumbai,Maharashtra,43,216
+2,sugar;rice,trader,Indore,Madhya Pradesh,74,191
+3,sugar;rice,exporter,Satna,Madhya Pradesh,79,298
+4,rice;sugar;cotton,trader,Salem,Tamil Nadu,59,257
+5,rice;sugar,exporter,Suryapet,Telangana,76,320
+6,sugar,exporter,Junagadh,Gujarat,30,254
+7,cotton;sugar;rice,broker,Bengaluru,Karnataka,21,317
+8,sugar;rice,broker,Indore,Madhya Pradesh,27,292
+9,sugar;cotton;rice,broker,Alwar,Rajasthan,80,184
+10,rice;cotton;sugar,exporter,Alwar,Rajasthan,61,262
+11,sugar,trader,Warangal,Telangana,80,317
+12,sugar;rice,exporter,Ahmedabad,Gujarat,45,202
+13,sugar;rice,broker,Alwar,Rajasthan,39,312
+14,sugar;cotton;rice,exporter,Jodhpur,Rajasthan,31,283
+15,cotton,exporter,Ballari,Karnataka,89,365
+16,rice;cotton,trader,Kolhapur,Maharashtra,100,208
+17,cotton,exporter,Patiala,Punjab,46,336
+18,rice,exporter,Ballari,Karnataka,86,267
+19,sugar;rice,trader,Alwar,Rajasthan,93,350
+20,cotton;sugar,broker,Agra,Uttar Pradesh,85,373
+21,cotton,broker,Howrah,West Bengal,29,314
+22,rice;sugar;cotton,trader,Sikar,Rajasthan,81,360
+23,cotton;sugar,trader,Thoothukudi,Tamil Nadu,53,191
+24,rice;sugar,broker,Navsari,Gujarat,22,218
+25,cotton;rice;sugar,broker,Ludhiana,Punjab,27,130
+26,sugar;cotton;rice,exporter,Jabalpur,Madhya Pradesh,80,156
+27,sugar;cotton;rice,broker,Ghaziabad,Uttar Pradesh,59,246
+28,cotton;sugar;rice,trader,Mysuru,Karnataka,34,149
+29,sugar,broker,Mohali,Punjab,43,334
+30,rice,trader,Ujjain,Madhya Pradesh,70,152
+31,rice,exporter,Tiruchirappalli,Tamil Nadu,80,365
+32,cotton;sugar,exporter,Chennai,Tamil Nadu,54,162
+33,cotton,trader,Ahmedabad,Gujarat,45,151
+34,sugar;rice,exporter,Hubli,Karnataka,98,396
+35,cotton;rice,broker,Aurangabad,Maharashtra,59,217
+36,sugar;cotton,trader,Meerut,Uttar Pradesh,71,147
+37,sugar;cotton,exporter,Meerut,Uttar Pradesh,20,307
+38,rice;sugar,exporter,Karimnagar,Telangana,70,258
+39,cotton,exporter,Nashik,Maharashtra,27,105
+40,sugar;cotton,broker,Mohali,Punjab,68,149
+41,rice;sugar,broker,Mahbubnagar,Telangana,54,269
+42,rice;sugar;cotton,exporter,Pali,Rajasthan,74,182
+43,rice;sugar;cotton,trader,Patiala,Punjab,81,143
+44,cotton;sugar;rice,exporter,Bengaluru,Karnataka,39,277
+45,rice;cotton;sugar,exporter,Gorakhpur,Uttar Pradesh,32,261
+46,sugar,exporter,Pune,Maharashtra,53,125
+47,rice;cotton,exporter,Khammam,Telangana,58,358
+48,rice;sugar;cotton,trader,Kharagpur,West Bengal,76,308
+49,sugar;rice;cotton,trader,Gorakhpur,Uttar Pradesh,20,86
+50,rice,broker,Ghaziabad,Uttar Pradesh,93,268
+51,cotton;rice,exporter,Ujjain,Madhya Pradesh,57,141
+52,rice;cotton,trader,Rewa,Madhya Pradesh,80,139
+53,sugar,trader,Salem,Tamil Nadu,32,225
+54,cotton;sugar,trader,Ajmer,Rajasthan,87,216
+55,rice;cotton;sugar,exporter,Krishnanagar,West Bengal,29,81
+56,rice;sugar;cotton,broker,Jamnagar,Gujarat,67,124
+57,sugar;cotton;rice,broker,Howrah,West Bengal,58,306
+58,rice;sugar,trader,Hyderabad,Telangana,25,203
+59,cotton,trader,Raiganj,West Bengal,92,362
+60,rice;cotton;sugar,exporter,Warangal,Telangana,66,116
+61,sugar,exporter,Udaipur,Rajasthan,30,127
+62,rice;sugar,broker,Ujjain,Madhya Pradesh,34,120
+63,sugar;cotton;rice,exporter,Jalgaon,Maharashtra,88,257
+64,cotton;sugar,trader,Ramagundam,Telangana,76,243
+65,cotton,trader,Kharagpur,West Bengal,70,183
+66,cotton;sugar;rice,exporter,Howrah,West Bengal,31,305
+67,sugar;cotton;rice,broker,Bharatpur,Rajasthan,23,235
+68,cotton;rice;sugar,broker,Malda,West Bengal,79,347
+69,cotton;rice;sugar,exporter,Pune,Maharashtra,48,346
+70,sugar;rice;cotton,exporter,Anand,Gujarat,44,162
+71,cotton;sugar,broker,Chennai,Tamil Nadu,41,204
+72,rice,trader,Vadodara,Gujarat,29,288
+73,cotton;rice;sugar,exporter,Navsari,Gujarat,78,305
+74,rice;cotton,trader,Solapur,Maharashtra,42,282
+75,rice;cotton,exporter,Satna,Madhya Pradesh,94,341
+76,rice;sugar,broker,Ludhiana,Punjab,75,206
+77,cotton;sugar,broker,Anand,Gujarat,30,236
+78,sugar;cotton;rice,broker,Varanasi,Uttar Pradesh,42,313
+79,sugar;rice;cotton,trader,Suryapet,Telangana,46,175
+80,sugar;cotton,trader,Prayagraj,Uttar Pradesh,27,243
+81,cotton,broker,Hyderabad,Telangana,41,144
+82,cotton;sugar,exporter,Jaipur,Rajasthan,31,268
+83,sugar;cotton,broker,Varanasi,Uttar Pradesh,87,228
+84,rice,trader,Thanjavur,Tamil Nadu,51,338
+85,cotton;rice,trader,Ujjain,Madhya Pradesh,63,276
+86,sugar;rice;cotton,exporter,Malda,West Bengal,96,306
+87,sugar,exporter,Hoshiarpur,Punjab,46,337
+88,sugar;rice,exporter,Jabalpur,Madhya Pradesh,43,250
+89,cotton,trader,Bengaluru,Karnataka,93,145
+90,sugar,trader,Bharatpur,Rajasthan,99,261
+91,rice;sugar;cotton,trader,Jaipur,Rajasthan,24,248
+92,sugar;cotton,broker,Dindigul,Tamil Nadu,59,278
+93,cotton;rice;sugar,broker,Raiganj,West Bengal,82,370
+94,sugar;cotton,trader,Siliguri,West Bengal,86,201
+95,cotton;rice,trader,Aurangabad,Maharashtra,95,286
+96,rice;sugar,trader,Mahbubnagar,Telangana,94,207
+97,cotton,trader,Kanpur,Uttar Pradesh,99,162
+98,sugar;cotton,exporter,Udaipur,Rajasthan,82,367
+99,cotton,exporter,Sikar,Rajasthan,72,201
+100,rice;cotton,broker,Khammam,Telangana,76,228
+101,rice;sugar,exporter,Agra,Uttar Pradesh,83,135
+102,sugar;rice;cotton,trader,Aurangabad,Maharashtra,36,206
+103,rice;cotton;sugar,broker,Bareilly,Uttar Pradesh,20,97
+104,cotton;sugar;rice,trader,Kolhapur,Maharashtra,74,325
+105,sugar;cotton,trader,Nashik,Maharashtra,96,147
+106,sugar;cotton;rice,exporter,Ghaziabad,Uttar Pradesh,70,340
+107,sugar,exporter,Madurai,Tamil Nadu,45,203
+108,sugar;cotton;rice,trader,Surat,Gujarat,98,173
+109,sugar,broker,Phagwara,Punjab,88,151
+110,sugar;cotton;rice,broker,Nashik,Maharashtra,96,177
+111,cotton;sugar;rice,trader,Katni,Madhya Pradesh,76,361
+112,cotton,broker,Hyderabad,Telangana,33,185
+113,cotton,broker,Malda,West Bengal,95,303
+114,rice,broker,Jaipur,Rajasthan,56,348
+115,cotton,trader,Jodhpur,Rajasthan,44,343
+116,sugar;cotton,trader,Mangaluru,Karnataka,51,111
+117,sugar;cotton;rice,exporter,Erode,Tamil Nadu,72,179
+118,cotton;rice,broker,Bareilly,Uttar Pradesh,23,131
+119,rice,trader,Anand,Gujarat,89,240
+120,cotton;sugar;rice,exporter,Gandhinagar,Gujarat,29,138
+121,cotton,exporter,Aurangabad,Maharashtra,97,332
+122,cotton;sugar,trader,Pathankot,Punjab,77,373
+123,rice;cotton;sugar,exporter,Davangere,Karnataka,47,308
+124,cotton,exporter,Sagar,Madhya Pradesh,24,295
+125,rice;cotton;sugar,broker,Hyderabad,Telangana,27,170
+126,rice;cotton;sugar,trader,Alwar,Rajasthan,21,209
+127,cotton,trader,Mohali,Punjab,81,281
+128,rice,broker,Solapur,Maharashtra,97,186
+129,cotton,trader,Jamnagar,Gujarat,80,373
+130,sugar,broker,Hubli,Karnataka,56,231
+131,rice;cotton;sugar,broker,Sagar,Madhya Pradesh,84,241
+132,cotton,trader,Malda,West Bengal,44,123
+133,rice;sugar;cotton,trader,Jaipur,Rajasthan,93,388
+134,cotton,trader,Belagavi,Karnataka,94,235
+135,rice;sugar;cotton,exporter,Dindigul,Tamil Nadu,69,179
+136,sugar;rice,exporter,Kolhapur,Maharashtra,35,332
+137,sugar;rice,exporter,Kharagpur,West Bengal,30,222
+138,rice,exporter,Dindigul,Tamil Nadu,91,167
+139,rice;sugar,broker,Mahbubnagar,Telangana,79,240
+140,rice;cotton;sugar,broker,Pali,Rajasthan,98,252
+141,cotton,exporter,Krishnanagar,West Bengal,99,216
+142,rice;sugar;cotton,broker,Prayagraj,Uttar Pradesh,76,362
+143,cotton;rice;sugar,broker,Ahmedabad,Gujarat,45,332
+144,sugar;cotton;rice,broker,Amritsar,Punjab,99,170
+145,cotton;sugar,trader,Amritsar,Punjab,41,176
+146,rice;cotton;sugar,exporter,Agra,Uttar Pradesh,38,138
+147,rice;cotton;sugar,trader,Gandhinagar,Gujarat,68,289
+148,sugar,broker,Ratlam,Madhya Pradesh,40,177
+149,rice;sugar;cotton,exporter,Sagar,Madhya Pradesh,92,297
+150,cotton;rice,broker,Howrah,West Bengal,24,266
+151,rice;sugar;cotton,broker,Pune,Maharashtra,95,173
+152,rice,exporter,Satna,Madhya Pradesh,35,312
+153,rice,broker,Pune,Maharashtra,30,268
+154,sugar;cotton;rice,exporter,Jamnagar,Gujarat,66,197
+155,cotton;sugar,trader,Noida,Uttar Pradesh,48,106
+156,sugar,exporter,Udaipur,Rajasthan,76,359
+157,sugar;cotton;rice,trader,Meerut,Uttar Pradesh,89,365
+158,cotton,trader,Pathankot,Punjab,21,95
+159,sugar;cotton,exporter,Bikaner,Rajasthan,57,132
+160,rice;sugar;cotton,exporter,Gwalior,Madhya Pradesh,52,281
+161,sugar;cotton,trader,Satna,Madhya Pradesh,98,189
+162,sugar;rice,exporter,Nanded,Maharashtra,80,143
+163,rice;cotton;sugar,broker,Adilabad,Telangana,72,342
+164,sugar,exporter,Patiala,Punjab,62,131
+165,sugar;rice;cotton,broker,Jalandhar,Punjab,54,126
+166,cotton;rice;sugar,broker,Ajmer,Rajasthan,69,230
+167,cotton,exporter,Pathankot,Punjab,55,319
+168,sugar;rice;cotton,exporter,Tumkur,Karnataka,72,192
+169,sugar;cotton,trader,Mumbai,Maharashtra,66,303
+170,sugar;cotton,exporter,Nagpur,Maharashtra,64,224
+171,cotton,trader,Warangal,Telangana,71,214
+172,cotton,trader,Ratlam,Madhya Pradesh,32,141
+173,cotton,exporter,Siliguri,West Bengal,53,209
+174,sugar;rice,exporter,Mahbubnagar,Telangana,92,329
+175,rice;sugar;cotton,trader,Malda,West Bengal,59,190
+176,rice;sugar,trader,Warangal,Telangana,85,244
+177,cotton,exporter,Haldia,West Bengal,50,304
+178,rice;sugar;cotton,exporter,Belagavi,Karnataka,40,147
+179,rice;sugar;cotton,exporter,Ujjain,Madhya Pradesh,36,331
+180,sugar;rice,trader,Ramagundam,Telangana,76,197
+181,sugar;rice;cotton,broker,Suryapet,Telangana,53,255
+182,rice;sugar,exporter,Meerut,Uttar Pradesh,80,211
+183,cotton;rice,exporter,Nashik,Maharashtra,85,197
+184,rice,broker,Noida,Uttar Pradesh,39,223
+185,cotton;sugar,trader,Ludhiana,Punjab,36,323
+186,cotton;rice;sugar,trader,Pathankot,Punjab,28,81
+187,cotton;rice,trader,Coimbatore,Tamil Nadu,70,350
+188,sugar;rice,broker,Lucknow,Uttar Pradesh,72,260
+189,cotton;rice,exporter,Noida,Uttar Pradesh,34,146
+190,cotton;sugar;rice,trader,Navsari,Gujarat,88,278
+191,sugar,broker,Kharagpur,West Bengal,92,186
+192,rice,trader,Agra,Uttar Pradesh,74,251
+193,cotton;sugar;rice,exporter,Prayagraj,Uttar Pradesh,87,383
+194,sugar;rice,exporter,Ludhiana,Punjab,61,113
+195,cotton;rice;sugar,trader,Ghaziabad,Uttar Pradesh,50,241
+196,rice;sugar;cotton,exporter,Thanjavur,Tamil Nadu,98,153
+197,sugar;cotton,exporter,Hoshiarpur,Punjab,65,237
+198,cotton;rice;sugar,broker,Phagwara,Punjab,39,145
+199,sugar;cotton,broker,Ballari,Karnataka,22,133
+200,cotton,exporter,Mysuru,Karnataka,88,293
+201,cotton;rice,broker,Warangal,Telangana,25,284
+202,sugar,trader,Nanded,Maharashtra,87,138
+203,sugar,trader,Satna,Madhya Pradesh,82,358
+204,rice,trader,Ramagundam,Telangana,93,203
+205,rice;sugar,trader,Tumkur,Karnataka,46,128
+206,sugar;rice,broker,Bhavnagar,Gujarat,75,194
+207,cotton;rice;sugar,broker,Ghaziabad,Uttar Pradesh,97,394
+208,rice;cotton;sugar,broker,Haldia,West Bengal,39,190
+209,cotton;rice;sugar,broker,Jalandhar,Punjab,71,301
+210,rice;sugar;cotton,trader,Bikaner,Rajasthan,87,285
+211,rice;sugar;cotton,trader,Aurangabad,Maharashtra,27,324
+212,cotton;sugar,broker,Erode,Tamil Nadu,32,96
+213,rice;cotton;sugar,broker,Mangaluru,Karnataka,87,224
+214,sugar;rice,exporter,Malda,West Bengal,33,137
+215,rice,trader,Anand,Gujarat,70,178
+216,sugar;rice,broker,Howrah,West Bengal,49,217
+217,cotton;sugar,trader,Anand,Gujarat,69,318
+218,rice;sugar,trader,Udaipur,Rajasthan,69,158
+219,cotton;rice;sugar,trader,Jabalpur,Madhya Pradesh,95,324
+220,rice;cotton;sugar,trader,Junagadh,Gujarat,43,172
+221,cotton;rice;sugar,broker,Udupi,Karnataka,70,220
+222,cotton;sugar;rice,exporter,Patiala,Punjab,86,240
+223,sugar;cotton;rice,trader,Gwalior,Madhya Pradesh,50,251
+224,rice,trader,Shivamogga,Karnataka,29,233
+225,sugar;rice,broker,Prayagraj,Uttar Pradesh,58,270
+226,cotton,exporter,Adilabad,Telangana,32,85
+227,cotton;sugar,trader,Udupi,Karnataka,98,297
+228,sugar,exporter,Gorakhpur,Uttar Pradesh,52,242
+229,cotton;rice,exporter,Warangal,Telangana,96,326
+230,rice;cotton;sugar,exporter,Suryapet,Telangana,60,237
+231,sugar,exporter,Suryapet,Telangana,32,175
+232,sugar;cotton;rice,trader,Jamnagar,Gujarat,70,151
+233,rice;cotton;sugar,trader,Ahmedabad,Gujarat,98,323
+234,sugar;rice;cotton,exporter,Siliguri,West Bengal,95,221
+235,sugar;rice,broker,Amravati,Maharashtra,78,158
+236,cotton;sugar,broker,Bhavnagar,Gujarat,97,265
+237,cotton;sugar,broker,Nizamabad,Telangana,32,196
+238,cotton;rice;sugar,broker,Kharagpur,West Bengal,38,124
+239,sugar;rice;cotton,broker,Kolkata,West Bengal,72,273
+240,cotton;sugar,trader,Ahmedabad,Gujarat,27,102
+241,sugar,broker,Kolhapur,Maharashtra,94,148
+242,cotton;rice;sugar,exporter,Siliguri,West Bengal,74,158
+243,sugar;rice,broker,Ajmer,Rajasthan,62,164
+244,rice;cotton,broker,Ramagundam,Telangana,90,374
+245,cotton,trader,Phagwara,Punjab,37,321
+246,sugar;rice;cotton,trader,Noida,Uttar Pradesh,38,116
+247,rice,trader,Rajkot,Gujarat,89,158
+248,sugar,broker,Katni,Madhya Pradesh,98,388
+249,cotton;sugar;rice,broker,Hubli,Karnataka,53,249
+250,sugar;cotton,trader,Belagavi,Karnataka,59,253
+251,rice,broker,Sikar,Rajasthan,74,255
+252,sugar;rice;cotton,trader,Karimnagar,Telangana,65,345
+253,cotton;sugar,trader,Moga,Punjab,30,101
+254,rice;cotton;sugar,trader,Anand,Gujarat,98,320
+255,sugar,broker,Bharatpur,Rajasthan,99,307
+256,sugar,broker,Jabalpur,Madhya Pradesh,73,145
+257,rice;sugar,trader,Bharatpur,Rajasthan,36,186
+258,cotton,broker,Jalgaon,Maharashtra,81,294
+259,cotton,trader,Jalgaon,Maharashtra,34,323
+260,sugar;rice,exporter,Nizamabad,Telangana,72,161
+261,cotton,exporter,Bharatpur,Rajasthan,22,274
+262,sugar,broker,Patiala,Punjab,46,188
+263,rice;sugar;cotton,broker,Meerut,Uttar Pradesh,35,313
+264,sugar;rice,exporter,Meerut,Uttar Pradesh,76,334
+265,cotton,broker,Nizamabad,Telangana,94,342
+266,cotton;sugar,trader,Ajmer,Rajasthan,68,307
+267,sugar,trader,Pali,Rajasthan,28,315
+268,rice,exporter,Nanded,Maharashtra,100,371
+269,sugar;cotton,trader,Lucknow,Uttar Pradesh,36,311
+270,sugar;rice;cotton,exporter,Udupi,Karnataka,22,311
+271,rice,trader,Vellore,Tamil Nadu,93,289
+272,sugar;cotton,exporter,Tiruchirappalli,Tamil Nadu,42,168
+273,sugar,exporter,Nagpur,Maharashtra,56,202
+274,rice,broker,Ahmedabad,Gujarat,41,249
+275,cotton;rice,broker,Belagavi,Karnataka,68,305
+276,rice,broker,Lucknow,Uttar Pradesh,31,163
+277,sugar;rice;cotton,exporter,Bengaluru,Karnataka,52,250
+278,rice,exporter,Madurai,Tamil Nadu,54,327
+279,sugar;cotton;rice,trader,Prayagraj,Uttar Pradesh,83,225
+280,cotton;rice,trader,Mysuru,Karnataka,74,322
+281,rice,exporter,Vadodara,Gujarat,72,164
+282,cotton;sugar,exporter,Prayagraj,Uttar Pradesh,49,246
+283,sugar;cotton;rice,trader,Suryapet,Telangana,57,204
+284,cotton;rice;sugar,trader,Rajkot,Gujarat,36,131
+285,rice,broker,Lucknow,Uttar Pradesh,72,355
+286,rice,broker,Alwar,Rajasthan,48,200
+287,rice;cotton;sugar,exporter,Belagavi,Karnataka,75,178
+288,sugar;cotton,exporter,Dindigul,Tamil Nadu,83,371
+289,sugar;rice,trader,Bhavnagar,Gujarat,99,380
+290,rice,trader,Mangaluru,Karnataka,35,193
+291,rice,broker,Navsari,Gujarat,79,169
+292,cotton;sugar,exporter,Nanded,Maharashtra,88,322
+293,rice;sugar;cotton,trader,Indore,Madhya Pradesh,67,204
+294,sugar;cotton,trader,Karimnagar,Telangana,45,205
+295,sugar;cotton;rice,exporter,Junagadh,Gujarat,32,271
+296,cotton;rice;sugar,trader,Khammam,Telangana,93,236
+297,sugar,trader,Vellore,Tamil Nadu,93,387
+298,rice;sugar;cotton,exporter,Indore,Madhya Pradesh,31,83
+299,cotton;sugar,broker,Ludhiana,Punjab,42,313
+300,rice;cotton;sugar,broker,Khammam,Telangana,26,180
+301,rice;sugar,trader,Jalandhar,Punjab,28,230
+302,cotton,exporter,Amritsar,Punjab,47,213
+303,sugar;cotton,trader,Suryapet,Telangana,90,320
+304,cotton;sugar,trader,Krishnanagar,West Bengal,62,257
+305,cotton;sugar;rice,exporter,Phagwara,Punjab,92,232
+306,cotton;rice;sugar,exporter,Varanasi,Uttar Pradesh,45,182
+307,cotton,trader,Ujjain,Madhya Pradesh,67,300
+308,cotton;rice,exporter,Kolkata,West Bengal,89,215
+309,rice,exporter,Pali,Rajasthan,23,144
+310,sugar;rice,trader,Hyderabad,Telangana,56,180
+311,sugar;rice,trader,Coimbatore,Tamil Nadu,94,177
+312,sugar;cotton,trader,Ajmer,Rajasthan,62,320
+313,rice;cotton;sugar,broker,Haldia,West Bengal,48,141
+314,sugar;cotton;rice,broker,Rewa,Madhya Pradesh,44,128
+315,rice,trader,Salem,Tamil Nadu,62,138
+316,sugar;rice;cotton,broker,Nashik,Maharashtra,24,174
+317,sugar;rice,broker,Karimnagar,Telangana,54,312
+318,rice;cotton,broker,Hyderabad,Telangana,24,103
+319,sugar;cotton,trader,Bhavnagar,Gujarat,43,224
+320,sugar,broker,Bareilly,Uttar Pradesh,57,269
+321,rice,trader,Chennai,Tamil Nadu,96,188
+322,cotton;sugar;rice,trader,Sikar,Rajasthan,37,215
+323,cotton,broker,Meerut,Uttar Pradesh,90,372
+324,cotton;rice,trader,Udaipur,Rajasthan,45,306
+325,sugar;rice;cotton,exporter,Hyderabad,Telangana,40,132
+326,cotton;rice;sugar,broker,Pune,Maharashtra,72,153
+327,sugar;cotton,broker,Nanded,Maharashtra,49,298
+328,rice;sugar,exporter,Hyderabad,Telangana,28,312
+329,cotton,exporter,Nizamabad,Telangana,76,260
+330,rice,broker,Bikaner,Rajasthan,41,176
+331,cotton,exporter,Lucknow,Uttar Pradesh,81,170
+332,cotton,exporter,Chennai,Tamil Nadu,68,188
+333,cotton;rice,broker,Aurangabad,Maharashtra,81,187
+334,rice,broker,Udupi,Karnataka,77,274
+335,cotton;rice,exporter,Thanjavur,Tamil Nadu,84,154
+336,cotton;sugar;rice,broker,Tumkur,Karnataka,59,347
+337,rice;sugar;cotton,broker,Coimbatore,Tamil Nadu,49,157
+338,sugar;rice,exporter,Ujjain,Madhya Pradesh,50,120
+339,cotton,broker,Udaipur,Rajasthan,55,241
+340,cotton,exporter,Varanasi,Uttar Pradesh,43,145
+341,cotton;rice,broker,Ratlam,Madhya Pradesh,51,244
+342,sugar,exporter,Patiala,Punjab,97,335
+343,cotton;sugar,trader,Sikar,Rajasthan,88,296
+344,rice,exporter,Patiala,Punjab,47,142
+345,cotton;rice,exporter,Amravati,Maharashtra,61,151
+346,cotton,broker,Moga,Punjab,86,364
+347,sugar;cotton;rice,broker,Agra,Uttar Pradesh,58,188
+348,cotton;sugar;rice,exporter,Aurangabad,Maharashtra,62,191
+349,rice,exporter,Ghaziabad,Uttar Pradesh,73,271
+350,rice;cotton,broker,Pali,Rajasthan,20,91
+351,rice;sugar;cotton,exporter,Pune,Maharashtra,100,240
+352,cotton;sugar;rice,exporter,Bhavnagar,Gujarat,32,330
+353,cotton;sugar;rice,broker,Ajmer,Rajasthan,49,201
+354,rice;cotton;sugar,broker,Bathinda,Punjab,27,210
+355,sugar;rice;cotton,trader,Jamnagar,Gujarat,36,193
+356,sugar,trader,Amravati,Maharashtra,96,341
+357,sugar;cotton,exporter,Kolkata,West Bengal,60,327
+358,sugar,exporter,Navsari,Gujarat,99,177
+359,sugar,exporter,Mangaluru,Karnataka,79,205
+360,rice,broker,Bareilly,Uttar Pradesh,73,197
+361,cotton,broker,Pathankot,Punjab,42,193
+362,sugar;cotton;rice,broker,Madurai,Tamil Nadu,21,171
+363,cotton;sugar;rice,broker,Gorakhpur,Uttar Pradesh,60,142
+364,sugar;rice;cotton,exporter,Patiala,Punjab,75,366
+365,rice;cotton;sugar,exporter,Coimbatore,Tamil Nadu,26,314
+366,cotton;rice,exporter,Udupi,Karnataka,66,168
+367,sugar;cotton;rice,exporter,Ghaziabad,Uttar Pradesh,70,188
+368,cotton,trader,Kota,Rajasthan,37,234
+369,cotton,exporter,Katni,Madhya Pradesh,23,142
+370,cotton,broker,Raiganj,West Bengal,93,371
+371,sugar;rice;cotton,broker,Phagwara,Punjab,59,290
+372,cotton;sugar;rice,exporter,Bhavnagar,Gujarat,39,199
+373,sugar;cotton,exporter,Asansol,West Bengal,30,176
+374,sugar;rice;cotton,broker,Howrah,West Bengal,35,112
+375,rice;cotton;sugar,broker,Chennai,Tamil Nadu,30,120
+376,rice,exporter,Bareilly,Uttar Pradesh,77,253
+377,sugar;rice;cotton,exporter,Nizamabad,Telangana,91,224
+378,cotton;rice;sugar,broker,Bathinda,Punjab,84,182
+379,cotton,trader,Mahbubnagar,Telangana,90,209
+380,rice;sugar;cotton,exporter,Mohali,Punjab,75,186
+381,rice,exporter,Ujjain,Madhya Pradesh,48,109
+382,rice,exporter,Gwalior,Madhya Pradesh,22,143
+383,rice;sugar,exporter,Mohali,Punjab,20,113
+384,rice;cotton;sugar,exporter,Meerut,Uttar Pradesh,48,242
+385,rice;cotton;sugar,trader,Tiruchirappalli,Tamil Nadu,44,210
+386,rice;cotton,broker,Amritsar,Punjab,80,222
+387,sugar;rice,exporter,Ramagundam,Telangana,97,339
+388,sugar;rice,exporter,Hyderabad,Telangana,80,291
+389,sugar;rice;cotton,trader,Pune,Maharashtra,21,127
+390,cotton;sugar;rice,trader,Bhopal,Madhya Pradesh,26,90
+391,cotton;sugar;rice,trader,Kanpur,Uttar Pradesh,35,258
+392,rice;cotton;sugar,exporter,Prayagraj,Uttar Pradesh,35,265
+393,rice,exporter,Mohali,Punjab,63,269
+394,cotton;rice;sugar,broker,Rajkot,Gujarat,48,188
+395,rice,broker,Dindigul,Tamil Nadu,65,220
+396,cotton;rice;sugar,exporter,Varanasi,Uttar Pradesh,66,285
+397,cotton,trader,Madurai,Tamil Nadu,89,275
+398,rice,exporter,Nizamabad,Telangana,80,134
+399,sugar,exporter,Siliguri,West Bengal,98,207
+400,rice,exporter,Noida,Uttar Pradesh,67,205
+401,cotton;sugar;rice,broker,Vadodara,Gujarat,84,347
+402,cotton,exporter,Bhavnagar,Gujarat,38,208
+403,sugar,trader,Shivamogga,Karnataka,96,295
+404,cotton;sugar;rice,broker,Mahbubnagar,Telangana,97,250
+405,sugar;rice,trader,Jabalpur,Madhya Pradesh,88,376
+406,cotton;sugar,trader,Udupi,Karnataka,98,350
+407,cotton;sugar;rice,exporter,Udupi,Karnataka,31,323
+408,cotton;sugar,exporter,Ramagundam,Telangana,42,112
+409,cotton;sugar;rice,broker,Rewa,Madhya Pradesh,38,243
+410,sugar;cotton;rice,exporter,Salem,Tamil Nadu,72,310
+411,cotton;rice,exporter,Tiruchirappalli,Tamil Nadu,62,270
+412,sugar,exporter,Mahbubnagar,Telangana,81,206
+413,rice,broker,Kanpur,Uttar Pradesh,90,367
+414,sugar,broker,Noida,Uttar Pradesh,58,311
+415,cotton;sugar,exporter,Udaipur,Rajasthan,36,239
+416,sugar,trader,Belagavi,Karnataka,79,287
+417,sugar,broker,Surat,Gujarat,26,78
+418,cotton,broker,Pali,Rajasthan,27,190
+419,rice,broker,Madurai,Tamil Nadu,33,146
+420,sugar;cotton;rice,trader,Kanpur,Uttar Pradesh,51,120
+421,sugar,trader,Mohali,Punjab,20,153
+422,sugar,exporter,Lucknow,Uttar Pradesh,90,375
+423,rice,broker,Katni,Madhya Pradesh,23,241
+424,cotton,exporter,Bharatpur,Rajasthan,88,341
+425,cotton;rice,broker,Mysuru,Karnataka,84,380
+426,rice,broker,Sagar,Madhya Pradesh,82,338
+427,cotton;sugar,trader,Hyderabad,Telangana,64,281
+428,rice,exporter,Tiruchirappalli,Tamil Nadu,52,333
+429,rice;cotton,broker,Jodhpur,Rajasthan,59,178
+430,rice,trader,Amravati,Maharashtra,38,310
+431,cotton;sugar;rice,trader,Kanpur,Uttar Pradesh,86,183
+432,cotton;rice;sugar,broker,Pathankot,Punjab,37,198
+433,cotton;sugar;rice,trader,Dindigul,Tamil Nadu,33,274
+434,cotton;rice,broker,Vadodara,Gujarat,61,298
+435,rice,broker,Ratlam,Madhya Pradesh,48,268
+436,sugar,exporter,Jalandhar,Punjab,82,307
+437,sugar;cotton;rice,broker,Sagar,Madhya Pradesh,83,200
+438,cotton;sugar,exporter,Mahbubnagar,Telangana,43,125
+439,cotton;rice,exporter,Patiala,Punjab,94,197
+440,cotton,broker,Mangaluru,Karnataka,56,209
+441,rice;sugar;cotton,exporter,Jaipur,Rajasthan,26,219
+442,rice,broker,Udupi,Karnataka,79,212
+443,sugar,trader,Adilabad,Telangana,93,160
+444,cotton;rice;sugar,trader,Ghaziabad,Uttar Pradesh,32,327
+445,cotton,broker,Shivamogga,Karnataka,28,206
+446,cotton,trader,Satna,Madhya Pradesh,30,123
+447,rice;sugar,trader,Ballari,Karnataka,32,327
+448,rice;cotton;sugar,exporter,Anand,Gujarat,24,164
+449,sugar;rice;cotton,trader,Kolkata,West Bengal,90,158
+450,sugar,trader,Bharatpur,Rajasthan,24,224
+451,cotton,trader,Varanasi,Uttar Pradesh,66,272
+452,cotton;sugar,broker,Ghaziabad,Uttar Pradesh,74,262
+453,rice,exporter,Jamnagar,Gujarat,56,311
+454,rice,broker,Mohali,Punjab,39,101
+455,rice;sugar;cotton,broker,Asansol,West Bengal,24,305
+456,cotton;rice,trader,Tumkur,Karnataka,68,160
+457,rice;sugar,exporter,Mahbubnagar,Telangana,55,135
+458,rice;cotton;sugar,broker,Ghaziabad,Uttar Pradesh,33,255
+459,rice,trader,Pune,Maharashtra,49,202
+460,rice;sugar,broker,Sikar,Rajasthan,92,387
+461,rice,broker,Belagavi,Karnataka,27,298
+462,cotton;sugar,exporter,Sagar,Madhya Pradesh,50,265
+463,sugar;cotton;rice,broker,Mangaluru,Karnataka,42,192
+464,cotton,exporter,Hubli,Karnataka,99,393
+465,cotton;rice;sugar,broker,Coimbatore,Tamil Nadu,68,360
+466,rice;cotton,trader,Erode,Tamil Nadu,43,251
+467,cotton;sugar;rice,broker,Mangaluru,Karnataka,75,227
+468,rice,broker,Bhavnagar,Gujarat,53,167
+469,sugar;rice;cotton,exporter,Khammam,Telangana,68,186
+470,sugar;rice,trader,Gandhinagar,Gujarat,96,164
+471,sugar;cotton,exporter,Varanasi,Uttar Pradesh,59,322
+472,cotton;sugar;rice,exporter,Durgapur,West Bengal,88,151
+473,cotton,broker,Ludhiana,Punjab,20,136
+474,rice;cotton,trader,Warangal,Telangana,54,197
+475,rice;sugar;cotton,exporter,Jalandhar,Punjab,79,254
+476,cotton;sugar,trader,Udaipur,Rajasthan,31,97
+477,rice;sugar,broker,Bengaluru,Karnataka,20,271
+478,sugar;rice,trader,Mangaluru,Karnataka,60,330
+479,sugar,trader,Mysuru,Karnataka,95,176
+480,sugar,broker,Ratlam,Madhya Pradesh,95,240
+481,cotton;rice;sugar,broker,Ludhiana,Punjab,94,166
+482,rice,trader,Rewa,Madhya Pradesh,32,285
+483,rice;sugar;cotton,broker,Bengaluru,Karnataka,49,153
+484,cotton;rice,trader,Udupi,Karnataka,34,318
+485,sugar;rice;cotton,trader,Mahbubnagar,Telangana,97,148
+486,sugar;cotton;rice,broker,Gorakhpur,Uttar Pradesh,23,151
+487,cotton;sugar,trader,Kota,Rajasthan,25,143
+488,sugar,trader,Chennai,Tamil Nadu,31,263
+489,cotton;rice,exporter,Tumkur,Karnataka,75,204
+490,sugar;rice,broker,Prayagraj,Uttar Pradesh,41,279
+491,sugar;rice;cotton,broker,Katni,Madhya Pradesh,29,184
+492,rice;cotton;sugar,trader,Krishnanagar,West Bengal,63,263
+493,cotton;sugar;rice,trader,Amritsar,Punjab,84,184
+494,rice;cotton,exporter,Davangere,Karnataka,93,187
+495,cotton;rice,exporter,Pathankot,Punjab,80,205
+496,cotton;rice,trader,Salem,Tamil Nadu,50,186
+497,rice,exporter,Miryalaguda,Telangana,79,130
+498,sugar;rice,trader,Hyderabad,Telangana,95,210
+499,sugar,trader,Nanded,Maharashtra,58,171
+500,rice,exporter,Jaipur,Rajasthan,34,322
+501,rice;sugar,trader,Meerut,Uttar Pradesh,77,218
+502,cotton,exporter,Ahmedabad,Gujarat,28,216
+503,rice;sugar,trader,Phagwara,Punjab,41,147
+504,rice;cotton;sugar,trader,Kolhapur,Maharashtra,76,314
+505,sugar;rice;cotton,broker,Pune,Maharashtra,26,252
+506,sugar,exporter,Surat,Gujarat,39,253
+507,rice;cotton;sugar,exporter,Krishnanagar,West Bengal,49,184
+508,cotton,exporter,Pune,Maharashtra,59,310
+509,cotton;sugar;rice,trader,Siliguri,West Bengal,64,296
+510,sugar;rice,broker,Krishnanagar,West Bengal,31,288
+511,sugar;cotton;rice,trader,Bhopal,Madhya Pradesh,25,180
+512,rice;sugar,exporter,Prayagraj,Uttar Pradesh,89,167
+513,sugar,exporter,Jalgaon,Maharashtra,95,149
+514,sugar;cotton,trader,Mumbai,Maharashtra,34,94
+515,sugar;rice,trader,Erode,Tamil Nadu,95,358
+516,rice,exporter,Lucknow,Uttar Pradesh,95,243
+517,sugar;rice,trader,Jamnagar,Gujarat,95,200
+518,cotton;sugar,broker,Mysuru,Karnataka,74,153
+519,rice;cotton,broker,Kolkata,West Bengal,23,106
+520,sugar,trader,Kolkata,West Bengal,65,185
+521,cotton;sugar,trader,Karimnagar,Telangana,99,225
+522,rice,broker,Solapur,Maharashtra,33,250
+523,rice;cotton,exporter,Jalgaon,Maharashtra,76,365
+524,rice,broker,Jalgaon,Maharashtra,51,234
+525,rice;sugar;cotton,exporter,Davangere,Karnataka,90,221
+526,cotton,exporter,Hyderabad,Telangana,81,233
+527,sugar,trader,Khammam,Telangana,61,235
+528,rice,broker,Junagadh,Gujarat,36,241
+529,rice,trader,Indore,Madhya Pradesh,27,181
+530,cotton;rice;sugar,broker,Kolkata,West Bengal,95,297
+531,sugar,trader,Mohali,Punjab,74,137
+532,sugar;rice;cotton,exporter,Rajkot,Gujarat,23,79
+533,rice;sugar,broker,Aurangabad,Maharashtra,51,247
+534,rice;cotton;sugar,trader,Haldia,West Bengal,34,285
+535,cotton,trader,Alwar,Rajasthan,91,209
+536,rice;sugar,trader,Solapur,Maharashtra,54,283
+537,rice,exporter,Aurangabad,Maharashtra,80,273
+538,cotton,broker,Suryapet,Telangana,34,126
+539,sugar,broker,Navsari,Gujarat,73,135
+540,cotton;rice,trader,Agra,Uttar Pradesh,55,335
+541,rice,trader,Krishnanagar,West Bengal,69,225
+542,cotton;rice;sugar,broker,Ludhiana,Punjab,77,242
+543,cotton,exporter,Kharagpur,West Bengal,42,311
+544,sugar;cotton,trader,Ratlam,Madhya Pradesh,96,339
+545,cotton;sugar;rice,exporter,Katni,Madhya Pradesh,87,288
+546,rice;sugar;cotton,exporter,Rajkot,Gujarat,88,148
+547,sugar;rice;cotton,trader,Salem,Tamil Nadu,57,125
+548,sugar,exporter,Shivamogga,Karnataka,89,208
+549,rice,trader,Davangere,Karnataka,69,174
+550,cotton;rice,broker,Jalandhar,Punjab,22,152
+551,cotton;rice;sugar,broker,Bareilly,Uttar Pradesh,79,181
+552,cotton;sugar,trader,Nagpur,Maharashtra,23,274
+553,rice;cotton,trader,Suryapet,Telangana,38,326
+554,sugar,trader,Varanasi,Uttar Pradesh,88,148
+555,rice;sugar,exporter,Nashik,Maharashtra,57,169
+556,cotton,broker,Asansol,West Bengal,30,268
+557,rice,broker,Jalandhar,Punjab,87,167
+558,rice,exporter,Ahmedabad,Gujarat,28,145
+559,rice,exporter,Hyderabad,Telangana,57,115
+560,rice,trader,Ajmer,Rajasthan,28,310
+561,sugar;cotton,exporter,Kolhapur,Maharashtra,98,377
+562,rice;cotton;sugar,trader,Alwar,Rajasthan,53,330
+563,sugar;rice;cotton,trader,Nashik,Maharashtra,62,118
+564,rice,exporter,Noida,Uttar Pradesh,97,199
+565,rice;cotton;sugar,exporter,Amravati,Maharashtra,83,349
+566,sugar;rice;cotton,trader,Ajmer,Rajasthan,77,368
+567,sugar;rice;cotton,exporter,Meerut,Uttar Pradesh,83,322
+568,rice,trader,Ahmedabad,Gujarat,35,227
+569,cotton,broker,Ghaziabad,Uttar Pradesh,100,277
+570,sugar;rice;cotton,trader,Mangaluru,Karnataka,95,298
+571,cotton,exporter,Vadodara,Gujarat,60,265
+572,cotton;rice,broker,Ghaziabad,Uttar Pradesh,34,120
+573,rice;cotton;sugar,broker,Moga,Punjab,94,167
+574,cotton;sugar,broker,Ajmer,Rajasthan,71,264
+575,sugar;rice;cotton,trader,Ujjain,Madhya Pradesh,43,166
+576,rice;sugar;cotton,trader,Moga,Punjab,39,303
+577,sugar;rice,broker,Satna,Madhya Pradesh,58,199
+578,rice;cotton,trader,Indore,Madhya Pradesh,49,167
+579,cotton;sugar,trader,Siliguri,West Bengal,96,385
+580,sugar,exporter,Nashik,Maharashtra,50,319
+581,rice,trader,Warangal,Telangana,96,363
+582,sugar,trader,Shivamogga,Karnataka,60,209
+583,rice,exporter,Ghaziabad,Uttar Pradesh,20,267
+584,sugar;rice,trader,Krishnanagar,West Bengal,91,300
+585,rice;sugar,broker,Kharagpur,West Bengal,83,316
+586,rice,trader,Ballari,Karnataka,58,215
+587,sugar;rice,exporter,Lucknow,Uttar Pradesh,86,320
+588,rice,exporter,Nagpur,Maharashtra,41,251
+589,rice;sugar;cotton,exporter,Mahbubnagar,Telangana,88,266
+590,cotton;rice,exporter,Alwar,Rajasthan,43,131
+591,rice;sugar;cotton,exporter,Kharagpur,West Bengal,89,350
+592,sugar;cotton;rice,trader,Gandhinagar,Gujarat,62,215
+593,cotton,trader,Kolkata,West Bengal,83,213
+594,sugar;rice,exporter,Mohali,Punjab,100,316
+595,sugar;cotton,broker,Dindigul,Tamil Nadu,95,366
+596,rice,broker,Ghaziabad,Uttar Pradesh,78,200
+597,sugar;rice;cotton,trader,Surat,Gujarat,36,113
+598,sugar;cotton,exporter,Mohali,Punjab,86,192
+599,sugar;cotton;rice,broker,Bhavnagar,Gujarat,49,305
+600,sugar;cotton;rice,exporter,Dindigul,Tamil Nadu,99,273
+601,cotton,broker,Ramagundam,Telangana,67,149
+602,sugar;cotton,exporter,Ludhiana,Punjab,65,321
+603,cotton;sugar;rice,exporter,Nizamabad,Telangana,47,234
+604,cotton,trader,Bhopal,Madhya Pradesh,68,156
+605,rice,trader,Bhavnagar,Gujarat,98,297
+606,cotton;sugar,trader,Ghaziabad,Uttar Pradesh,78,215
+607,rice,trader,Bhavnagar,Gujarat,48,230
+608,sugar,exporter,Dindigul,Tamil Nadu,50,169
+609,sugar;rice;cotton,exporter,Varanasi,Uttar Pradesh,63,283
+610,rice;sugar,broker,Thoothukudi,Tamil Nadu,32,286
+611,rice;cotton;sugar,broker,Ramagundam,Telangana,42,206
+612,cotton,broker,Kota,Rajasthan,90,258
+613,cotton;rice,exporter,Junagadh,Gujarat,57,228
+614,cotton;rice;sugar,broker,Asansol,West Bengal,67,318
+615,cotton,broker,Ajmer,Rajasthan,23,187
+616,rice;cotton,broker,Asansol,West Bengal,43,255
+617,rice;sugar,exporter,Udaipur,Rajasthan,36,118
+618,sugar,exporter,Hubli,Karnataka,94,157
+619,sugar;cotton;rice,exporter,Bhavnagar,Gujarat,99,243
+620,cotton;sugar;rice,exporter,Ludhiana,Punjab,75,165
+621,rice,exporter,Nagpur,Maharashtra,100,253
+622,sugar;rice,trader,Pathankot,Punjab,49,200
+623,rice;sugar,broker,Raiganj,West Bengal,28,147
+624,cotton;rice;sugar,broker,Gwalior,Madhya Pradesh,39,316
+625,sugar;rice,broker,Udaipur,Rajasthan,85,248
+626,cotton;rice,broker,Kolkata,West Bengal,22,302
+627,cotton;sugar,exporter,Ujjain,Madhya Pradesh,34,132
+628,cotton,broker,Katni,Madhya Pradesh,55,160
+629,rice;cotton;sugar,broker,Kolkata,West Bengal,38,160
+630,rice;cotton;sugar,exporter,Noida,Uttar Pradesh,42,334
+631,rice,broker,Gorakhpur,Uttar Pradesh,22,150
+632,cotton;rice;sugar,trader,Aurangabad,Maharashtra,20,198
+633,rice;cotton,exporter,Solapur,Maharashtra,89,303
+634,rice,broker,Belagavi,Karnataka,80,213
+635,rice;sugar,broker,Bhopal,Madhya Pradesh,77,154
+636,cotton;sugar,trader,Bhavnagar,Gujarat,99,296
+637,rice;sugar,broker,Junagadh,Gujarat,35,154
+638,sugar,exporter,Tumkur,Karnataka,23,281
+639,cotton;sugar;rice,broker,Pune,Maharashtra,73,351
+640,cotton,exporter,Gwalior,Madhya Pradesh,39,123
+641,sugar;cotton,trader,Bengaluru,Karnataka,35,286
+642,sugar,exporter,Meerut,Uttar Pradesh,80,258
+643,cotton;sugar,trader,Davangere,Karnataka,56,272
+644,sugar,broker,Bareilly,Uttar Pradesh,40,238
+645,rice;cotton,broker,Kanpur,Uttar Pradesh,44,287
+646,rice;cotton,broker,Siliguri,West Bengal,97,261
+647,rice;cotton,exporter,Gandhinagar,Gujarat,25,163
+648,rice,exporter,Amritsar,Punjab,52,350
+649,rice;cotton,trader,Satna,Madhya Pradesh,97,383
+650,cotton;sugar;rice,broker,Hyderabad,Telangana,59,182
+651,sugar,exporter,Ahmedabad,Gujarat,66,352
+652,rice;cotton,trader,Suryapet,Telangana,52,199
+653,sugar;cotton;rice,trader,Ajmer,Rajasthan,63,279
+654,rice,exporter,Mumbai,Maharashtra,95,374
+655,rice,exporter,Erode,Tamil Nadu,60,262
+656,sugar;rice;cotton,exporter,Amravati,Maharashtra,64,357
+657,rice;cotton,exporter,Vadodara,Gujarat,30,192
+658,rice;sugar;cotton,exporter,Gwalior,Madhya Pradesh,74,315
+659,sugar,broker,Mysuru,Karnataka,35,124
+660,sugar;cotton,trader,Thoothukudi,Tamil Nadu,87,278
+661,cotton;sugar,broker,Howrah,West Bengal,34,302
+662,cotton;sugar,exporter,Sikar,Rajasthan,80,297
+663,cotton;rice;sugar,exporter,Jalandhar,Punjab,34,225
+664,sugar;cotton;rice,trader,Bhavnagar,Gujarat,42,218
+665,cotton;sugar,broker,Kota,Rajasthan,21,163
+666,sugar;cotton;rice,trader,Vadodara,Gujarat,100,173
+667,sugar;cotton,trader,Ratlam,Madhya Pradesh,67,224
+668,rice;cotton,trader,Tiruchirappalli,Tamil Nadu,61,184
+669,cotton;sugar;rice,trader,Katni,Madhya Pradesh,86,224
+670,cotton;rice,trader,Durgapur,West Bengal,53,129
+671,cotton;sugar,trader,Mohali,Punjab,49,123
+672,rice;sugar;cotton,broker,Thoothukudi,Tamil Nadu,45,309
+673,rice,trader,Jabalpur,Madhya Pradesh,37,312
+674,sugar,exporter,Thoothukudi,Tamil Nadu,64,176
+675,sugar;cotton;rice,trader,Kolhapur,Maharashtra,58,134
+676,sugar;rice,exporter,Vellore,Tamil Nadu,60,178
+677,rice;cotton;sugar,broker,Hoshiarpur,Punjab,80,181
+678,sugar;rice;cotton,exporter,Erode,Tamil Nadu,68,306
+679,rice,trader,Satna,Madhya Pradesh,54,352
+680,sugar;rice;cotton,broker,Karimnagar,Telangana,83,244
+681,sugar;cotton,exporter,Coimbatore,Tamil Nadu,77,321
+682,rice;sugar,broker,Rewa,Madhya Pradesh,23,242
+683,sugar;cotton;rice,broker,Nagpur,Maharashtra,44,219
+684,cotton;rice,broker,Phagwara,Punjab,100,276
+685,rice;sugar,exporter,Sikar,Rajasthan,94,351
+686,rice;sugar;cotton,trader,Jamnagar,Gujarat,43,183
+687,rice;sugar,exporter,Ajmer,Rajasthan,91,381
+688,sugar;cotton,exporter,Mumbai,Maharashtra,69,348
+689,rice,exporter,Vadodara,Gujarat,47,244
+690,rice;sugar,exporter,Ballari,Karnataka,72,308
+691,sugar;cotton,exporter,Amritsar,Punjab,83,366
+692,rice;cotton,broker,Udaipur,Rajasthan,42,121
+693,sugar;rice,trader,Thanjavur,Tamil Nadu,65,252
+694,cotton;sugar,broker,Karimnagar,Telangana,77,245
+695,sugar,trader,Thoothukudi,Tamil Nadu,75,221
+696,cotton;sugar;rice,broker,Davangere,Karnataka,66,136
+697,sugar,trader,Tumkur,Karnataka,51,317
+698,cotton,trader,Durgapur,West Bengal,52,155
+699,rice;cotton,exporter,Belagavi,Karnataka,61,111
+700,cotton;sugar,exporter,Kharagpur,West Bengal,37,332
+701,cotton;rice,broker,Thoothukudi,Tamil Nadu,88,230
+702,rice;sugar;cotton,trader,Ratlam,Madhya Pradesh,34,116
+703,sugar;cotton;rice,broker,Rewa,Madhya Pradesh,88,240
+704,rice;sugar,exporter,Belagavi,Karnataka,51,111
+705,rice;cotton;sugar,exporter,Pune,Maharashtra,40,156
+706,cotton;rice;sugar,exporter,Shivamogga,Karnataka,40,180
+707,rice;cotton;sugar,trader,Phagwara,Punjab,64,264
+708,sugar,broker,Jamnagar,Gujarat,64,309
+709,cotton,exporter,Moga,Punjab,91,366
+710,cotton,exporter,Patiala,Punjab,28,216
+711,sugar,broker,Howrah,West Bengal,86,173
+712,cotton;rice;sugar,exporter,Anand,Gujarat,54,172
+713,sugar;cotton;rice,broker,Warangal,Telangana,51,121
+714,rice;cotton;sugar,exporter,Solapur,Maharashtra,27,258
+715,cotton,exporter,Navsari,Gujarat,39,162
+716,sugar;cotton,exporter,Mysuru,Karnataka,74,367
+717,cotton,trader,Jaipur,Rajasthan,42,240
+718,cotton,broker,Lucknow,Uttar Pradesh,89,376
+719,cotton;rice,trader,Suryapet,Telangana,79,151
+720,rice;cotton;sugar,exporter,Varanasi,Uttar Pradesh,93,301
+721,rice;cotton,broker,Ahmedabad,Gujarat,42,313
+722,sugar,exporter,Belagavi,Karnataka,69,199
+723,cotton,exporter,Nagpur,Maharashtra,54,165
+724,rice,broker,Bathinda,Punjab,93,304
+725,sugar,trader,Jodhpur,Rajasthan,44,242
+726,sugar,trader,Chennai,Tamil Nadu,86,194
+727,sugar,exporter,Salem,Tamil Nadu,97,303
+728,cotton;rice,exporter,Ujjain,Madhya Pradesh,84,353
+729,rice;sugar;cotton,exporter,Mumbai,Maharashtra,25,255
+730,cotton;rice;sugar,trader,Gorakhpur,Uttar Pradesh,53,346
+731,sugar,trader,Surat,Gujarat,34,227
+732,rice;cotton;sugar,exporter,Nanded,Maharashtra,88,149
+733,cotton;sugar;rice,broker,Ratlam,Madhya Pradesh,20,90
+734,rice;cotton;sugar,trader,Nashik,Maharashtra,24,219
+735,sugar;cotton;rice,trader,Thanjavur,Tamil Nadu,77,356
+736,sugar,exporter,Pathankot,Punjab,67,340
+737,rice;cotton;sugar,broker,Ghaziabad,Uttar Pradesh,22,125
+738,rice,broker,Durgapur,West Bengal,78,177
+739,cotton,exporter,Bareilly,Uttar Pradesh,86,364
+740,sugar;cotton;rice,broker,Jamnagar,Gujarat,57,181
+741,sugar,exporter,Mohali,Punjab,72,167
+742,cotton;sugar;rice,exporter,Udupi,Karnataka,68,195
+743,cotton;rice,exporter,Belagavi,Karnataka,28,179
+744,cotton;sugar;rice,exporter,Nashik,Maharashtra,69,188
+745,cotton,exporter,Kolkata,West Bengal,70,248
+746,sugar,exporter,Pune,Maharashtra,37,124
+747,cotton;rice,broker,Kolhapur,Maharashtra,26,204
+748,sugar,broker,Gwalior,Madhya Pradesh,63,277
+749,sugar;cotton;rice,trader,Jodhpur,Rajasthan,66,312
+750,rice,broker,Patiala,Punjab,64,325
+751,sugar;rice,trader,Ajmer,Rajasthan,28,213
+752,cotton;sugar,exporter,Amritsar,Punjab,39,264
+753,rice;sugar;cotton,broker,Pune,Maharashtra,44,325
+754,cotton;rice;sugar,broker,Jalgaon,Maharashtra,70,341
+755,rice,trader,Pune,Maharashtra,29,82
+756,rice;sugar,trader,Ajmer,Rajasthan,97,351
+757,cotton;rice;sugar,broker,Bareilly,Uttar Pradesh,78,285
+758,rice;cotton,broker,Sagar,Madhya Pradesh,31,189
+759,sugar;cotton;rice,broker,Rajkot,Gujarat,51,283
+760,sugar;cotton;rice,exporter,Bhopal,Madhya Pradesh,61,129
+761,sugar,exporter,Bhavnagar,Gujarat,84,155
+762,sugar;cotton,broker,Katni,Madhya Pradesh,82,167
+763,cotton;rice;sugar,trader,Davangere,Karnataka,97,152
+764,rice,exporter,Jalandhar,Punjab,36,132
+765,cotton,exporter,Ratlam,Madhya Pradesh,65,231
+766,cotton,trader,Varanasi,Uttar Pradesh,66,171
+767,sugar,trader,Noida,Uttar Pradesh,97,242
+768,sugar;cotton,exporter,Agra,Uttar Pradesh,96,208
+769,cotton,exporter,Gandhinagar,Gujarat,25,120
+770,cotton;rice;sugar,exporter,Nagpur,Maharashtra,94,216
+771,cotton,trader,Madurai,Tamil Nadu,51,113
+772,rice;cotton,exporter,Katni,Madhya Pradesh,66,141
+773,cotton;sugar,trader,Krishnanagar,West Bengal,75,129
+774,sugar;rice;cotton,trader,Ludhiana,Punjab,25,297
+775,cotton;sugar,exporter,Dindigul,Tamil Nadu,68,129
+776,sugar;rice;cotton,trader,Satna,Madhya Pradesh,20,245
+777,cotton;sugar,exporter,Davangere,Karnataka,33,125
+778,sugar,trader,Mahbubnagar,Telangana,32,210
+779,cotton;sugar;rice,trader,Sikar,Rajasthan,94,162
+780,rice;cotton;sugar,trader,Malda,West Bengal,30,113
+781,rice;sugar,broker,Anand,Gujarat,83,346
+782,cotton;rice;sugar,exporter,Bathinda,Punjab,20,145
+783,rice;sugar;cotton,trader,Bhavnagar,Gujarat,72,370
+784,sugar;cotton;rice,trader,Moga,Punjab,52,155
+785,sugar;rice;cotton,exporter,Siliguri,West Bengal,70,185
+786,rice;cotton;sugar,broker,Ajmer,Rajasthan,63,218
+787,rice,broker,Solapur,Maharashtra,25,118
+788,rice;cotton;sugar,exporter,Jamnagar,Gujarat,23,214
+789,rice,trader,Nagpur,Maharashtra,44,110
+790,cotton,trader,Jabalpur,Madhya Pradesh,42,131
+791,sugar,exporter,Bharatpur,Rajasthan,31,232
+792,sugar;rice;cotton,trader,Solapur,Maharashtra,57,120
+793,sugar;cotton,trader,Khammam,Telangana,70,139
+794,sugar;cotton;rice,exporter,Siliguri,West Bengal,38,315
+795,rice;cotton;sugar,exporter,Bharatpur,Rajasthan,62,270
+796,sugar,trader,Bareilly,Uttar Pradesh,28,261
+797,sugar,trader,Khammam,Telangana,87,301
+798,sugar;rice,trader,Vadodara,Gujarat,73,127
+799,sugar;cotton;rice,exporter,Ghaziabad,Uttar Pradesh,98,206
+800,cotton;sugar;rice,broker,Agra,Uttar Pradesh,98,219
+801,cotton;sugar;rice,exporter,Sagar,Madhya Pradesh,27,161
+802,rice;cotton,trader,Nizamabad,Telangana,71,188
+803,rice,exporter,Prayagraj,Uttar Pradesh,30,265
+804,cotton,trader,Jamnagar,Gujarat,59,298
+805,cotton,broker,Davangere,Karnataka,40,119
+806,cotton,exporter,Jabalpur,Madhya Pradesh,54,118
+807,sugar,broker,Khammam,Telangana,90,240
+808,cotton;rice,broker,Hoshiarpur,Punjab,70,333
+809,sugar;cotton;rice,broker,Ratlam,Madhya Pradesh,80,270
+810,rice;cotton;sugar,trader,Surat,Gujarat,45,318
+811,cotton,exporter,Jalgaon,Maharashtra,86,198
+812,cotton;sugar,trader,Ujjain,Madhya Pradesh,89,142
+813,rice,exporter,Ahmedabad,Gujarat,28,310
+814,rice;cotton,broker,Ballari,Karnataka,46,262
+815,rice,broker,Shivamogga,Karnataka,84,276
+816,cotton,exporter,Siliguri,West Bengal,75,355
+817,sugar;cotton,broker,Karimnagar,Telangana,75,216
+818,cotton;rice;sugar,broker,Gorakhpur,Uttar Pradesh,37,190
+819,cotton;rice;sugar,broker,Amravati,Maharashtra,96,315
+820,sugar;rice,broker,Aurangabad,Maharashtra,68,150
+821,sugar;rice,exporter,Pune,Maharashtra,76,363
+822,cotton,exporter,Tiruchirappalli,Tamil Nadu,42,232
+823,sugar,trader,Bathinda,Punjab,96,273
+824,rice;cotton,trader,Thanjavur,Tamil Nadu,22,105
+825,cotton;sugar;rice,broker,Gwalior,Madhya Pradesh,53,273
+826,sugar,trader,Lucknow,Uttar Pradesh,92,314
+827,sugar;cotton,trader,Gwalior,Madhya Pradesh,51,286
+828,sugar;cotton;rice,broker,Kolhapur,Maharashtra,72,205
+829,rice;sugar,exporter,Kolhapur,Maharashtra,43,330
+830,rice;cotton,trader,Jalandhar,Punjab,25,163
+831,sugar;rice,broker,Pune,Maharashtra,76,201
+832,cotton;sugar;rice,trader,Amravati,Maharashtra,22,295
+833,sugar;rice;cotton,trader,Miryalaguda,Telangana,93,205
+834,sugar;rice;cotton,broker,Meerut,Uttar Pradesh,68,132
+835,cotton;sugar,broker,Madurai,Tamil Nadu,80,336
+836,sugar;cotton;rice,exporter,Katni,Madhya Pradesh,36,199
+837,sugar;cotton,trader,Anand,Gujarat,77,257
+838,cotton;sugar;rice,exporter,Kolkata,West Bengal,33,310
+839,rice,exporter,Salem,Tamil Nadu,73,143
+840,cotton;rice;sugar,trader,Erode,Tamil Nadu,74,165
+841,cotton,exporter,Bhopal,Madhya Pradesh,99,297
+842,rice,trader,Navsari,Gujarat,51,329
+843,rice;sugar,exporter,Gwalior,Madhya Pradesh,94,163
+844,sugar;cotton,broker,Ajmer,Rajasthan,68,136
+845,cotton;sugar,trader,Karimnagar,Telangana,77,222
+846,sugar;cotton;rice,trader,Ludhiana,Punjab,28,103
+847,sugar,trader,Khammam,Telangana,84,202
+848,rice;cotton;sugar,broker,Kanpur,Uttar Pradesh,74,226
+849,rice,exporter,Pali,Rajasthan,96,370
+850,rice,exporter,Kolhapur,Maharashtra,59,242
+851,sugar;cotton,broker,Katni,Madhya Pradesh,37,140
+852,rice;cotton;sugar,trader,Sagar,Madhya Pradesh,59,129
+853,rice;cotton;sugar,broker,Pali,Rajasthan,51,159
+854,cotton;rice,broker,Bareilly,Uttar Pradesh,94,214
+855,sugar;rice,trader,Rewa,Madhya Pradesh,96,376
+856,cotton;sugar;rice,exporter,Ballari,Karnataka,54,294
+857,cotton;rice;sugar,trader,Pali,Rajasthan,85,221
+858,cotton;rice,trader,Udaipur,Rajasthan,73,300
+859,cotton;sugar,exporter,Bathinda,Punjab,52,292
+860,cotton;rice,broker,Bareilly,Uttar Pradesh,33,305
+861,rice;cotton,exporter,Amritsar,Punjab,85,203
+862,cotton,broker,Pathankot,Punjab,52,321
+863,sugar;rice;cotton,broker,Nanded,Maharashtra,98,330
+864,cotton;rice;sugar,exporter,Jalgaon,Maharashtra,90,359
+865,rice,trader,Pune,Maharashtra,88,292
+866,rice;cotton,broker,Amravati,Maharashtra,60,258
+867,sugar,exporter,Katni,Madhya Pradesh,73,341
+868,rice;cotton,exporter,Solapur,Maharashtra,46,148
+869,sugar;cotton;rice,exporter,Udupi,Karnataka,46,128
+870,cotton;rice,broker,Noida,Uttar Pradesh,57,328
+871,cotton;rice;sugar,trader,Ajmer,Rajasthan,71,262
+872,rice;cotton,broker,Ahmedabad,Gujarat,41,157
+873,sugar;cotton,exporter,Solapur,Maharashtra,79,234
+874,cotton;sugar,exporter,Nagpur,Maharashtra,26,175
+875,cotton;rice;sugar,exporter,Noida,Uttar Pradesh,80,291
+876,cotton,trader,Varanasi,Uttar Pradesh,78,268
+877,sugar;cotton,broker,Malda,West Bengal,65,183
+878,sugar;cotton,broker,Moga,Punjab,50,211
+879,sugar;rice,exporter,Ballari,Karnataka,62,206
+880,rice;cotton;sugar,exporter,Howrah,West Bengal,47,178
+881,cotton;rice,trader,Vadodara,Gujarat,59,201
+882,sugar;rice,broker,Krishnanagar,West Bengal,85,238
+883,rice;cotton;sugar,trader,Davangere,Karnataka,77,287
+884,rice;sugar,trader,Rajkot,Gujarat,44,132
+885,cotton,broker,Vellore,Tamil Nadu,41,241
+886,cotton,exporter,Alwar,Rajasthan,44,244
+887,sugar,broker,Lucknow,Uttar Pradesh,50,297
+888,sugar;rice,exporter,Navsari,Gujarat,68,236
+889,rice,trader,Kharagpur,West Bengal,27,281
+890,cotton,trader,Navsari,Gujarat,83,361
+891,cotton;rice,broker,Howrah,West Bengal,52,276
+892,rice,exporter,Asansol,West Bengal,23,193
+893,rice;cotton;sugar,broker,Agra,Uttar Pradesh,31,123
+894,cotton;sugar;rice,exporter,Rewa,Madhya Pradesh,29,177
+895,cotton;rice;sugar,exporter,Nagpur,Maharashtra,59,324
+896,cotton,broker,Patiala,Punjab,100,395
+897,sugar;rice;cotton,exporter,Kolkata,West Bengal,80,282
+898,cotton;sugar,broker,Jodhpur,Rajasthan,84,326
+899,sugar,exporter,Amritsar,Punjab,51,200
+900,rice;cotton;sugar,exporter,Ratlam,Madhya Pradesh,43,111
+901,cotton;rice,exporter,Madurai,Tamil Nadu,55,175
+902,cotton;sugar,broker,Malda,West Bengal,61,207
+903,rice;cotton;sugar,exporter,Ballari,Karnataka,78,241
+904,rice;sugar;cotton,trader,Agra,Uttar Pradesh,65,224
+905,sugar;rice,broker,Tiruchirappalli,Tamil Nadu,21,190
+906,cotton,exporter,Jabalpur,Madhya Pradesh,73,362
+907,sugar;rice,broker,Jalgaon,Maharashtra,94,313
+908,rice;cotton,exporter,Shivamogga,Karnataka,67,151
+909,sugar;cotton;rice,exporter,Sikar,Rajasthan,57,263
+910,rice,broker,Lucknow,Uttar Pradesh,25,78
+911,sugar;rice,broker,Bengaluru,Karnataka,40,195
+912,cotton;sugar,trader,Hubli,Karnataka,84,301
+913,rice;sugar;cotton,broker,Adilabad,Telangana,32,292
+914,sugar,exporter,Belagavi,Karnataka,34,159
+915,sugar;cotton,broker,Bhopal,Madhya Pradesh,90,229
+916,sugar,exporter,Kanpur,Uttar Pradesh,71,123
+917,cotton;sugar;rice,broker,Patiala,Punjab,78,135
+918,rice;cotton;sugar,exporter,Kolhapur,Maharashtra,61,132
+919,cotton,exporter,Suryapet,Telangana,91,195
+920,sugar;rice,trader,Sikar,Rajasthan,42,95
+921,sugar;rice;cotton,exporter,Junagadh,Gujarat,26,151
+922,sugar;rice,exporter,Ghaziabad,Uttar Pradesh,27,299
+923,cotton,exporter,Solapur,Maharashtra,37,228
+924,rice;sugar;cotton,broker,Pune,Maharashtra,53,299
+925,cotton;sugar;rice,broker,Sagar,Madhya Pradesh,62,352
+926,rice;sugar,broker,Howrah,West Bengal,86,178
+927,cotton,trader,Malda,West Bengal,64,138
+928,sugar;cotton,trader,Miryalaguda,Telangana,38,240
+929,cotton;sugar,broker,Meerut,Uttar Pradesh,88,306
+930,cotton,exporter,Sagar,Madhya Pradesh,20,278
+931,sugar;rice,broker,Bikaner,Rajasthan,62,220
+932,rice;cotton;sugar,trader,Katni,Madhya Pradesh,34,116
+933,sugar;rice,trader,Bikaner,Rajasthan,62,241
+934,sugar;cotton;rice,exporter,Thanjavur,Tamil Nadu,31,117
+935,cotton,trader,Gwalior,Madhya Pradesh,78,154
+936,cotton;sugar,broker,Adilabad,Telangana,36,222
+937,sugar;cotton;rice,exporter,Tiruchirappalli,Tamil Nadu,28,222
+938,rice,exporter,Patiala,Punjab,72,300
+939,rice;sugar;cotton,exporter,Lucknow,Uttar Pradesh,75,229
+940,sugar;rice;cotton,trader,Mysuru,Karnataka,100,206
+941,cotton,exporter,Vadodara,Gujarat,98,201
+942,rice;cotton;sugar,trader,Dindigul,Tamil Nadu,76,231
+943,rice,trader,Hyderabad,Telangana,29,215
+944,cotton;sugar,trader,Belagavi,Karnataka,26,324
+945,cotton;sugar;rice,broker,Varanasi,Uttar Pradesh,22,240
+946,cotton;sugar,exporter,Aurangabad,Maharashtra,69,173
+947,sugar,exporter,Satna,Madhya Pradesh,72,285
+948,sugar;cotton,exporter,Kolkata,West Bengal,22,176
+949,cotton,trader,Tiruchirappalli,Tamil Nadu,73,232
+950,cotton;sugar;rice,broker,Jaipur,Rajasthan,77,337
+951,sugar;rice,exporter,Pune,Maharashtra,80,143
+952,sugar,broker,Kanpur,Uttar Pradesh,36,113
+953,rice;cotton;sugar,trader,Nizamabad,Telangana,95,229
+954,cotton;sugar;rice,trader,Kanpur,Uttar Pradesh,52,131
+955,rice;cotton,broker,Amritsar,Punjab,94,188
+956,cotton;rice,trader,Kolkata,West Bengal,67,154
+957,cotton,exporter,Phagwara,Punjab,29,294
+958,rice;cotton,trader,Ujjain,Madhya Pradesh,72,233
+959,sugar;cotton;rice,trader,Udupi,Karnataka,45,184
+960,cotton,trader,Agra,Uttar Pradesh,99,275
+961,cotton,exporter,Indore,Madhya Pradesh,72,234
+962,cotton;sugar,exporter,Pune,Maharashtra,91,261
+963,rice,exporter,Satna,Madhya Pradesh,99,319
+964,cotton,exporter,Phagwara,Punjab,50,120
+965,rice;sugar;cotton,exporter,Bikaner,Rajasthan,83,295
+966,rice;sugar;cotton,exporter,Vadodara,Gujarat,100,254
+967,sugar;rice;cotton,broker,Jamnagar,Gujarat,37,119
+968,sugar;cotton,broker,Meerut,Uttar Pradesh,69,296
+969,cotton;sugar;rice,exporter,Ludhiana,Punjab,54,303
+970,rice;cotton,broker,Ratlam,Madhya Pradesh,29,145
+971,sugar;cotton,broker,Khammam,Telangana,63,184
+972,sugar;rice,broker,Agra,Uttar Pradesh,32,196
+973,sugar,exporter,Gorakhpur,Uttar Pradesh,22,226
+974,rice;cotton,exporter,Katni,Madhya Pradesh,25,195
+975,rice;cotton,broker,Udaipur,Rajasthan,42,215
+976,cotton,broker,Gandhinagar,Gujarat,32,134
+977,rice,broker,Thanjavur,Tamil Nadu,24,111
+978,sugar;rice;cotton,exporter,Jodhpur,Rajasthan,34,301
+979,sugar;rice,exporter,Malda,West Bengal,32,269
+980,sugar,broker,Bengaluru,Karnataka,51,332
+981,cotton;sugar;rice,exporter,Madurai,Tamil Nadu,89,214
+982,rice;sugar,broker,Bengaluru,Karnataka,45,124
+983,cotton;rice;sugar,broker,Gwalior,Madhya Pradesh,75,255
+984,cotton,exporter,Anand,Gujarat,32,208
+985,cotton;sugar,trader,Kanpur,Uttar Pradesh,31,137
+986,sugar;cotton;rice,trader,Pali,Rajasthan,76,170
+987,cotton;rice;sugar,broker,Rajkot,Gujarat,86,317
+988,sugar,trader,Vellore,Tamil Nadu,92,267
+989,rice;sugar,trader,Pali,Rajasthan,34,165
+990,rice;sugar,exporter,Hubli,Karnataka,82,148
+991,cotton;sugar;rice,exporter,Pune,Maharashtra,55,294
+992,sugar,exporter,Prayagraj,Uttar Pradesh,96,350
+993,sugar,exporter,Udupi,Karnataka,58,151
+994,cotton,exporter,Tiruchirappalli,Tamil Nadu,48,279
+995,sugar;cotton;rice,exporter,Kharagpur,West Bengal,62,180
+996,sugar,exporter,Jaipur,Rajasthan,72,222
+997,cotton,trader,Karimnagar,Telangana,71,128
+998,rice;cotton,trader,Malda,West Bengal,93,319
+999,sugar;cotton,broker,Nagpur,Maharashtra,42,308
+1000,cotton;sugar;rice,broker,Pali,Rajasthan,23,194
