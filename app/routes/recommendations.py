@@ -1,6 +1,7 @@
 # app/routes/recommendations.py
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+import time
 from app.db.postgres import AsyncSessionLocal
 from app.db.chromadb import get_chroma_collection
 from app.encoding.vector import build_query_vector, build_candidate_vector
@@ -12,7 +13,7 @@ TOP_K = 20
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 
-async def _fetch_user(user_id: int) -> dict:
+async def _fetch_user_from_postgres(user_id: int) -> dict:
     """Fetch a user row from Postgres by user_id."""
     async with AsyncSessionLocal() as db:
         result = await db.execute(
@@ -23,6 +24,18 @@ async def _fetch_user(user_id: int) -> dict:
     if not row:
         raise HTTPException(status_code=404, detail=f"User {user_id} not found")
     return dict(row)
+
+
+async def _fetch_user_from_chromadb(user_id: int) -> dict:
+    """Fetch user data from ChromaDB metadata — no Postgres call needed."""
+    collection = get_chroma_collection()
+    result = collection.get(
+        ids=[str(user_id)],
+        include=["metadatas"]
+    )
+    if not result["ids"]:
+        raise HTTPException(status_code=404, detail=f"User {user_id} not found")
+    return result["metadatas"][0]
 
 
 def _run_search(query_vec: list[float], exclude_user_id: int, top_k: int) -> list[dict]:
@@ -64,14 +77,15 @@ async def get_recommendations(user_id: int):
     Fetch top 20 matches for a user.
     Pulls user from Postgres, builds WANT vector, queries ChromaDB via HNSW.
     """
-    user = await _fetch_user(user_id)
+    user = await _fetch_user_from_chromadb(user_id)
+    print(f"User {user_id} fetched from ChromaDB metadata.")
 
     commodity_list = [c.strip() for c in user["commodity"].split(";")]
     query_vec = build_query_vector(
         commodity_list=commodity_list,
         role=user["role"],
-        lat=float(user["latitude_raw"]),
-        lon=float(user["longitude_raw"]),
+        lat=float(user["lat"]),
+        lon=float(user["lon"]),
     )
 
     matches = _run_search(query_vec, exclude_user_id=user_id, top_k=TOP_K)
@@ -84,6 +98,39 @@ async def get_recommendations(user_id: int):
         "results":  matches,
     }
 
+'''This is the function to calculate which entitiy is taking more time in the recommendation process. We can use this to optimize the code in future.'''
+
+# @router.get("/{user_id}")
+# async def get_recommendations(user_id: int):
+#     t0 = time.perf_counter()
+
+#     user = await _fetch_user(user_id)
+#     t1 = time.perf_counter()
+#     print(f"Postgres fetch     : {t1-t0:.3f}s")
+
+#     commodity_list = [c.strip() for c in user["commodity"].split(";")]
+#     query_vec = build_query_vector(
+#         commodity_list=commodity_list,
+#         role=user["role"],
+#         lat=float(user["latitude_raw"]),
+#         lon=float(user["longitude_raw"]),
+#     )
+#     t2 = time.perf_counter()
+#     print(f"Vector build       : {t2-t1:.3f}s")
+
+#     matches = _run_search(query_vec, exclude_user_id=user_id, top_k=TOP_K)
+#     t3 = time.perf_counter()
+#     print(f"ChromaDB search    : {t3-t2:.3f}s")
+
+#     print(f"TOTAL              : {t3-t0:.3f}s")
+
+#     return {
+#         "user_id":   user_id,
+#         "role":      user["role"],
+#         "commodity": user["commodity"],
+#         "total":     len(matches),
+#         "results":   matches,
+#     }
 
 # ─── POST /recommendations/search ────────────────────────────────────────────
 
