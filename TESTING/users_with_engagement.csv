@@ -1,0 +1,1001 @@
+user_id,commodity,role,city,state,latitude_raw,longitude_raw,latitude_normalized,longitude_normalized,min_quantity_mt,max_quantity_mt,followers,like_count,comment_count,share_count,screentime_hours
+1,sugar;rice;cotton,trader,Dindigul,Tamil Nadu,10.3673,77.9757,-0.824644,-0.312021,63,285,674.0,54.0,29.0,19.0,1.61
+2,rice,trader,Mumbai,Maharashtra,19.076,72.8777,-0.179556,-0.663607,61,354,603.0,70.0,36.0,10.0,1.69
+3,cotton;rice,exporter,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,55,203,498.0,6.0,0.0,6.0,0.84
+4,rice;sugar,trader,Gandhinagar,Gujarat,23.2156,72.6369,0.127081,-0.680214,99,380,662.0,45.0,2.0,8.0,2.1
+5,cotton;sugar,exporter,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,73,188,416.0,54.0,9.0,12.0,1.27
+6,sugar,exporter,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,34,259,516.0,37.0,21.0,8.0,1.72
+7,sugar;cotton,broker,Dindigul,Tamil Nadu,10.3673,77.9757,-0.824644,-0.312021,59,270,739.0,33.0,25.0,1.0,1.06
+8,sugar,exporter,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,62,264,589.0,59.0,30.0,5.0,0.86
+9,cotton;sugar,exporter,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,73,176,557.0,86.0,29.0,4.0,2.11
+10,sugar;rice,exporter,Udupi,Karnataka,13.3409,74.7421,-0.604378,-0.535028,59,148,472.0,66.0,30.0,15.0,2.03
+11,sugar;rice,exporter,Noida,Uttar Pradesh,28.5355,77.391,0.521148,-0.352345,22,266,282.0,38.0,21.0,13.0,1.11
+12,cotton;sugar,trader,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,44,167,462.0,73.0,11.0,14.0,1.65
+13,rice;sugar,trader,Nanded,Maharashtra,19.1585,77.3413,-0.173444,-0.355772,24,221,722.0,52.0,29.0,20.0,1.93
+14,cotton;rice,trader,Phagwara,Punjab,31.1089,75.8022,0.71177,-0.461917,84,205,837.0,44.0,20.0,3.0,2.1
+15,sugar;rice;cotton,exporter,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,45,223,481.0,59.0,35.0,7.0,1.17
+16,rice,exporter,Udupi,Karnataka,13.3409,74.7421,-0.604378,-0.535028,59,305,449.0,65.0,33.0,12.0,1.81
+17,rice,broker,Amravati,Maharashtra,20.853,77.7539,-0.047926,-0.327317,63,312,669.0,84.0,18.0,11.0,1.75
+18,cotton;rice,broker,Alwar,Rajasthan,27.5697,76.6249,0.449607,-0.405179,68,225,132.0,0.0,20.0,6.0,1.13
+19,rice;sugar;cotton,broker,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,-0.793296,-0.261745,27,254,542.0,65.0,41.0,12.0,1.85
+20,cotton;sugar;rice,broker,Nanded,Maharashtra,19.1585,77.3413,-0.173444,-0.355772,87,275,3175.0,384.0,54.0,56.0,4.35
+21,rice;cotton;sugar,broker,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,93,365,508.0,47.0,35.0,15.0,0.33
+22,cotton;rice,trader,Thanjavur,Tamil Nadu,10.787,79.1378,-0.793556,-0.231876,88,202,871.0,42.0,24.0,4.0,1.39
+23,sugar,trader,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,70,226,546.0,47.0,31.0,7.0,1.2
+24,cotton,exporter,Jabalpur,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,54,197,525.0,60.0,22.0,3.0,1.01
+25,cotton;rice;sugar,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,24,132,417.0,74.0,25.0,0.0,1.82
+26,rice;sugar;cotton,exporter,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,70,322,785.0,64.0,9.0,6.0,2.17
+27,rice,exporter,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,21,149,552.0,62.0,22.0,13.0,1.58
+28,rice;cotton,exporter,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,75,357,561.0,68.0,25.0,9.0,2.11
+29,sugar;cotton,trader,Ramagundam,Telangana,18.7522,79.4318,-0.203541,-0.2116,47,347,630.0,72.0,1.0,15.0,1.01
+30,sugar,exporter,Chennai,Tamil Nadu,13.0827,80.2707,-0.623504,-0.153745,39,200,356.0,60.0,22.0,4.0,1.71
+31,sugar;cotton,broker,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,26,105,598.0,61.0,21.0,0.0,2.41
+32,cotton;sugar,broker,Malda,West Bengal,25.0449,88.1352,0.262585,0.388634,45,109,504.0,53.0,19.0,14.0,1.41
+33,cotton,exporter,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,43,250,835.0,30.0,31.0,13.0,1.72
+34,cotton;rice,trader,Durgapur,West Bengal,23.8103,87.3118,0.171133,0.331848,56,334,160.0,47.0,20.0,12.0,1.25
+35,cotton;sugar,broker,Miryalaguda,Telangana,17.3114,79.5155,-0.310267,-0.205828,84,285,474.0,56.0,41.0,17.0,1.03
+36,sugar;rice;cotton,broker,Coimbatore,Tamil Nadu,11.0026,76.9969,-0.777585,-0.379524,28,164,455.0,11.0,20.0,16.0,1.56
+37,sugar;cotton,broker,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,55,158,270.0,77.0,11.0,4.0,1.94
+38,sugar;cotton;rice,broker,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,35,189,335.0,51.0,34.0,5.0,0.43
+39,rice,exporter,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,36,137,278.0,46.0,11.0,7.0,0.49
+40,rice;sugar,exporter,Belagavi,Karnataka,15.8497,74.4977,-0.418541,-0.551883,62,320,9500.0,252.0,136.0,72.0,3.9
+41,rice,broker,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,28,111,391.0,65.0,19.0,12.0,1.3
+42,rice;sugar;cotton,broker,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,47,191,612.0,37.0,25.0,3.0,0.58
+43,cotton;sugar;rice,exporter,Anand,Gujarat,22.5679,72.9264,0.079104,-0.660248,82,353,453.0,48.0,22.0,8.0,1.62
+44,rice;cotton,trader,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,67,363,531.0,19.0,16.0,10.0,1.79
+45,rice,trader,Mumbai,Maharashtra,19.076,72.8777,-0.179556,-0.663607,73,316,492.0,103.0,14.0,14.0,1.78
+46,rice;sugar,trader,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,78,275,286.0,39.0,11.0,6.0,1.9
+47,cotton,broker,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,34,223,340.0,45.0,17.0,12.0,2.24
+48,sugar;cotton;rice,exporter,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,26,290,582.0,56.0,29.0,13.0,2.02
+49,cotton;sugar,trader,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,49,136,470.0,37.0,21.0,14.0,1.53
+50,cotton,broker,Coimbatore,Tamil Nadu,11.0026,76.9969,-0.777585,-0.379524,56,304,787.0,39.0,16.0,9.0,1.67
+51,sugar;rice;cotton,exporter,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,56,235,796.0,29.0,37.0,6.0,1.03
+52,rice;sugar;cotton,broker,Ratlam,Madhya Pradesh,23.3325,75.0409,0.135741,-0.514421,54,124,285.0,24.0,31.0,11.0,1.31
+53,cotton,exporter,Dindigul,Tamil Nadu,10.3673,77.9757,-0.824644,-0.312021,43,124,910.0,20.0,39.0,14.0,1.54
+54,cotton,trader,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,42,342,340.0,48.0,28.0,12.0,0.79
+55,cotton;rice;sugar,trader,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,62,164,424.0,28.0,18.0,27.0,0.88
+56,rice,exporter,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,71,252,431.0,51.0,33.0,12.0,1.93
+57,sugar;cotton;rice,broker,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,87,352,354.0,52.0,23.0,6.0,0.85
+58,sugar;cotton,exporter,Mohali,Punjab,30.6394,76.7007,0.676993,-0.399952,75,285,578.0,45.0,23.0,12.0,2.41
+59,cotton,exporter,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,68,184,543.0,54.0,18.0,16.0,1.32
+60,sugar;cotton;rice,exporter,Udupi,Karnataka,13.3409,74.7421,-0.604378,-0.535028,24,125,278.0,55.0,10.0,13.0,0.92
+61,cotton;sugar,broker,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,44,338,511.0,66.0,24.0,15.0,2.39
+62,sugar;cotton;rice,trader,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,26,243,334.0,82.0,12.0,6.0,0.99
+63,cotton,broker,Kolhapur,Maharashtra,16.705,74.2433,-0.355185,-0.569428,72,143,535.0,35.0,41.0,15.0,2.27
+64,sugar;rice;cotton,trader,Warangal,Telangana,17.9689,79.5941,-0.261563,-0.200407,42,139,607.0,27.0,27.0,7.0,0.27
+65,cotton,trader,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,52,147,0.0,65.0,0.0,11.0,1.19
+66,cotton;rice,broker,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,29,199,707.0,50.0,16.0,20.0,1.6
+67,sugar;cotton;rice,exporter,Bhavnagar,Gujarat,21.7645,71.9253,0.019593,-0.72929,58,192,424.0,55.0,14.0,9.0,1.2
+68,sugar;rice,trader,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,54,229,11596.0,205.0,81.0,72.0,1.78
+69,cotton,exporter,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,97,168,420.0,69.0,10.0,21.0,2.39
+70,cotton;sugar,broker,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,27,275,456.0,60.0,11.0,12.0,1.61
+71,sugar;rice,exporter,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,59,195,427.0,69.0,2.0,6.0,1.35
+72,rice;sugar,trader,Coimbatore,Tamil Nadu,11.0026,76.9969,-0.777585,-0.379524,98,366,584.0,51.0,7.0,4.0,1.99
+73,rice;sugar,trader,Krishnanagar,West Bengal,23.4087,88.5123,0.141385,0.414641,30,299,168.0,73.0,22.0,5.0,2.2
+74,sugar,broker,Jalandhar,Punjab,31.726,75.5762,0.757481,-0.477503,55,321,548.0,55.0,32.0,15.0,1.66
+75,cotton;rice;sugar,exporter,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,31,195,654.0,79.0,11.0,13.0,2.1
+76,cotton;sugar;rice,exporter,Mangaluru,Karnataka,12.8656,74.8547,-0.639585,-0.527262,40,151,198.0,72.0,20.0,12.0,0.56
+77,cotton;sugar,trader,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,80,244,850.0,24.0,3.0,10.0,1.77
+78,cotton;rice,broker,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,89,318,568.0,79.0,8.0,10.0,1.69
+79,cotton,trader,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,23,177,573.0,31.0,14.0,4.0,1.47
+80,cotton;rice;sugar,trader,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,87,257,841.0,56.0,21.0,8.0,1.67
+81,cotton;sugar,broker,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,71,240,8164.0,220.0,140.0,63.0,5.86
+82,sugar;rice;cotton,broker,Kolhapur,Maharashtra,16.705,74.2433,-0.355185,-0.569428,79,221,657.0,82.0,19.0,9.0,2.24
+83,sugar,trader,Ghaziabad,Uttar Pradesh,28.6692,77.4538,0.531052,-0.348014,26,193,4728.0,0.0,14.0,105.0,4.34
+84,sugar;cotton;rice,broker,Chennai,Tamil Nadu,13.0827,80.2707,-0.623504,-0.153745,66,288,525.0,34.0,6.0,12.0,1.48
+85,sugar;cotton;rice,trader,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,99,289,737.0,54.0,20.0,5.0,1.15
+86,sugar;cotton,broker,Davangere,Karnataka,14.4644,75.9227,-0.521156,-0.453607,25,185,311.0,81.0,8.0,23.0,1.34
+87,sugar,broker,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,40,285,966.0,82.0,1.0,16.0,2.01
+88,rice;sugar,trader,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,43,237,4428.0,432.0,35.0,65.0,3.1
+89,rice;cotton;sugar,trader,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,52,302,634.0,78.0,23.0,14.0,2.21
+90,rice;sugar,exporter,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,68,301,663.0,20.0,48.0,8.0,1.9
+91,sugar,trader,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,62,316,418.0,72.0,26.0,20.0,2.29
+92,sugar;cotton;rice,trader,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,58,222,752.0,75.0,24.0,16.0,0.96
+93,cotton;rice,exporter,Belagavi,Karnataka,15.8497,74.4977,-0.418541,-0.551883,60,329,963.0,16.0,7.0,12.0,1.36
+94,rice;sugar,trader,Raiganj,West Bengal,25.5941,88.1084,0.303267,0.386786,51,341,527.0,95.0,12.0,8.0,1.5
+95,sugar,exporter,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,82,199,4356.0,539.0,65.0,27.0,4.5600000000000005
+96,rice,exporter,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,75,198,670.0,70.0,28.0,9.0,1.46
+97,sugar;rice,broker,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,64,167,395.0,57.0,35.0,13.0,2.24
+98,sugar;rice;cotton,trader,Malda,West Bengal,25.0449,88.1352,0.262585,0.388634,40,118,395.0,61.0,41.0,19.0,0.64
+99,rice,trader,Kanpur,Uttar Pradesh,26.4499,80.3319,0.366659,-0.149524,20,137,587.0,0.0,0.0,16.0,1.96
+100,cotton;rice;sugar,exporter,Varanasi,Uttar Pradesh,25.3176,82.9739,0.282785,0.032683,32,312,273.0,79.0,17.0,13.0,1.85
+101,rice,trader,Rewa,Madhya Pradesh,24.541,81.2956,0.225259,-0.083062,49,268,379.0,36.0,17.0,18.0,1.15
+102,cotton;sugar,broker,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,52,161,502.0,29.0,0.0,9.0,2.6
+103,rice,broker,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,84,381,0.0,37.0,31.0,18.0,1.71
+104,sugar,trader,Nizamabad,Telangana,18.6725,78.0945,-0.209444,-0.303828,48,318,813.0,47.0,23.0,7.0,0.77
+105,sugar,trader,Varanasi,Uttar Pradesh,25.3176,82.9739,0.282785,0.032683,75,180,602.0,49.0,26.0,4.0,0.91
+106,cotton,exporter,Krishnanagar,West Bengal,23.4087,88.5123,0.141385,0.414641,54,142,515.0,71.0,25.0,6.0,1.33
+107,cotton;sugar;rice,broker,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,79,368,374.0,40.0,24.0,8.0,0.88
+108,cotton,broker,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,22,176,280.0,18.0,34.0,6.0,1.83
+109,rice,trader,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,86,145,341.0,57.0,31.0,9.0,1.54
+110,sugar,trader,Phagwara,Punjab,31.1089,75.8022,0.71177,-0.461917,20,255,686.0,55.0,28.0,12.0,0.81
+111,cotton,exporter,Kanpur,Uttar Pradesh,26.4499,80.3319,0.366659,-0.149524,98,276,306.0,63.0,11.0,5.0,1.57
+112,sugar;cotton;rice,broker,Kota,Rajasthan,25.2138,75.8648,0.275096,-0.4576,31,185,427.0,64.0,18.0,1.0,1.35
+113,rice;cotton;sugar,broker,Navsari,Gujarat,20.9467,72.952,-0.040985,-0.658483,85,204,425.0,27.0,37.0,10.0,1.58
+114,cotton,exporter,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,91,142,25.0,66.0,14.0,0.0,1.7
+115,cotton,trader,Hyderabad,Telangana,17.385,78.4867,-0.304815,-0.276779,100,263,985.0,88.0,14.0,0.0,1.32
+116,rice,trader,Navsari,Gujarat,20.9467,72.952,-0.040985,-0.658483,39,279,647.0,62.0,22.0,14.0,1.65
+117,rice;cotton;sugar,trader,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,41,156,819.0,14.0,15.0,8.0,3.01
+118,sugar;cotton,broker,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,46,308,679.0,84.0,27.0,21.0,2.17
+119,cotton;rice;sugar,exporter,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,31,267,427.0,43.0,0.0,3.0,1.39
+120,cotton;rice;sugar,exporter,Nashik,Maharashtra,19.9975,73.7898,-0.111296,-0.600703,81,356,506.0,71.0,34.0,15.0,2.08
+121,sugar;rice;cotton,trader,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,26,120,726.0,42.0,17.0,10.0,1.34
+122,cotton,broker,Thoothukudi,Tamil Nadu,8.7642,78.1348,-0.943393,-0.301048,72,173,778.0,76.0,19.0,9.0,1.85
+123,rice;cotton;sugar,trader,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,92,341,471.0,54.0,18.0,2.0,2.28
+124,cotton;sugar,broker,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,30,271,517.0,22.0,15.0,4.0,2.43
+125,sugar;cotton;rice,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,43,133,584.0,64.0,30.0,13.0,2.25
+126,sugar;cotton;rice,broker,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,63,182,550.0,49.0,14.0,19.0,1.56
+127,cotton;rice,trader,Bhavnagar,Gujarat,21.7645,71.9253,0.019593,-0.72929,31,194,515.0,47.0,33.0,7.0,2.16
+128,cotton;rice,trader,Thanjavur,Tamil Nadu,10.787,79.1378,-0.793556,-0.231876,84,219,308.0,81.0,25.0,18.0,1.48
+129,sugar;cotton,exporter,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,49,270,674.0,57.0,21.0,18.0,1.92
+130,cotton;sugar;rice,trader,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,63,254,536.0,42.0,23.0,0.0,1.29
+131,cotton;rice;sugar,exporter,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,72,130,631.0,51.0,26.0,6.0,0.67
+132,rice;sugar;cotton,exporter,Jalgaon,Maharashtra,21.1687,75.568,-0.024541,-0.478069,87,373,579.0,98.0,18.0,8.0,3.1
+133,rice,exporter,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,34,158,588.0,51.0,32.0,18.0,1.52
+134,sugar,exporter,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,44,211,433.0,56.0,29.0,12.0,1.74
+135,cotton;sugar,broker,Jalgaon,Maharashtra,21.1687,75.568,-0.024541,-0.478069,27,202,920.0,85.0,27.0,11.0,2.0
+136,sugar,trader,Mumbai,Maharashtra,19.076,72.8777,-0.179556,-0.663607,67,255,543.0,39.0,52.0,9.0,1.77
+137,cotton;sugar,exporter,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,36,307,411.0,41.0,31.0,7.0,2.03
+138,sugar;rice,exporter,Bareilly,Uttar Pradesh,28.367,79.4304,0.508667,-0.211697,20,297,0.0,19.0,32.0,4.0,2.72
+139,rice;cotton,broker,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,26,239,44.0,80.0,36.0,1.0,1.74
+140,cotton;sugar;rice,trader,Malda,West Bengal,25.0449,88.1352,0.262585,0.388634,27,249,752.0,50.0,36.0,14.0,1.33
+141,cotton,broker,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,96,255,476.0,42.0,23.0,7.0,1.26
+142,cotton;sugar;rice,exporter,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,40,129,363.0,33.0,3.0,8.0,1.09
+143,cotton;rice,broker,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,43,167,52.0,36.0,21.0,12.0,0.48
+144,cotton;sugar;rice,trader,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,86,220,727.0,40.0,21.0,14.0,1.03
+145,sugar;rice,exporter,Raiganj,West Bengal,25.5941,88.1084,0.303267,0.386786,52,319,523.0,66.0,18.0,9.0,1.99
+146,cotton,exporter,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,83,150,458.0,49.0,15.0,12.0,1.83
+147,rice;sugar;cotton,trader,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,57,267,619.0,30.0,30.0,24.0,1.85
+148,rice;sugar,exporter,Kharagpur,West Bengal,22.3045,87.3127,0.059593,0.33191,27,103,133.0,92.0,12.0,0.0,0.99
+149,rice;sugar,broker,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,34,127,454.0,56.0,28.0,10.0,1.27
+150,cotton;rice;sugar,broker,Udupi,Karnataka,13.3409,74.7421,-0.604378,-0.535028,92,314,744.0,55.0,15.0,15.0,1.67
+151,rice;sugar,broker,Bikaner,Rajasthan,28.0229,71.8315,0.483178,-0.735759,42,160,533.0,82.0,21.0,11.0,1.83
+152,sugar,trader,Varanasi,Uttar Pradesh,25.3176,82.9739,0.282785,0.032683,21,278,462.0,39.0,15.0,3.0,0.98
+153,sugar;cotton,broker,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,40,295,638.0,44.0,24.0,10.0,1.7
+154,sugar;rice,trader,Aurangabad,Maharashtra,19.8762,75.3433,-0.120281,-0.493566,75,237,761.0,69.0,24.0,8.0,2.38
+155,sugar,trader,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,59,141,600.0,53.0,16.0,13.0,1.84
+156,sugar,broker,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,54,124,487.0,44.0,14.0,7.0,1.9
+157,sugar;cotton;rice,exporter,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,35,170,579.0,56.0,22.0,5.0,1.65
+158,rice;sugar;cotton,exporter,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,64,354,695.0,38.0,39.0,15.0,2.36
+159,rice;cotton;sugar,trader,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,84,165,877.0,55.0,24.0,6.0,1.99
+160,cotton;sugar;rice,exporter,Phagwara,Punjab,31.1089,75.8022,0.71177,-0.461917,50,231,758.0,69.0,16.0,6.0,1.94
+161,rice;sugar;cotton,trader,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,90,162,130.0,38.0,31.0,5.0,1.11
+162,sugar;cotton;rice,exporter,Chennai,Tamil Nadu,13.0827,80.2707,-0.623504,-0.153745,46,279,703.0,67.0,40.0,24.0,0.9
+163,rice,trader,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,41,171,418.0,21.0,14.0,9.0,1.03
+164,rice;sugar,exporter,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,100,366,637.0,77.0,33.0,10.0,0.56
+165,rice;cotton;sugar,exporter,Mangaluru,Karnataka,12.8656,74.8547,-0.639585,-0.527262,90,381,638.0,35.0,30.0,2.0,1.8
+166,cotton,exporter,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,78,184,466.0,86.0,15.0,11.0,1.39
+167,cotton,trader,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,39,233,818.0,72.0,32.0,15.0,1.56
+168,cotton,trader,Haldia,West Bengal,22.0197,88.0636,0.038496,0.383697,47,209,484.0,35.0,7.0,9.0,1.03
+169,sugar,trader,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,20,161,222.0,27.0,29.0,12.0,1.55
+170,cotton,broker,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,67,138,520.0,91.0,36.0,3.0,2.16
+171,cotton,broker,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,80,324,579.0,65.0,27.0,17.0,2.71
+172,sugar;cotton,exporter,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,33,141,558.0,87.0,28.0,9.0,1.79
+173,sugar,trader,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,74,355,937.0,50.0,41.0,17.0,2.98
+174,cotton;rice,trader,Alwar,Rajasthan,27.5697,76.6249,0.449607,-0.405179,36,189,2040.0,450.0,98.0,63.0,5.4
+175,cotton;sugar;rice,exporter,Udupi,Karnataka,13.3409,74.7421,-0.604378,-0.535028,69,201,452.0,116.0,20.0,7.0,1.44
+176,rice;cotton;sugar,broker,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,52,334,292.0,50.0,26.0,11.0,1.98
+177,rice;sugar,broker,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,33,220,801.0,67.0,21.0,18.0,2.05
+178,rice;sugar,exporter,Kanpur,Uttar Pradesh,26.4499,80.3319,0.366659,-0.149524,85,305,1039.0,43.0,14.0,16.0,2.17
+179,cotton;rice;sugar,trader,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,45,224,422.0,32.0,17.0,0.0,1.56
+180,rice,trader,Meerut,Uttar Pradesh,28.9845,77.7064,0.554407,-0.330593,72,281,574.0,78.0,2.0,2.0,2.07
+181,sugar;rice;cotton,trader,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,34,133,359.0,47.0,11.0,9.0,2.31
+182,rice;sugar,broker,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,88,253,95.0,28.0,19.0,1.0,1.81
+183,sugar;rice;cotton,broker,Bhavnagar,Gujarat,21.7645,71.9253,0.019593,-0.72929,29,129,943.0,90.0,9.0,9.0,2.02
+184,cotton;sugar,exporter,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,80,288,390.0,33.0,0.0,4.0,1.56
+185,rice,broker,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,62,311,567.0,47.0,10.0,2.0,2.05
+186,cotton;sugar;rice,trader,Madurai,Tamil Nadu,9.9252,78.1198,-0.857393,-0.302083,88,345,253.0,87.0,24.0,9.0,2.62
+187,rice,broker,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,43,176,841.0,98.0,17.0,8.0,1.65
+188,rice;cotton;sugar,trader,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,96,294,429.0,56.0,12.0,6.0,2.38
+189,sugar,exporter,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,59,171,141.0,55.0,0.0,10.0,0.82
+190,rice,trader,Phagwara,Punjab,31.1089,75.8022,0.71177,-0.461917,59,309,543.0,37.0,26.0,13.0,1.17
+191,cotton,trader,Phagwara,Punjab,31.1089,75.8022,0.71177,-0.461917,76,235,686.0,28.0,20.0,11.0,1.67
+192,rice;sugar;cotton,broker,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,63,348,533.0,53.0,17.0,10.0,1.88
+193,cotton;sugar;rice,broker,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,21,231,551.0,64.0,0.0,13.0,1.52
+194,cotton;rice,broker,Thanjavur,Tamil Nadu,10.787,79.1378,-0.793556,-0.231876,81,272,352.0,50.0,25.0,8.0,1.56
+195,sugar;cotton,trader,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,93,324,705.0,49.0,17.0,14.0,1.42
+196,cotton,trader,Gwalior,Madhya Pradesh,26.2183,78.1629,0.349504,-0.29911,28,214,639.0,18.0,29.0,15.0,2.14
+197,rice,trader,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,55,122,724.0,11.0,32.0,22.0,1.5
+198,rice;sugar,exporter,Sikar,Rajasthan,27.6145,75.139,0.452926,-0.507655,73,241,418.0,51.0,6.0,8.0,2.09
+199,cotton;sugar,exporter,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,96,275,273.0,63.0,0.0,9.0,2.61
+200,sugar;cotton,trader,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,50,120,590.0,78.0,21.0,15.0,1.5
+201,rice,trader,Gandhinagar,Gujarat,23.2156,72.6369,0.127081,-0.680214,37,133,625.0,67.0,11.0,9.0,1.1
+202,rice;cotton,broker,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,100,288,405.0,51.0,40.0,11.0,1.38
+203,cotton,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,28,249,359.0,55.0,13.0,18.0,1.05
+204,sugar;rice,broker,Rewa,Madhya Pradesh,24.541,81.2956,0.225259,-0.083062,74,268,462.0,34.0,23.0,13.0,1.02
+205,rice;sugar;cotton,trader,Mahbubnagar,Telangana,16.7414,77.6637,-0.352489,-0.333538,77,220,471.0,65.0,24.0,0.0,1.62
+206,sugar,trader,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,69,176,1100.0,76.0,37.0,10.0,1.41
+207,sugar,broker,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,64,364,488.0,72.0,8.0,3.0,1.62
+208,cotton,exporter,Miryalaguda,Telangana,17.3114,79.5155,-0.310267,-0.205828,33,239,591.0,61.0,26.0,8.0,0.94
+209,sugar,broker,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,96,321,600.0,42.0,44.0,0.0,1.23
+210,rice;cotton,trader,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,82,265,237.0,53.0,5.0,12.0,0.6
+211,rice;sugar;cotton,exporter,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,100,378,363.0,31.0,34.0,13.0,0.42
+212,sugar,broker,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,81,308,205.0,67.0,36.0,15.0,1.66
+213,sugar,exporter,Mumbai,Maharashtra,19.076,72.8777,-0.179556,-0.663607,36,296,811.0,38.0,9.0,20.0,1.23
+214,cotton;sugar,trader,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,25,172,205.0,69.0,15.0,6.0,1.45
+215,rice;sugar,trader,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,75,304,551.0,11.0,6.0,12.0,0.6
+216,cotton;sugar,exporter,Miryalaguda,Telangana,17.3114,79.5155,-0.310267,-0.205828,63,213,462.0,20.0,6.0,9.0,1.56
+217,rice;cotton;sugar,broker,Sikar,Rajasthan,27.6145,75.139,0.452926,-0.507655,53,230,260.0,45.0,18.0,10.0,0.94
+218,sugar;cotton,trader,Udupi,Karnataka,13.3409,74.7421,-0.604378,-0.535028,68,342,654.0,79.0,18.0,10.0,1.84
+219,cotton,broker,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,40,146,299.0,60.0,11.0,10.0,1.76
+220,sugar;rice;cotton,exporter,Krishnanagar,West Bengal,23.4087,88.5123,0.141385,0.414641,92,323,337.0,50.0,43.0,8.0,1.22
+221,sugar;rice,broker,Belagavi,Karnataka,15.8497,74.4977,-0.418541,-0.551883,28,191,242.0,31.0,22.0,2.0,1.37
+222,sugar;rice,broker,Ratlam,Madhya Pradesh,23.3325,75.0409,0.135741,-0.514421,30,166,612.0,52.0,32.0,0.0,1.96
+223,sugar,broker,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,21,257,602.0,0.0,31.0,13.0,2.16
+224,cotton;sugar,exporter,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,79,151,602.0,66.0,16.0,8.0,1.38
+225,sugar;rice;cotton,exporter,Ghaziabad,Uttar Pradesh,28.6692,77.4538,0.531052,-0.348014,25,189,592.0,47.0,10.0,22.0,1.81
+226,sugar;rice;cotton,exporter,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,28,187,205.0,58.0,19.0,13.0,2.07
+227,sugar;rice,exporter,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,40,134,840.0,0.0,24.0,12.0,1.74
+228,sugar;rice,broker,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,94,263,585.0,67.0,16.0,2.0,2.2
+229,rice;cotton;sugar,trader,Kota,Rajasthan,25.2138,75.8648,0.275096,-0.4576,39,244,158.0,48.0,16.0,1.0,1.6
+230,cotton;rice,broker,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,94,223,724.0,20.0,15.0,5.0,1.07
+231,sugar;cotton,exporter,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,26,123,829.0,79.0,13.0,6.0,1.28
+232,sugar;cotton;rice,broker,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,88,314,323.0,51.0,24.0,6.0,1.94
+233,cotton;rice,broker,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,42,166,526.0,1.0,4.0,8.0,1.56
+234,rice;cotton,trader,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,27,159,579.0,55.0,13.0,13.0,2.48
+235,cotton;sugar;rice,trader,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,68,359,591.0,26.0,29.0,7.0,0.9
+236,sugar;rice;cotton,exporter,Varanasi,Uttar Pradesh,25.3176,82.9739,0.282785,0.032683,46,207,552.0,42.0,13.0,13.0,0.7
+237,cotton;sugar,exporter,Aurangabad,Maharashtra,19.8762,75.3433,-0.120281,-0.493566,64,273,512.0,55.0,33.0,6.0,2.17
+238,cotton,trader,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,30,285,741.0,59.0,18.0,12.0,1.58
+239,rice,trader,Bikaner,Rajasthan,28.0229,71.8315,0.483178,-0.735759,61,200,385.0,34.0,16.0,9.0,1.57
+240,rice,broker,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,92,283,601.0,31.0,0.0,11.0,1.37
+241,rice;cotton,exporter,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,70,336,3544.0,450.0,150.0,120.0,2.58
+242,cotton;rice;sugar,broker,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,88,347,493.0,35.0,30.0,15.0,0.32
+243,cotton,exporter,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,85,265,549.0,43.0,23.0,7.0,1.81
+244,sugar,trader,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,95,269,574.0,48.0,19.0,10.0,1.86
+245,rice;sugar;cotton,exporter,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,91,156,268.0,35.0,6.0,8.0,1.69
+246,sugar,broker,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,72,168,444.0,23.0,21.0,4.0,1.45
+247,cotton,broker,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,100,317,91.0,71.0,15.0,6.0,1.68
+248,cotton;sugar;rice,exporter,Haldia,West Bengal,22.0197,88.0636,0.038496,0.383697,86,310,577.0,23.0,30.0,7.0,1.7
+249,sugar;cotton;rice,broker,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,91,278,201.0,57.0,5.0,10.0,1.28
+250,rice,trader,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,98,353,377.0,50.0,0.0,6.0,1.51
+251,rice;sugar;cotton,broker,Mahbubnagar,Telangana,16.7414,77.6637,-0.352489,-0.333538,53,239,260.0,49.0,10.0,1.0,1.9
+252,rice;sugar;cotton,trader,Udupi,Karnataka,13.3409,74.7421,-0.604378,-0.535028,92,299,720.0,58.0,13.0,10.0,2.16
+253,rice;sugar,exporter,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,80,244,840.0,62.0,28.0,13.0,1.3
+254,sugar;rice,exporter,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,45,288,475.0,34.0,34.0,15.0,2.09
+255,cotton,broker,Siliguri,West Bengal,26.5124,88.4262,0.371289,0.408703,94,208,277.0,77.0,35.0,22.0,1.54
+256,sugar,trader,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,71,161,622.0,72.0,34.0,14.0,1.96
+257,rice;sugar;cotton,trader,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,85,150,310.0,52.0,36.0,4.0,1.24
+258,sugar;rice,trader,Ballari,Karnataka,15.2299,76.9353,-0.464452,-0.383772,62,292,684.0,47.0,17.0,3.0,0.82
+259,rice;cotton;sugar,broker,Ratlam,Madhya Pradesh,23.3325,75.0409,0.135741,-0.514421,51,350,808.0,46.0,15.0,7.0,1.23
+260,cotton;rice;sugar,broker,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,89,195,547.0,84.0,36.0,5.0,1.77
+261,cotton;rice;sugar,broker,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,89,368,660.0,45.0,0.0,12.0,1.83
+262,cotton,broker,Noida,Uttar Pradesh,28.5355,77.391,0.521148,-0.352345,64,158,334.0,33.0,16.0,12.0,1.7
+263,rice;sugar,exporter,Miryalaguda,Telangana,17.3114,79.5155,-0.310267,-0.205828,78,256,324.0,39.0,19.0,21.0,1.77
+264,cotton,broker,Aurangabad,Maharashtra,19.8762,75.3433,-0.120281,-0.493566,64,130,461.0,82.0,34.0,14.0,1.97
+265,sugar;rice,broker,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,97,293,668.0,86.0,37.0,14.0,1.28
+266,cotton;sugar;rice,broker,Jabalpur,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,45,157,189.0,0.0,10.0,9.0,1.52
+267,rice;sugar;cotton,exporter,Kolhapur,Maharashtra,16.705,74.2433,-0.355185,-0.569428,58,355,669.0,67.0,21.0,11.0,2.31
+268,rice,trader,Madurai,Tamil Nadu,9.9252,78.1198,-0.857393,-0.302083,59,147,540.0,38.0,13.0,6.0,0.76
+269,sugar;rice,exporter,Ballari,Karnataka,15.2299,76.9353,-0.464452,-0.383772,37,132,406.0,45.0,32.0,21.0,0.99
+270,cotton;rice;sugar,trader,Agra,Uttar Pradesh,27.1767,78.0081,0.420496,-0.309786,42,301,230.0,41.0,15.0,10.0,2.19
+271,sugar;cotton,trader,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,31,220,398.0,63.0,22.0,11.0,1.3
+272,sugar;cotton,broker,Alwar,Rajasthan,27.5697,76.6249,0.449607,-0.405179,65,227,896.0,51.0,9.0,5.0,0.74
+273,cotton,exporter,Kolhapur,Maharashtra,16.705,74.2433,-0.355185,-0.569428,79,304,528.0,97.0,28.0,10.0,2.14
+274,cotton;rice;sugar,broker,Jabalpur,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,30,83,457.0,65.0,0.0,10.0,2.06
+275,cotton;rice,exporter,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,67,179,560.0,36.0,7.0,7.0,0.79
+276,cotton;rice,exporter,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,72,125,580.0,42.0,29.0,4.0,1.85
+277,rice;sugar,broker,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,98,356,464.0,36.0,0.0,10.0,1.64
+278,rice;sugar,broker,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,58,179,788.0,64.0,14.0,9.0,1.38
+279,sugar;rice;cotton,broker,Alwar,Rajasthan,27.5697,76.6249,0.449607,-0.405179,60,325,741.0,50.0,35.0,18.0,1.14
+280,rice,broker,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,23,105,360.0,75.0,15.0,5.0,0.44
+281,cotton;sugar,broker,Ratlam,Madhya Pradesh,23.3325,75.0409,0.135741,-0.514421,47,239,424.0,27.0,12.0,6.0,1.22
+282,sugar;rice;cotton,exporter,Kharagpur,West Bengal,22.3045,87.3127,0.059593,0.33191,47,102,329.0,28.0,7.0,3.0,1.69
+283,rice;sugar;cotton,broker,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,23,194,0.0,73.0,8.0,11.0,0.79
+284,cotton;rice,exporter,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,81,297,784.0,53.0,8.0,8.0,1.62
+285,rice,broker,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,54,251,756.0,71.0,34.0,8.0,1.97
+286,rice,broker,Sikar,Rajasthan,27.6145,75.139,0.452926,-0.507655,97,237,316.0,42.0,20.0,10.0,0.97
+287,rice;cotton,broker,Varanasi,Uttar Pradesh,25.3176,82.9739,0.282785,0.032683,83,250,277.0,52.0,11.0,10.0,1.09
+288,rice,broker,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,83,242,248.0,24.0,9.0,11.0,1.87
+289,cotton;rice;sugar,broker,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,54,224,597.0,33.0,18.0,14.0,1.12
+290,cotton;sugar;rice,exporter,Meerut,Uttar Pradesh,28.9845,77.7064,0.554407,-0.330593,76,292,389.0,33.0,34.0,10.0,1.56
+291,rice,exporter,Meerut,Uttar Pradesh,28.9845,77.7064,0.554407,-0.330593,63,166,221.0,85.0,33.0,11.0,1.56
+292,rice;cotton;sugar,exporter,Hubli,Karnataka,15.3647,75.124,-0.454467,-0.50869,67,353,626.0,48.0,15.0,13.0,1.15
+293,sugar;cotton,broker,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,36,249,698.0,44.0,15.0,4.0,2.3
+294,cotton,trader,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,85,308,2976.0,584.0,162.0,112.0,3.94
+295,rice;cotton,broker,Alwar,Rajasthan,27.5697,76.6249,0.449607,-0.405179,79,258,317.0,40.0,20.0,9.0,1.63
+296,cotton,trader,Nizamabad,Telangana,18.6725,78.0945,-0.209444,-0.303828,75,145,412.0,53.0,23.0,14.0,1.24
+297,sugar;cotton;rice,broker,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,84,256,573.0,86.0,17.0,8.0,1.49
+298,rice,exporter,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,36,215,3712.0,160.0,168.0,75.0,2.28
+299,rice;sugar,broker,Gandhinagar,Gujarat,23.2156,72.6369,0.127081,-0.680214,46,252,780.0,64.0,31.0,8.0,1.84
+300,cotton;rice;sugar,exporter,Kota,Rajasthan,25.2138,75.8648,0.275096,-0.4576,100,168,331.0,43.0,28.0,3.0,1.39
+301,cotton,broker,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,26,246,578.0,65.0,27.0,23.0,0.67
+302,sugar;cotton;rice,exporter,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,43,316,312.0,55.0,31.0,8.0,1.83
+303,rice;sugar;cotton,trader,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,68,343,669.0,77.0,6.0,12.0,0.79
+304,cotton;sugar,broker,Raiganj,West Bengal,25.5941,88.1084,0.303267,0.386786,63,153,481.0,90.0,17.0,10.0,1.7
+305,cotton;sugar;rice,exporter,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,74,369,10596.0,308.0,120.0,42.0,2.12
+306,rice;sugar,broker,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,94,180,158.0,31.0,0.0,9.0,2.94
+307,rice,exporter,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,48,331,1021.0,38.0,32.0,11.0,1.33
+308,cotton,trader,Hubli,Karnataka,15.3647,75.124,-0.454467,-0.50869,56,154,705.0,25.0,18.0,8.0,1.59
+309,sugar;cotton;rice,broker,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,78,334,2856.0,483.0,198.0,153.0,3.34
+310,cotton,broker,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,51,136,623.0,72.0,9.0,10.0,1.66
+311,sugar,trader,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,84,297,185.0,63.0,23.0,10.0,1.09
+312,sugar;rice;cotton,exporter,Davangere,Karnataka,14.4644,75.9227,-0.521156,-0.453607,23,87,665.0,66.0,32.0,11.0,1.24
+313,rice,exporter,Mohali,Punjab,30.6394,76.7007,0.676993,-0.399952,80,282,483.0,69.0,32.0,6.0,2.47
+314,rice;sugar,broker,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,40,255,336.0,59.0,31.0,5.0,1.65
+315,sugar;cotton;rice,exporter,Mohali,Punjab,30.6394,76.7007,0.676993,-0.399952,56,192,464.0,46.0,34.0,14.0,2.22
+316,cotton;rice;sugar,broker,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,27,168,548.0,63.0,30.0,0.0,2.35
+317,cotton;rice;sugar,exporter,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,31,295,709.0,51.0,16.0,14.0,2.32
+318,cotton,broker,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,51,342,571.0,80.0,20.0,8.0,1.72
+319,cotton;sugar;rice,trader,Kharagpur,West Bengal,22.3045,87.3127,0.059593,0.33191,75,127,527.0,68.0,13.0,2.0,2.52
+320,rice;sugar,broker,Mohali,Punjab,30.6394,76.7007,0.676993,-0.399952,76,363,249.0,50.0,17.0,17.0,3.12
+321,cotton,broker,Warangal,Telangana,17.9689,79.5941,-0.261563,-0.200407,49,331,419.0,52.0,22.0,0.0,2.14
+322,cotton,broker,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,34,171,450.0,79.0,23.0,18.0,2.67
+323,sugar,broker,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,52,285,227.0,46.0,16.0,8.0,1.28
+324,rice;cotton;sugar,broker,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,67,284,747.0,43.0,19.0,6.0,1.78
+325,sugar,trader,Durgapur,West Bengal,23.8103,87.3118,0.171133,0.331848,48,202,194.0,18.0,0.0,3.0,1.43
+326,cotton;sugar,exporter,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,25,103,481.0,23.0,21.0,22.0,0.45
+327,cotton;sugar,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,32,97,656.0,42.0,31.0,8.0,1.14
+328,cotton,exporter,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,65,185,636.0,30.0,28.0,11.0,2.21
+329,cotton;sugar;rice,broker,Hubli,Karnataka,15.3647,75.124,-0.454467,-0.50869,78,222,614.0,47.0,28.0,7.0,1.2
+330,sugar,exporter,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,23,170,862.0,61.0,40.0,9.0,2.18
+331,sugar;rice,exporter,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,86,147,704.0,65.0,26.0,6.0,0.96
+332,rice;sugar;cotton,exporter,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,94,386,8280.0,230.0,168.0,70.0,8.34
+333,rice;cotton,trader,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,62,197,447.0,52.0,20.0,14.0,0.63
+334,sugar;cotton,broker,Kolhapur,Maharashtra,16.705,74.2433,-0.355185,-0.569428,92,203,481.0,53.0,39.0,2.0,3.52
+335,sugar;cotton;rice,trader,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,86,259,688.0,38.0,22.0,16.0,1.93
+336,sugar;cotton,trader,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,75,314,4590.0,549.0,0.0,91.0,4.800000000000001
+337,cotton;rice,broker,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,25,223,897.0,54.0,28.0,11.0,1.96
+338,sugar;cotton;rice,broker,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,49,253,4212.0,450.0,136.0,35.0,3.34
+339,rice;sugar;cotton,exporter,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,39,199,569.0,63.0,17.0,5.0,1.02
+340,rice,broker,Bikaner,Rajasthan,28.0229,71.8315,0.483178,-0.735759,30,318,4340.0,588.0,144.0,85.0,3.22
+341,rice;sugar;cotton,trader,Miryalaguda,Telangana,17.3114,79.5155,-0.310267,-0.205828,54,232,405.0,62.0,8.0,9.0,1.99
+342,rice;sugar,broker,Nizamabad,Telangana,18.6725,78.0945,-0.209444,-0.303828,88,182,747.0,44.0,30.0,6.0,1.26
+343,rice,trader,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,100,330,611.0,53.0,25.0,18.0,1.6
+344,sugar;cotton,exporter,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,79,221,223.0,61.0,11.0,9.0,2.04
+345,sugar;cotton,trader,Jalgaon,Maharashtra,21.1687,75.568,-0.024541,-0.478069,31,293,1060.0,81.0,0.0,22.0,1.57
+346,cotton;rice,trader,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,30,260,268.0,27.0,20.0,10.0,1.64
+347,rice,exporter,Ballari,Karnataka,15.2299,76.9353,-0.464452,-0.383772,76,137,661.0,71.0,15.0,3.0,2.0
+348,rice,exporter,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,68,171,661.0,51.0,28.0,0.0,1.21
+349,cotton,exporter,Dindigul,Tamil Nadu,10.3673,77.9757,-0.824644,-0.312021,78,140,541.0,60.0,33.0,12.0,2.15
+350,cotton,broker,Davangere,Karnataka,14.4644,75.9227,-0.521156,-0.453607,37,234,580.0,17.0,10.0,11.0,1.88
+351,cotton;sugar;rice,exporter,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,98,218,440.0,31.0,8.0,10.0,1.55
+352,cotton,broker,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,49,219,402.0,34.0,15.0,11.0,1.5
+353,sugar,broker,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,80,203,948.0,41.0,0.0,9.0,1.46
+354,cotton;rice,broker,Navsari,Gujarat,20.9467,72.952,-0.040985,-0.658483,43,275,822.0,85.0,30.0,13.0,1.14
+355,sugar;cotton;rice,exporter,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,25,294,283.0,73.0,21.0,12.0,1.92
+356,rice;sugar,exporter,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,90,277,614.0,48.0,15.0,10.0,1.33
+357,sugar,exporter,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,70,202,313.0,50.0,20.0,7.0,1.68
+358,cotton;sugar;rice,trader,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,52,143,717.0,65.0,17.0,13.0,1.71
+359,cotton;rice,broker,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,-0.793296,-0.261745,85,214,610.0,59.0,29.0,10.0,2.18
+360,sugar;cotton,trader,Davangere,Karnataka,14.4644,75.9227,-0.521156,-0.453607,75,345,360.0,52.0,17.0,9.0,2.43
+361,sugar;rice,exporter,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,97,225,561.0,58.0,28.0,18.0,1.85
+362,rice;sugar;cotton,exporter,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,79,322,386.0,47.0,8.0,4.0,0.93
+363,sugar,trader,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,77,347,775.0,40.0,43.0,22.0,2.25
+364,cotton;sugar;rice,broker,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,35,276,948.0,65.0,41.0,12.0,2.23
+365,rice;cotton,exporter,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,31,232,430.0,44.0,23.0,13.0,1.65
+366,cotton;sugar,trader,Jabalpur,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,93,243,577.0,48.0,13.0,9.0,1.36
+367,sugar,broker,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,82,260,875.0,53.0,26.0,18.0,1.01
+368,rice;cotton,trader,Siliguri,West Bengal,26.5124,88.4262,0.371289,0.408703,23,92,600.0,64.0,21.0,7.0,1.86
+369,sugar;cotton;rice,trader,Haldia,West Bengal,22.0197,88.0636,0.038496,0.383697,61,224,479.0,55.0,30.0,12.0,1.35
+370,sugar;cotton;rice,trader,Madurai,Tamil Nadu,9.9252,78.1198,-0.857393,-0.302083,81,304,658.0,43.0,23.0,17.0,2.28
+371,cotton,trader,Amravati,Maharashtra,20.853,77.7539,-0.047926,-0.327317,74,188,335.0,64.0,24.0,10.0,2.47
+372,cotton;rice;sugar,broker,Anand,Gujarat,22.5679,72.9264,0.079104,-0.660248,97,359,442.0,73.0,25.0,13.0,2.58
+373,cotton;rice;sugar,broker,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,92,310,1007.0,23.0,21.0,16.0,1.8
+374,sugar,exporter,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,21,198,587.0,45.0,19.0,17.0,0.8
+375,rice;cotton;sugar,broker,Thanjavur,Tamil Nadu,10.787,79.1378,-0.793556,-0.231876,28,294,569.0,103.0,28.0,10.0,0.97
+376,rice;sugar,broker,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,97,186,524.0,33.0,33.0,5.0,2.29
+377,rice,exporter,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,59,183,506.0,60.0,25.0,13.0,1.05
+378,sugar;cotton,broker,Belagavi,Karnataka,15.8497,74.4977,-0.418541,-0.551883,65,215,400.0,66.0,26.0,16.0,1.82
+379,sugar;rice;cotton,exporter,Meerut,Uttar Pradesh,28.9845,77.7064,0.554407,-0.330593,49,333,628.0,2.0,13.0,11.0,2.04
+380,sugar;cotton,exporter,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,53,314,663.0,53.0,11.0,30.0,1.22
+381,sugar,broker,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,34,170,278.0,47.0,0.0,6.0,1.9
+382,cotton;rice,exporter,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,29,209,41.0,26.0,24.0,3.0,1.63
+383,rice,broker,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,82,140,648.0,89.0,3.0,7.0,1.56
+384,sugar;rice,broker,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,40,99,509.0,75.0,13.0,2.0,1.53
+385,sugar,exporter,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,54,300,599.0,12.0,18.0,7.0,0.65
+386,rice,trader,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,86,143,338.0,34.0,20.0,14.0,1.95
+387,cotton,exporter,Gwalior,Madhya Pradesh,26.2183,78.1629,0.349504,-0.29911,95,298,462.0,71.0,11.0,8.0,1.53
+388,rice,trader,Nizamabad,Telangana,18.6725,78.0945,-0.209444,-0.303828,53,204,464.0,83.0,44.0,6.0,1.57
+389,cotton;sugar,trader,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,94,195,301.0,60.0,28.0,8.0,1.98
+390,sugar;cotton;rice,exporter,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,26,158,343.0,82.0,16.0,14.0,1.69
+391,sugar,broker,Bhavnagar,Gujarat,21.7645,71.9253,0.019593,-0.72929,79,328,429.0,41.0,20.0,7.0,2.15
+392,rice;sugar;cotton,exporter,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,90,344,1794.0,185.0,35.0,112.0,3.3000000000000003
+393,sugar,trader,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,42,99,182.0,65.0,29.0,14.0,1.52
+394,rice,exporter,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,62,362,458.0,77.0,24.0,15.0,2.39
+395,rice,broker,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,74,302,613.0,43.0,28.0,13.0,1.14
+396,rice;cotton;sugar,broker,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,32,229,560.0,31.0,5.0,10.0,1.66
+397,rice;sugar;cotton,broker,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,29,294,676.0,56.0,0.0,10.0,1.88
+398,sugar,exporter,Jalandhar,Punjab,31.726,75.5762,0.757481,-0.477503,67,238,418.0,46.0,20.0,2.0,1.4
+399,sugar,exporter,Kanpur,Uttar Pradesh,26.4499,80.3319,0.366659,-0.149524,30,308,488.0,71.0,36.0,9.0,1.23
+400,sugar;rice;cotton,exporter,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,84,319,653.0,16.0,34.0,9.0,1.37
+401,rice,trader,Kota,Rajasthan,25.2138,75.8648,0.275096,-0.4576,39,295,500.0,58.0,10.0,12.0,1.83
+402,sugar,broker,Ajmer,Rajasthan,26.4499,74.6399,0.366659,-0.542076,26,300,811.0,35.0,18.0,0.0,1.48
+403,sugar;cotton,exporter,Coimbatore,Tamil Nadu,11.0026,76.9969,-0.777585,-0.379524,96,325,824.0,27.0,35.0,7.0,1.38
+404,sugar,exporter,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,50,329,394.0,31.0,0.0,2.0,1.89
+405,sugar;cotton;rice,exporter,Bhavnagar,Gujarat,21.7645,71.9253,0.019593,-0.72929,68,257,708.0,56.0,37.0,17.0,1.21
+406,rice,trader,Anand,Gujarat,22.5679,72.9264,0.079104,-0.660248,98,168,704.0,51.0,26.0,7.0,1.32
+407,rice,broker,Thoothukudi,Tamil Nadu,8.7642,78.1348,-0.943393,-0.301048,51,258,309.0,59.0,38.0,8.0,1.4
+408,sugar,broker,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,38,97,890.0,25.0,15.0,10.0,0.93
+409,cotton,broker,Amravati,Maharashtra,20.853,77.7539,-0.047926,-0.327317,28,210,839.0,39.0,26.0,14.0,1.91
+410,rice;cotton;sugar,broker,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,54,214,4459.0,651.0,222.0,25.0,4.42
+411,cotton;sugar;rice,exporter,Ballari,Karnataka,15.2299,76.9353,-0.464452,-0.383772,48,244,721.0,90.0,5.0,11.0,1.58
+412,sugar;rice,exporter,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,83,161,373.0,28.0,37.0,12.0,1.47
+413,cotton,trader,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,30,206,663.0,79.0,33.0,20.0,1.53
+414,rice;sugar,broker,Dindigul,Tamil Nadu,10.3673,77.9757,-0.824644,-0.312021,67,302,714.0,91.0,22.0,15.0,1.56
+415,rice;cotton;sugar,trader,Nashik,Maharashtra,19.9975,73.7898,-0.111296,-0.600703,31,301,720.0,70.0,26.0,19.0,2.08
+416,cotton;sugar,exporter,Ajmer,Rajasthan,26.4499,74.6399,0.366659,-0.542076,41,221,120.0,23.0,23.0,13.0,1.53
+417,cotton,trader,Nanded,Maharashtra,19.1585,77.3413,-0.173444,-0.355772,21,271,455.0,27.0,30.0,6.0,1.09
+418,sugar;rice,exporter,Nashik,Maharashtra,19.9975,73.7898,-0.111296,-0.600703,21,77,904.0,59.0,34.0,3.0,1.92
+419,cotton;sugar;rice,exporter,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,64,300,491.0,0.0,26.0,4.0,0.59
+420,rice,broker,Madurai,Tamil Nadu,9.9252,78.1198,-0.857393,-0.302083,65,360,507.0,74.0,19.0,16.0,1.61
+421,sugar,broker,Anand,Gujarat,22.5679,72.9264,0.079104,-0.660248,30,169,599.0,85.0,12.0,12.0,1.6
+422,rice;sugar;cotton,broker,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,51,245,879.0,69.0,37.0,13.0,1.14
+423,rice;sugar;cotton,trader,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,63,180,505.0,59.0,17.0,7.0,2.17
+424,sugar;cotton,broker,Amravati,Maharashtra,20.853,77.7539,-0.047926,-0.327317,39,315,618.0,94.0,26.0,17.0,2.22
+425,rice,broker,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,93,393,404.0,58.0,0.0,10.0,1.14
+426,cotton;rice;sugar,trader,Hubli,Karnataka,15.3647,75.124,-0.454467,-0.50869,52,163,581.0,45.0,27.0,13.0,1.95
+427,sugar;rice;cotton,exporter,Kanpur,Uttar Pradesh,26.4499,80.3319,0.366659,-0.149524,22,303,167.0,29.0,10.0,3.0,1.11
+428,sugar;cotton,exporter,Durgapur,West Bengal,23.8103,87.3118,0.171133,0.331848,52,102,681.0,53.0,21.0,6.0,0.39
+429,rice;cotton;sugar,trader,Bareilly,Uttar Pradesh,28.367,79.4304,0.508667,-0.211697,94,248,0.0,23.0,10.0,16.0,0.0
+430,rice;cotton,exporter,Durgapur,West Bengal,23.8103,87.3118,0.171133,0.331848,42,234,391.0,49.0,30.0,6.0,1.91
+431,cotton,exporter,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,89,156,252.0,9.0,23.0,10.0,1.51
+432,rice;sugar,broker,Meerut,Uttar Pradesh,28.9845,77.7064,0.554407,-0.330593,84,343,273.0,39.0,14.0,4.0,1.1
+433,sugar;cotton;rice,trader,Nanded,Maharashtra,19.1585,77.3413,-0.173444,-0.355772,61,204,476.0,40.0,30.0,20.0,1.93
+434,rice;sugar,exporter,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,95,326,494.0,52.0,25.0,16.0,1.09
+435,rice,trader,Ahmedabad,Gujarat,23.0225,72.5714,0.112778,-0.684731,71,298,706.0,20.0,20.0,12.0,1.87
+436,rice;sugar,broker,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,47,201,660.0,57.0,31.0,12.0,2.0
+437,sugar;cotton;rice,broker,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,33,293,574.0,64.0,22.0,15.0,1.48
+438,sugar;cotton,broker,Ahmedabad,Gujarat,23.0225,72.5714,0.112778,-0.684731,85,158,772.0,54.0,27.0,15.0,1.98
+439,sugar;rice;cotton,broker,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,21,148,660.0,61.0,28.0,8.0,1.18
+440,cotton;rice,exporter,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,70,203,445.0,70.0,51.0,8.0,2.11
+441,rice,broker,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,91,333,642.0,61.0,17.0,9.0,1.94
+442,sugar;rice,trader,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,75,238,532.0,78.0,30.0,14.0,1.97
+443,cotton;rice;sugar,trader,Davangere,Karnataka,14.4644,75.9227,-0.521156,-0.453607,36,206,608.0,55.0,21.0,8.0,1.73
+444,cotton,broker,Navsari,Gujarat,20.9467,72.952,-0.040985,-0.658483,56,181,543.0,42.0,38.0,9.0,1.74
+445,sugar,exporter,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,95,244,513.0,68.0,25.0,12.0,2.37
+446,sugar;cotton,exporter,Hyderabad,Telangana,17.385,78.4867,-0.304815,-0.276779,39,177,222.0,16.0,38.0,16.0,2.88
+447,rice,trader,Jabalpur,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,97,336,675.0,60.0,9.0,16.0,0.73
+448,cotton,broker,Bikaner,Rajasthan,28.0229,71.8315,0.483178,-0.735759,72,131,686.0,32.0,10.0,2.0,2.27
+449,rice;cotton;sugar,broker,Mumbai,Maharashtra,19.076,72.8777,-0.179556,-0.663607,77,165,677.0,88.0,18.0,18.0,2.77
+450,rice;cotton;sugar,exporter,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,22,226,293.0,17.0,20.0,13.0,1.42
+451,sugar;cotton;rice,broker,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,92,195,713.0,69.0,41.0,17.0,1.49
+452,sugar,exporter,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,71,142,358.0,55.0,28.0,19.0,2.93
+453,rice;sugar;cotton,exporter,Kanpur,Uttar Pradesh,26.4499,80.3319,0.366659,-0.149524,45,328,287.0,59.0,30.0,9.0,0.47
+454,cotton,trader,Chennai,Tamil Nadu,13.0827,80.2707,-0.623504,-0.153745,99,352,516.0,69.0,28.0,13.0,1.71
+455,rice;cotton;sugar,trader,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,56,119,647.0,66.0,15.0,7.0,0.65
+456,rice,exporter,Jabalpur,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,32,324,398.0,64.0,21.0,7.0,2.06
+457,sugar;cotton;rice,trader,Aurangabad,Maharashtra,19.8762,75.3433,-0.120281,-0.493566,58,284,995.0,67.0,44.0,9.0,2.07
+458,sugar,exporter,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,73,125,498.0,106.0,11.0,6.0,1.15
+459,cotton;sugar;rice,trader,Mohali,Punjab,30.6394,76.7007,0.676993,-0.399952,25,185,486.0,51.0,18.0,7.0,1.69
+460,cotton,trader,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,47,98,696.0,60.0,12.0,3.0,1.04
+461,rice;sugar;cotton,broker,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,90,318,688.0,52.0,34.0,18.0,2.07
+462,rice,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,59,138,310.0,46.0,30.0,17.0,0.82
+463,rice,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,65,230,21.0,25.0,32.0,10.0,1.93
+464,cotton;rice;sugar,exporter,Warangal,Telangana,17.9689,79.5941,-0.261563,-0.200407,68,283,487.0,68.0,16.0,7.0,1.58
+465,cotton;sugar,exporter,Gandhinagar,Gujarat,23.2156,72.6369,0.127081,-0.680214,79,239,921.0,67.0,20.0,18.0,1.14
+466,rice,exporter,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,-0.793296,-0.261745,70,349,1022.0,60.0,18.0,1.0,0.7
+467,cotton,broker,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,33,326,648.0,74.0,35.0,13.0,1.48
+468,cotton;rice;sugar,broker,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,73,125,693.0,68.0,17.0,11.0,2.04
+469,sugar;cotton;rice,broker,Ballari,Karnataka,15.2299,76.9353,-0.464452,-0.383772,74,263,591.0,69.0,30.0,5.0,1.67
+470,cotton;sugar,trader,Bareilly,Uttar Pradesh,28.367,79.4304,0.508667,-0.211697,29,244,962.0,24.0,32.0,10.0,1.45
+471,sugar;rice,exporter,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,78,224,454.0,44.0,31.0,19.0,2.02
+472,sugar;cotton;rice,broker,Nashik,Maharashtra,19.9975,73.7898,-0.111296,-0.600703,25,319,681.0,57.0,17.0,2.0,1.32
+473,cotton;sugar,broker,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,48,345,385.0,58.0,32.0,10.0,0.75
+474,cotton;sugar;rice,exporter,Anand,Gujarat,22.5679,72.9264,0.079104,-0.660248,91,184,539.0,57.0,16.0,13.0,1.81
+475,rice;sugar,broker,Prayagraj,Uttar Pradesh,25.4358,81.8463,0.291541,-0.045083,67,174,367.0,35.0,5.0,11.0,0.64
+476,rice;sugar;cotton,broker,Ahmedabad,Gujarat,23.0225,72.5714,0.112778,-0.684731,48,256,340.0,63.0,26.0,9.0,1.66
+477,rice,trader,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,51,103,620.0,75.0,17.0,2.0,1.0
+478,rice;sugar,trader,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,58,131,626.0,39.0,27.0,8.0,1.37
+479,cotton,trader,Jalandhar,Punjab,31.726,75.5762,0.757481,-0.477503,91,278,352.0,24.0,15.0,5.0,1.68
+480,sugar;rice;cotton,trader,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,44,116,579.0,60.0,12.0,11.0,1.55
+481,rice;cotton;sugar,trader,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,87,315,749.0,99.0,34.0,18.0,1.9
+482,rice;cotton,broker,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,70,270,472.0,38.0,37.0,15.0,1.59
+483,cotton;sugar,trader,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,57,294,458.0,71.0,18.0,17.0,1.22
+484,rice;cotton,broker,Kota,Rajasthan,25.2138,75.8648,0.275096,-0.4576,67,208,625.0,44.0,18.0,5.0,1.07
+485,sugar,trader,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,-0.793296,-0.261745,48,213,621.0,53.0,0.0,10.0,1.83
+486,rice;sugar,broker,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,35,280,590.0,1.0,26.0,5.0,1.68
+487,sugar,broker,Anand,Gujarat,22.5679,72.9264,0.079104,-0.660248,37,165,539.0,74.0,29.0,20.0,3.04
+488,sugar,trader,Ajmer,Rajasthan,26.4499,74.6399,0.366659,-0.542076,100,230,878.0,55.0,30.0,5.0,1.34
+489,sugar,broker,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,24,197,446.0,42.0,10.0,13.0,1.3
+490,cotton,broker,Mahbubnagar,Telangana,16.7414,77.6637,-0.352489,-0.333538,75,229,343.0,52.0,25.0,13.0,2.0
+491,sugar;cotton;rice,exporter,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,72,271,615.0,92.0,27.0,12.0,2.53
+492,rice;cotton;sugar,broker,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,32,329,350.0,75.0,28.0,11.0,1.37
+493,rice,trader,Navsari,Gujarat,20.9467,72.952,-0.040985,-0.658483,25,116,524.0,100.0,19.0,13.0,1.09
+494,cotton;sugar;rice,exporter,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,26,291,612.0,57.0,25.0,5.0,0.79
+495,cotton,trader,Belagavi,Karnataka,15.8497,74.4977,-0.418541,-0.551883,94,162,576.0,56.0,30.0,18.0,2.61
+496,cotton;rice;sugar,exporter,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,79,192,722.0,77.0,23.0,3.0,1.12
+497,rice;sugar,broker,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,69,360,258.0,39.0,10.0,0.0,0.78
+498,rice,trader,Hubli,Karnataka,15.3647,75.124,-0.454467,-0.50869,49,252,303.0,57.0,17.0,19.0,2.19
+499,sugar,exporter,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,55,140,624.0,15.0,19.0,21.0,1.69
+500,rice,exporter,Navsari,Gujarat,20.9467,72.952,-0.040985,-0.658483,82,295,550.0,98.0,19.0,1.0,2.09
+501,rice;sugar;cotton,broker,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,88,163,392.0,70.0,16.0,6.0,1.58
+502,sugar;cotton,trader,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,92,223,570.0,50.0,28.0,8.0,1.36
+503,rice,broker,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,57,128,396.0,78.0,17.0,2.0,1.93
+504,rice;cotton,exporter,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,70,130,620.0,36.0,10.0,8.0,2.16
+505,rice,exporter,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,79,272,817.0,45.0,22.0,17.0,1.55
+506,cotton;rice,trader,Malda,West Bengal,25.0449,88.1352,0.262585,0.388634,43,173,677.0,44.0,9.0,10.0,1.46
+507,sugar;rice;cotton,trader,Kharagpur,West Bengal,22.3045,87.3127,0.059593,0.33191,65,187,520.0,52.0,18.0,2.0,1.6
+508,sugar;cotton;rice,exporter,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,35,108,353.0,58.0,13.0,15.0,2.41
+509,cotton;rice;sugar,broker,Asansol,West Bengal,23.6836,86.9649,0.161748,0.307924,91,286,392.0,44.0,9.0,10.0,1.46
+510,sugar;cotton,exporter,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,23,186,665.0,72.0,0.0,13.0,0.99
+511,sugar,exporter,Kota,Rajasthan,25.2138,75.8648,0.275096,-0.4576,91,215,383.0,29.0,18.0,4.0,1.44
+512,cotton,broker,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,62,138,555.0,77.0,39.0,10.0,2.04
+513,cotton;rice;sugar,exporter,Kharagpur,West Bengal,22.3045,87.3127,0.059593,0.33191,54,254,8540.0,567.0,18.0,88.0,4.22
+514,cotton;rice;sugar,trader,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,94,328,378.0,36.0,36.0,11.0,0.68
+515,rice;sugar;cotton,exporter,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,82,333,51.0,63.0,21.0,10.0,0.19
+516,sugar,exporter,Ghaziabad,Uttar Pradesh,28.6692,77.4538,0.531052,-0.348014,67,328,384.0,33.0,28.0,1.0,0.0
+517,sugar;rice;cotton,trader,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,58,114,463.0,31.0,27.0,13.0,1.33
+518,rice,broker,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,39,177,77.0,56.0,25.0,7.0,1.59
+519,sugar;rice;cotton,broker,Kharagpur,West Bengal,22.3045,87.3127,0.059593,0.33191,40,288,245.0,41.0,20.0,9.0,2.29
+520,cotton;rice;sugar,exporter,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,35,216,524.0,23.0,14.0,11.0,1.35
+521,rice;sugar;cotton,broker,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,29,86,531.0,44.0,1.0,17.0,1.93
+522,sugar;rice;cotton,exporter,Dindigul,Tamil Nadu,10.3673,77.9757,-0.824644,-0.312021,40,268,660.0,30.0,15.0,10.0,1.33
+523,sugar;rice,trader,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,61,169,731.0,75.0,18.0,6.0,1.31
+524,rice,trader,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,70,198,430.0,48.0,14.0,2.0,1.66
+525,rice,trader,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,80,189,545.0,42.0,32.0,16.0,2.16
+526,rice,broker,Krishnanagar,West Bengal,23.4087,88.5123,0.141385,0.414641,57,324,362.0,32.0,37.0,13.0,1.7
+527,rice;sugar,trader,Asansol,West Bengal,23.6836,86.9649,0.161748,0.307924,53,296,505.0,72.0,16.0,15.0,1.79
+528,rice;sugar,exporter,Durgapur,West Bengal,23.8103,87.3118,0.171133,0.331848,37,193,432.0,46.0,31.0,0.0,1.5
+529,sugar;cotton,exporter,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,59,112,379.0,40.0,32.0,5.0,1.93
+530,cotton;sugar,broker,Sikar,Rajasthan,27.6145,75.139,0.452926,-0.507655,34,201,189.0,39.0,22.0,4.0,1.7
+531,sugar;rice;cotton,broker,Amravati,Maharashtra,20.853,77.7539,-0.047926,-0.327317,24,136,664.0,58.0,38.0,18.0,2.17
+532,cotton,exporter,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,33,293,219.0,54.0,0.0,3.0,1.21
+533,rice,trader,Ratlam,Madhya Pradesh,23.3325,75.0409,0.135741,-0.514421,54,254,749.0,35.0,9.0,7.0,0.78
+534,rice;sugar,trader,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,64,233,518.0,54.0,14.0,8.0,1.72
+535,rice,exporter,Thoothukudi,Tamil Nadu,8.7642,78.1348,-0.943393,-0.301048,29,317,591.0,47.0,19.0,11.0,1.63
+536,sugar;rice,exporter,Malda,West Bengal,25.0449,88.1352,0.262585,0.388634,84,196,481.0,45.0,18.0,0.0,2.17
+537,sugar;cotton,broker,Prayagraj,Uttar Pradesh,25.4358,81.8463,0.291541,-0.045083,84,148,103.0,51.0,7.0,13.0,1.23
+538,sugar;cotton,exporter,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,34,299,681.0,50.0,14.0,12.0,1.81
+539,cotton;sugar,broker,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,44,295,677.0,44.0,2.0,7.0,1.99
+540,rice;cotton;sugar,exporter,Thoothukudi,Tamil Nadu,8.7642,78.1348,-0.943393,-0.301048,100,257,419.0,0.0,19.0,6.0,0.91
+541,cotton;sugar;rice,broker,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,-0.793296,-0.261745,73,224,625.0,33.0,29.0,15.0,1.64
+542,rice;sugar;cotton,exporter,Bareilly,Uttar Pradesh,28.367,79.4304,0.508667,-0.211697,47,297,2912.0,126.0,0.0,49.0,4.29
+543,rice;cotton,exporter,Krishnanagar,West Bengal,23.4087,88.5123,0.141385,0.414641,51,334,222.0,25.0,27.0,11.0,1.21
+544,rice;sugar;cotton,trader,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,67,353,496.0,51.0,37.0,9.0,0.0
+545,sugar,exporter,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,54,295,332.0,21.0,17.0,16.0,1.09
+546,sugar;cotton;rice,broker,Varanasi,Uttar Pradesh,25.3176,82.9739,0.282785,0.032683,70,191,8988.0,375.0,203.0,180.0,4.08
+547,cotton;rice;sugar,exporter,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,60,219,761.0,113.0,24.0,4.0,1.25
+548,sugar,exporter,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,52,248,542.0,68.0,28.0,12.0,2.9
+549,cotton,trader,Asansol,West Bengal,23.6836,86.9649,0.161748,0.307924,28,135,370.0,42.0,8.0,7.0,1.41
+550,cotton;rice,broker,Phagwara,Punjab,31.1089,75.8022,0.71177,-0.461917,61,269,450.0,75.0,8.0,4.0,1.96
+551,cotton;rice;sugar,trader,Kota,Rajasthan,25.2138,75.8648,0.275096,-0.4576,62,320,352.0,37.0,10.0,10.0,0.48
+552,cotton,broker,Bikaner,Rajasthan,28.0229,71.8315,0.483178,-0.735759,60,281,763.0,44.0,13.0,10.0,1.47
+553,sugar;cotton;rice,broker,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,69,360,587.0,67.0,17.0,17.0,1.93
+554,cotton;rice;sugar,trader,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,51,191,701.0,67.0,36.0,15.0,0.75
+555,rice;cotton;sugar,trader,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,54,158,502.0,38.0,26.0,12.0,1.79
+556,rice;sugar;cotton,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,96,211,425.0,21.0,26.0,9.0,1.65
+557,sugar,trader,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,25,106,264.0,34.0,11.0,8.0,1.59
+558,rice,trader,Nizamabad,Telangana,18.6725,78.0945,-0.209444,-0.303828,24,184,557.0,48.0,0.0,13.0,1.34
+559,sugar;cotton,trader,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,63,282,347.0,33.0,27.0,1.0,2.32
+560,sugar;rice,trader,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,77,189,495.0,34.0,4.0,3.0,1.32
+561,rice,broker,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,-0.793296,-0.261745,52,307,415.0,53.0,3.0,9.0,0.73
+562,cotton;rice,exporter,Ballari,Karnataka,15.2299,76.9353,-0.464452,-0.383772,40,105,498.0,60.0,32.0,6.0,2.36
+563,rice,broker,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,32,317,392.0,61.0,6.0,13.0,1.49
+564,sugar;cotton;rice,exporter,Varanasi,Uttar Pradesh,25.3176,82.9739,0.282785,0.032683,36,182,715.0,47.0,16.0,14.0,1.72
+565,cotton;rice;sugar,broker,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,34,192,813.0,51.0,13.0,6.0,2.19
+566,sugar,exporter,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,89,319,1086.0,33.0,12.0,14.0,2.25
+567,sugar,broker,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,21,312,445.0,53.0,21.0,8.0,0.47
+568,rice;cotton;sugar,exporter,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,-0.793296,-0.261745,69,147,610.0,91.0,33.0,5.0,1.79
+569,cotton,exporter,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,78,322,310.0,68.0,18.0,12.0,1.51
+570,cotton;rice,trader,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,84,192,685.0,54.0,34.0,13.0,2.12
+571,cotton,exporter,Chennai,Tamil Nadu,13.0827,80.2707,-0.623504,-0.153745,92,375,336.0,79.0,31.0,0.0,1.4
+572,rice,trader,Ajmer,Rajasthan,26.4499,74.6399,0.366659,-0.542076,35,326,633.0,63.0,11.0,4.0,1.24
+573,sugar;rice;cotton,trader,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,49,280,599.0,45.0,27.0,11.0,1.39
+574,rice;sugar,exporter,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,20,159,893.0,0.0,6.0,5.0,1.56
+575,rice;sugar,trader,Raiganj,West Bengal,25.5941,88.1084,0.303267,0.386786,50,194,361.0,32.0,9.0,9.0,1.22
+576,rice,broker,Krishnanagar,West Bengal,23.4087,88.5123,0.141385,0.414641,78,237,621.0,43.0,19.0,17.0,1.88
+577,sugar;rice;cotton,broker,Ajmer,Rajasthan,26.4499,74.6399,0.366659,-0.542076,60,164,400.0,34.0,8.0,3.0,2.27
+578,sugar,trader,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,33,256,591.0,47.0,18.0,11.0,2.08
+579,sugar;cotton,exporter,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,48,275,874.0,29.0,4.0,13.0,1.94
+580,cotton;sugar,trader,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,34,114,0.0,73.0,14.0,9.0,1.92
+581,cotton,broker,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,66,197,694.0,37.0,13.0,3.0,2.36
+582,cotton;sugar;rice,broker,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,27,265,561.0,55.0,14.0,1.0,2.0
+583,sugar,exporter,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,62,232,38.0,59.0,14.0,8.0,1.19
+584,sugar;cotton;rice,exporter,Agra,Uttar Pradesh,27.1767,78.0081,0.420496,-0.309786,20,98,178.0,39.0,4.0,5.0,0.94
+585,sugar;cotton;rice,trader,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,66,258,638.0,79.0,22.0,12.0,2.23
+586,sugar,trader,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,43,261,372.0,40.0,17.0,6.0,1.34
+587,rice;cotton,trader,Krishnanagar,West Bengal,23.4087,88.5123,0.141385,0.414641,53,308,574.0,58.0,26.0,6.0,0.34
+588,sugar,exporter,Bhavnagar,Gujarat,21.7645,71.9253,0.019593,-0.72929,94,168,748.0,42.0,32.0,3.0,2.51
+589,sugar,exporter,Agra,Uttar Pradesh,27.1767,78.0081,0.420496,-0.309786,27,90,284.0,32.0,15.0,8.0,1.37
+590,sugar;cotton;rice,exporter,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,50,135,364.0,34.0,14.0,0.0,2.03
+591,sugar;cotton;rice,broker,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,23,272,268.0,95.0,27.0,9.0,1.89
+592,cotton;sugar,exporter,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,37,226,873.0,68.0,22.0,17.0,1.35
+593,rice;cotton,broker,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,66,300,8034.0,336.0,147.0,120.0,7.290000000000001
+594,rice,trader,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,90,363,891.0,63.0,21.0,10.0,1.06
+595,rice;cotton,exporter,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,87,162,552.0,41.0,25.0,3.0,1.41
+596,sugar;rice,trader,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,27,229,274.0,82.0,7.0,13.0,1.49
+597,cotton;rice;sugar,trader,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,60,208,447.0,43.0,16.0,17.0,1.96
+598,cotton,broker,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,24,243,598.0,32.0,26.0,5.0,2.05
+599,cotton;sugar;rice,exporter,Belagavi,Karnataka,15.8497,74.4977,-0.418541,-0.551883,56,341,439.0,96.0,32.0,18.0,1.32
+600,sugar;cotton,exporter,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,72,153,570.0,20.0,40.0,9.0,1.15
+601,sugar;cotton;rice,trader,Ramagundam,Telangana,18.7522,79.4318,-0.203541,-0.2116,75,157,714.0,31.0,27.0,18.0,1.41
+602,cotton;sugar;rice,broker,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,55,311,553.0,22.0,23.0,3.0,0.99
+603,sugar;cotton,broker,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,55,339,342.0,59.0,12.0,8.0,0.83
+604,cotton,broker,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,46,332,670.0,16.0,13.0,3.0,1.29
+605,cotton,trader,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,85,311,567.0,39.0,19.0,7.0,1.07
+606,cotton;sugar,trader,Ramagundam,Telangana,18.7522,79.4318,-0.203541,-0.2116,95,213,305.0,45.0,23.0,8.0,1.19
+607,rice;cotton;sugar,exporter,Ballari,Karnataka,15.2299,76.9353,-0.464452,-0.383772,59,192,591.0,34.0,13.0,17.0,1.47
+608,rice;sugar,exporter,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,71,131,389.0,49.0,2.0,11.0,1.01
+609,rice;sugar,broker,Siliguri,West Bengal,26.5124,88.4262,0.371289,0.408703,44,283,710.0,57.0,3.0,13.0,1.01
+610,rice;sugar,exporter,Belagavi,Karnataka,15.8497,74.4977,-0.418541,-0.551883,92,315,315.0,65.0,16.0,5.0,0.64
+611,rice;cotton;sugar,trader,Ramagundam,Telangana,18.7522,79.4318,-0.203541,-0.2116,63,316,362.0,52.0,16.0,11.0,1.96
+612,rice,trader,Nashik,Maharashtra,19.9975,73.7898,-0.111296,-0.600703,65,115,799.0,59.0,26.0,19.0,1.13
+613,rice;cotton,exporter,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,64,316,367.0,60.0,7.0,4.0,1.68
+614,cotton;rice,trader,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,37,129,2296.0,684.0,135.0,77.0,5.07
+615,cotton;sugar;rice,trader,Hyderabad,Telangana,17.385,78.4867,-0.304815,-0.276779,49,99,4631.0,276.0,128.0,27.0,3.7
+616,rice;cotton;sugar,broker,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,73,123,376.0,11.0,3.0,6.0,0.82
+617,sugar;cotton,exporter,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,48,337,860.0,26.0,10.0,16.0,1.24
+618,cotton;sugar,broker,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,33,268,509.0,35.0,40.0,12.0,1.69
+619,sugar;cotton;rice,trader,Asansol,West Bengal,23.6836,86.9649,0.161748,0.307924,50,159,567.0,56.0,12.0,14.0,1.15
+620,sugar;rice;cotton,exporter,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,78,235,731.0,61.0,26.0,13.0,2.01
+621,cotton;sugar;rice,exporter,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,29,146,503.0,107.0,30.0,11.0,1.88
+622,cotton,trader,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,48,317,506.0,33.0,25.0,9.0,1.07
+623,rice;sugar,exporter,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,86,354,414.0,36.0,22.0,10.0,1.85
+624,rice,broker,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,27,125,411.0,71.0,13.0,6.0,1.66
+625,sugar,trader,Siliguri,West Bengal,26.5124,88.4262,0.371289,0.408703,42,127,769.0,74.0,26.0,7.0,1.69
+626,rice,broker,Miryalaguda,Telangana,17.3114,79.5155,-0.310267,-0.205828,26,183,695.0,79.0,1.0,8.0,0.53
+627,sugar;rice,exporter,Jalgaon,Maharashtra,21.1687,75.568,-0.024541,-0.478069,67,359,619.0,78.0,44.0,11.0,1.56
+628,cotton;rice;sugar,broker,Raiganj,West Bengal,25.5941,88.1084,0.303267,0.386786,30,321,390.0,25.0,6.0,8.0,1.13
+629,cotton;rice;sugar,broker,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,41,146,676.0,31.0,30.0,12.0,1.53
+630,cotton;rice;sugar,exporter,Madurai,Tamil Nadu,9.9252,78.1198,-0.857393,-0.302083,59,301,601.0,61.0,6.0,9.0,1.54
+631,cotton;sugar;rice,broker,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,91,343,290.0,39.0,10.0,0.0,1.81
+632,rice,trader,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,78,136,396.0,0.0,8.0,10.0,1.71
+633,cotton;sugar;rice,exporter,Thoothukudi,Tamil Nadu,8.7642,78.1348,-0.943393,-0.301048,24,130,4305.0,340.0,126.0,80.0,2.98
+634,sugar;cotton,broker,Mahbubnagar,Telangana,16.7414,77.6637,-0.352489,-0.333538,37,170,636.0,63.0,48.0,14.0,1.22
+635,sugar,trader,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,38,188,718.0,67.0,14.0,15.0,1.28
+636,sugar;rice;cotton,trader,Davangere,Karnataka,14.4644,75.9227,-0.521156,-0.453607,59,317,771.0,57.0,19.0,6.0,2.04
+637,cotton;sugar;rice,broker,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,98,310,677.0,36.0,28.0,3.0,1.53
+638,rice,trader,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,98,380,385.0,74.0,27.0,12.0,1.87
+639,sugar,trader,Kharagpur,West Bengal,22.3045,87.3127,0.059593,0.33191,20,223,482.0,37.0,25.0,0.0,1.88
+640,cotton,broker,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,30,314,282.0,62.0,14.0,9.0,0.42
+641,sugar;rice;cotton,exporter,Raiganj,West Bengal,25.5941,88.1084,0.303267,0.386786,79,340,537.0,45.0,20.0,3.0,1.28
+642,sugar;cotton;rice,exporter,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,20,114,317.0,45.0,10.0,13.0,1.7
+643,rice,exporter,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,32,237,652.0,93.0,19.0,16.0,2.36
+644,rice,trader,Warangal,Telangana,17.9689,79.5941,-0.261563,-0.200407,62,198,1560.0,486.0,120.0,40.0,1.8
+645,cotton,broker,Warangal,Telangana,17.9689,79.5941,-0.261563,-0.200407,51,271,339.0,51.0,17.0,11.0,2.28
+646,rice;sugar,exporter,Ghaziabad,Uttar Pradesh,28.6692,77.4538,0.531052,-0.348014,54,234,463.0,41.0,20.0,4.0,0.84
+647,rice;cotton,trader,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,59,309,686.0,5.0,24.0,5.0,1.24
+648,sugar,exporter,Bareilly,Uttar Pradesh,28.367,79.4304,0.508667,-0.211697,94,159,270.0,58.0,26.0,4.0,1.56
+649,sugar;rice,broker,Hubli,Karnataka,15.3647,75.124,-0.454467,-0.50869,20,195,5555.0,280.0,80.0,90.0,3.16
+650,cotton,exporter,Mangaluru,Karnataka,12.8656,74.8547,-0.639585,-0.527262,33,206,632.0,80.0,22.0,22.0,1.73
+651,rice;sugar,broker,Dindigul,Tamil Nadu,10.3673,77.9757,-0.824644,-0.312021,49,168,889.0,54.0,37.0,18.0,2.5
+652,rice,exporter,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,48,191,0.0,55.0,26.0,18.0,1.69
+653,rice;sugar,broker,Amravati,Maharashtra,20.853,77.7539,-0.047926,-0.327317,72,148,877.0,73.0,31.0,22.0,1.73
+654,sugar,exporter,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,33,98,146.0,60.0,37.0,9.0,1.7
+655,rice;sugar;cotton,trader,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,20,244,735.0,77.0,21.0,4.0,0.58
+656,rice;cotton;sugar,broker,Bareilly,Uttar Pradesh,28.367,79.4304,0.508667,-0.211697,44,289,346.0,18.0,14.0,5.0,1.28
+657,rice,broker,Kolhapur,Maharashtra,16.705,74.2433,-0.355185,-0.569428,35,125,740.0,79.0,18.0,11.0,2.06
+658,rice;cotton;sugar,broker,Ajmer,Rajasthan,26.4499,74.6399,0.366659,-0.542076,68,176,143.0,11.0,19.0,6.0,1.82
+659,sugar,broker,Madurai,Tamil Nadu,9.9252,78.1198,-0.857393,-0.302083,100,216,467.0,78.0,24.0,6.0,2.55
+660,rice;sugar,exporter,Chennai,Tamil Nadu,13.0827,80.2707,-0.623504,-0.153745,66,175,700.0,22.0,18.0,6.0,2.26
+661,sugar,broker,Haldia,West Bengal,22.0197,88.0636,0.038496,0.383697,25,82,516.0,44.0,45.0,9.0,1.11
+662,rice,trader,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,38,105,622.0,29.0,23.0,21.0,1.74
+663,sugar;rice,trader,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,73,321,671.0,53.0,0.0,11.0,0.45
+664,rice;cotton;sugar,trader,Coimbatore,Tamil Nadu,11.0026,76.9969,-0.777585,-0.379524,57,357,442.0,67.0,27.0,3.0,2.25
+665,sugar;rice,broker,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,27,144,351.0,41.0,15.0,5.0,0.76
+666,rice;sugar,exporter,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,41,123,1005.0,94.0,18.0,8.0,1.45
+667,sugar;cotton;rice,exporter,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,62,342,506.0,59.0,15.0,10.0,0.62
+668,rice;cotton,broker,Durgapur,West Bengal,23.8103,87.3118,0.171133,0.331848,29,181,617.0,35.0,28.0,9.0,1.7
+669,rice,trader,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,48,252,678.0,69.0,0.0,11.0,0.66
+670,rice;cotton,exporter,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,21,207,313.0,63.0,15.0,20.0,1.61
+671,rice,trader,Amravati,Maharashtra,20.853,77.7539,-0.047926,-0.327317,28,249,305.0,50.0,26.0,16.0,1.29
+672,sugar,broker,Davangere,Karnataka,14.4644,75.9227,-0.521156,-0.453607,52,149,547.0,62.0,32.0,5.0,1.36
+673,rice,trader,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,60,335,254.0,60.0,34.0,5.0,1.97
+674,sugar;rice;cotton,exporter,Nizamabad,Telangana,18.6725,78.0945,-0.209444,-0.303828,89,270,391.0,43.0,22.0,7.0,1.14
+675,rice,broker,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,94,383,661.0,62.0,25.0,11.0,1.14
+676,rice;sugar,broker,Agra,Uttar Pradesh,27.1767,78.0081,0.420496,-0.309786,82,172,666.0,26.0,24.0,9.0,0.9
+677,cotton;sugar,exporter,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,39,159,575.0,51.0,21.0,17.0,2.17
+678,cotton,trader,Nanded,Maharashtra,19.1585,77.3413,-0.173444,-0.355772,70,158,852.0,45.0,28.0,14.0,1.64
+679,cotton,broker,Agra,Uttar Pradesh,27.1767,78.0081,0.420496,-0.309786,44,253,419.0,3.0,2.0,5.0,1.56
+680,sugar,broker,Kanpur,Uttar Pradesh,26.4499,80.3319,0.366659,-0.149524,49,155,317.0,61.0,10.0,9.0,0.14
+681,sugar;rice;cotton,exporter,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,39,179,675.0,64.0,18.0,14.0,2.08
+682,sugar;rice,trader,Mangaluru,Karnataka,12.8656,74.8547,-0.639585,-0.527262,65,132,359.0,46.0,30.0,11.0,1.4
+683,cotton;sugar;rice,exporter,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,68,354,886.0,41.0,15.0,10.0,1.78
+684,rice;sugar;cotton,broker,Thanjavur,Tamil Nadu,10.787,79.1378,-0.793556,-0.231876,39,259,221.0,71.0,30.0,17.0,1.65
+685,rice;sugar;cotton,exporter,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,78,154,793.0,54.0,27.0,12.0,2.67
+686,rice;sugar,trader,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,100,154,491.0,14.0,8.0,12.0,2.45
+687,rice;sugar;cotton,trader,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,84,137,466.0,49.0,37.0,3.0,1.46
+688,cotton;sugar;rice,exporter,Thanjavur,Tamil Nadu,10.787,79.1378,-0.793556,-0.231876,38,235,756.0,81.0,7.0,10.0,1.93
+689,cotton;sugar,exporter,Dindigul,Tamil Nadu,10.3673,77.9757,-0.824644,-0.312021,81,322,716.0,112.0,24.0,2.0,1.95
+690,rice;cotton;sugar,broker,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,66,314,722.0,42.0,13.0,6.0,1.55
+691,cotton,exporter,Aurangabad,Maharashtra,19.8762,75.3433,-0.120281,-0.493566,37,146,402.0,68.0,24.0,10.0,1.99
+692,sugar,exporter,Kharagpur,West Bengal,22.3045,87.3127,0.059593,0.33191,62,275,170.0,54.0,21.0,10.0,2.26
+693,sugar,exporter,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,89,154,863.0,58.0,23.0,12.0,2.34
+694,sugar;cotton;rice,trader,Navsari,Gujarat,20.9467,72.952,-0.040985,-0.658483,41,198,726.0,32.0,25.0,7.0,2.27
+695,cotton;sugar;rice,broker,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,34,141,458.0,71.0,9.0,17.0,1.88
+696,rice,exporter,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,92,381,207.0,25.0,14.0,11.0,1.57
+697,sugar,broker,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,25,102,200.0,45.0,32.0,9.0,1.77
+698,cotton,broker,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,52,141,562.0,0.0,20.0,16.0,2.17
+699,cotton,exporter,Davangere,Karnataka,14.4644,75.9227,-0.521156,-0.453607,48,249,424.0,0.0,41.0,5.0,1.93
+700,sugar;rice,broker,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,27,304,299.0,39.0,11.0,3.0,1.37
+701,cotton;rice;sugar,exporter,Madurai,Tamil Nadu,9.9252,78.1198,-0.857393,-0.302083,70,327,548.0,50.0,8.0,8.0,2.45
+702,sugar;cotton;rice,broker,Prayagraj,Uttar Pradesh,25.4358,81.8463,0.291541,-0.045083,74,293,715.0,50.0,34.0,2.0,1.79
+703,cotton,broker,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,48,127,227.0,44.0,9.0,4.0,0.91
+704,rice,exporter,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,69,221,215.0,54.0,30.0,15.0,1.2
+705,rice;sugar,trader,Coimbatore,Tamil Nadu,11.0026,76.9969,-0.777585,-0.379524,46,296,702.0,25.0,24.0,11.0,1.87
+706,rice;cotton;sugar,trader,Ghaziabad,Uttar Pradesh,28.6692,77.4538,0.531052,-0.348014,84,367,377.0,28.0,28.0,14.0,1.37
+707,rice,trader,Dindigul,Tamil Nadu,10.3673,77.9757,-0.824644,-0.312021,82,172,686.0,14.0,18.0,20.0,1.65
+708,rice;sugar;cotton,trader,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,100,207,5312.0,600.0,204.0,63.0,5.13
+709,sugar;rice;cotton,broker,Miryalaguda,Telangana,17.3114,79.5155,-0.310267,-0.205828,23,162,127.0,52.0,31.0,9.0,1.02
+710,cotton;rice;sugar,exporter,Mohali,Punjab,30.6394,76.7007,0.676993,-0.399952,88,181,404.0,72.0,13.0,2.0,1.49
+711,sugar;rice;cotton,trader,Warangal,Telangana,17.9689,79.5941,-0.261563,-0.200407,96,256,591.0,46.0,6.0,9.0,1.45
+712,cotton;rice;sugar,exporter,Bikaner,Rajasthan,28.0229,71.8315,0.483178,-0.735759,35,278,8060.0,240.0,99.0,24.0,1.96
+713,cotton;rice;sugar,exporter,Bareilly,Uttar Pradesh,28.367,79.4304,0.508667,-0.211697,80,186,379.0,19.0,17.0,12.0,1.61
+714,cotton;sugar,exporter,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,73,293,176.0,77.0,40.0,10.0,0.74
+715,rice;sugar;cotton,exporter,Navsari,Gujarat,20.9467,72.952,-0.040985,-0.658483,33,291,586.0,89.0,33.0,12.0,1.7
+716,sugar,broker,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,29,213,258.0,73.0,40.0,10.0,2.39
+717,sugar;cotton,exporter,Rewa,Madhya Pradesh,24.541,81.2956,0.225259,-0.083062,72,239,285.0,71.0,36.0,7.0,0.62
+718,cotton;sugar,broker,Davangere,Karnataka,14.4644,75.9227,-0.521156,-0.453607,49,168,420.0,65.0,34.0,11.0,1.87
+719,sugar;cotton,exporter,Bikaner,Rajasthan,28.0229,71.8315,0.483178,-0.735759,37,130,542.0,45.0,36.0,10.0,0.88
+720,cotton;rice,broker,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,62,243,637.0,48.0,18.0,8.0,1.2
+721,sugar,exporter,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,58,165,406.0,65.0,26.0,13.0,1.69
+722,rice;sugar;cotton,broker,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,57,129,489.0,40.0,31.0,5.0,1.87
+723,sugar;rice,exporter,Gwalior,Madhya Pradesh,26.2183,78.1629,0.349504,-0.29911,47,149,338.0,36.0,13.0,6.0,1.96
+724,rice;sugar;cotton,broker,Patiala,Punjab,30.3398,76.3869,0.6548,-0.421593,22,293,534.0,71.0,34.0,8.0,1.84
+725,rice,exporter,Phagwara,Punjab,31.1089,75.8022,0.71177,-0.461917,94,325,568.0,64.0,11.0,9.0,1.84
+726,cotton;rice,exporter,Amravati,Maharashtra,20.853,77.7539,-0.047926,-0.327317,71,191,335.0,70.0,16.0,17.0,3.4
+727,cotton;sugar,exporter,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,41,313,353.0,63.0,12.0,5.0,1.2
+728,sugar;cotton,exporter,Kanpur,Uttar Pradesh,26.4499,80.3319,0.366659,-0.149524,46,335,3993.0,234.0,120.0,54.0,2.86
+729,sugar;cotton;rice,exporter,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,23,310,507.0,45.0,25.0,3.0,1.73
+730,cotton,broker,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,53,284,830.0,43.0,22.0,18.0,1.88
+731,rice,broker,Malda,West Bengal,25.0449,88.1352,0.262585,0.388634,34,181,447.0,71.0,14.0,7.0,1.14
+732,rice;cotton;sugar,trader,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,53,225,375.0,38.0,25.0,7.0,1.4
+733,rice,broker,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,64,220,904.0,43.0,17.0,5.0,1.87
+734,rice;sugar,trader,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,88,378,561.0,44.0,30.0,10.0,1.49
+735,rice,broker,Varanasi,Uttar Pradesh,25.3176,82.9739,0.282785,0.032683,98,240,756.0,45.0,19.0,9.0,2.05
+736,sugar;cotton;rice,broker,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,60,191,315.0,55.0,17.0,10.0,1.52
+737,rice;sugar,broker,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,26,270,709.0,65.0,29.0,7.0,1.27
+738,rice;cotton;sugar,broker,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,69,175,92.0,58.0,6.0,12.0,1.45
+739,sugar;rice;cotton,broker,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,25,118,509.0,73.0,14.0,0.0,1.71
+740,sugar;cotton,exporter,Varanasi,Uttar Pradesh,25.3176,82.9739,0.282785,0.032683,38,247,89.0,83.0,28.0,5.0,1.36
+741,rice;sugar;cotton,exporter,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,87,171,106.0,48.0,20.0,3.0,0.92
+742,sugar;cotton,trader,Jalgaon,Maharashtra,21.1687,75.568,-0.024541,-0.478069,23,196,480.0,73.0,33.0,14.0,1.79
+743,sugar;rice;cotton,broker,Noida,Uttar Pradesh,28.5355,77.391,0.521148,-0.352345,99,166,367.0,50.0,28.0,11.0,2.28
+744,rice;sugar,exporter,Chennai,Tamil Nadu,13.0827,80.2707,-0.623504,-0.153745,97,354,771.0,46.0,23.0,8.0,1.84
+745,cotton;sugar;rice,exporter,Aurangabad,Maharashtra,19.8762,75.3433,-0.120281,-0.493566,34,140,729.0,28.0,30.0,9.0,1.7
+746,sugar,trader,Thoothukudi,Tamil Nadu,8.7642,78.1348,-0.943393,-0.301048,85,247,662.0,10.0,43.0,12.0,1.34
+747,rice;sugar;cotton,exporter,Madurai,Tamil Nadu,9.9252,78.1198,-0.857393,-0.302083,73,212,660.0,79.0,18.0,8.0,2.01
+748,cotton;sugar,exporter,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,80,174,395.0,52.0,25.0,10.0,1.01
+749,cotton;sugar,broker,Ahmedabad,Gujarat,23.0225,72.5714,0.112778,-0.684731,47,152,320.0,84.0,27.0,11.0,2.18
+750,rice;sugar;cotton,broker,Ahmedabad,Gujarat,23.0225,72.5714,0.112778,-0.684731,36,233,702.0,69.0,34.0,7.0,1.97
+751,cotton;rice;sugar,exporter,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,68,333,441.0,53.0,32.0,8.0,1.46
+752,cotton,trader,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,75,200,819.0,23.0,0.0,10.0,1.65
+753,cotton,exporter,Mahbubnagar,Telangana,16.7414,77.6637,-0.352489,-0.333538,97,325,350.0,50.0,19.0,11.0,0.4
+754,cotton;sugar;rice,broker,Hubli,Karnataka,15.3647,75.124,-0.454467,-0.50869,73,195,482.0,80.0,31.0,6.0,1.08
+755,rice,exporter,Bikaner,Rajasthan,28.0229,71.8315,0.483178,-0.735759,67,232,360.0,44.0,27.0,9.0,1.21
+756,cotton;rice;sugar,exporter,Nashik,Maharashtra,19.9975,73.7898,-0.111296,-0.600703,43,290,843.0,69.0,20.0,10.0,2.3
+757,cotton;sugar;rice,broker,Ramagundam,Telangana,18.7522,79.4318,-0.203541,-0.2116,47,233,562.0,18.0,17.0,15.0,1.8
+758,rice;sugar,trader,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,93,196,195.0,69.0,38.0,9.0,1.55
+759,sugar;rice;cotton,exporter,Coimbatore,Tamil Nadu,11.0026,76.9969,-0.777585,-0.379524,66,150,599.0,44.0,23.0,8.0,1.46
+760,rice;sugar;cotton,broker,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,87,238,623.0,11.0,23.0,14.0,2.2
+761,rice;sugar;cotton,exporter,Ahmedabad,Gujarat,23.0225,72.5714,0.112778,-0.684731,35,133,388.0,72.0,15.0,10.0,1.99
+762,sugar;rice,broker,Bathinda,Punjab,29.976,74.9393,0.627852,-0.521428,95,313,364.0,54.0,24.0,12.0,2.22
+763,rice,exporter,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,26,82,791.0,84.0,32.0,15.0,2.4
+764,cotton;sugar;rice,broker,Gwalior,Madhya Pradesh,26.2183,78.1629,0.349504,-0.29911,63,215,176.0,21.0,20.0,4.0,1.63
+765,cotton;sugar;rice,exporter,Bikaner,Rajasthan,28.0229,71.8315,0.483178,-0.735759,28,148,597.0,42.0,12.0,6.0,1.28
+766,rice,broker,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,95,234,774.0,52.0,8.0,6.0,1.12
+767,cotton;sugar;rice,broker,Rewa,Madhya Pradesh,24.541,81.2956,0.225259,-0.083062,25,241,743.0,55.0,12.0,0.0,1.46
+768,rice,exporter,Warangal,Telangana,17.9689,79.5941,-0.261563,-0.200407,26,119,491.0,30.0,6.0,2.0,1.71
+769,cotton;rice,trader,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,36,244,549.0,39.0,20.0,5.0,1.33
+770,sugar,exporter,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,40,273,622.0,28.0,31.0,7.0,1.11
+771,rice,broker,Belagavi,Karnataka,15.8497,74.4977,-0.418541,-0.551883,22,273,821.0,47.0,10.0,13.0,2.32
+772,cotton;rice,trader,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,89,297,1773.0,340.0,232.0,14.0,3.46
+773,cotton,trader,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,78,229,55.0,24.0,36.0,6.0,1.04
+774,sugar;cotton;rice,broker,Ramagundam,Telangana,18.7522,79.4318,-0.203541,-0.2116,53,291,430.0,31.0,12.0,11.0,1.66
+775,rice,trader,Rewa,Madhya Pradesh,24.541,81.2956,0.225259,-0.083062,39,206,147.0,43.0,19.0,5.0,1.29
+776,cotton;sugar;rice,exporter,Amravati,Maharashtra,20.853,77.7539,-0.047926,-0.327317,68,235,2802.0,275.0,288.0,99.0,4.52
+777,rice,trader,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,75,221,864.0,28.0,25.0,9.0,2.07
+778,cotton;rice;sugar,trader,Thoothukudi,Tamil Nadu,8.7642,78.1348,-0.943393,-0.301048,63,135,331.0,39.0,25.0,15.0,1.44
+779,sugar,broker,Bhavnagar,Gujarat,21.7645,71.9253,0.019593,-0.72929,62,185,462.0,43.0,26.0,12.0,1.8
+780,cotton;rice,trader,Sikar,Rajasthan,27.6145,75.139,0.452926,-0.507655,77,308,596.0,30.0,14.0,12.0,0.98
+781,cotton,trader,Kota,Rajasthan,25.2138,75.8648,0.275096,-0.4576,94,283,374.0,29.0,17.0,9.0,0.68
+782,cotton,exporter,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,54,254,440.0,38.0,28.0,11.0,1.01
+783,rice;cotton,broker,Noida,Uttar Pradesh,28.5355,77.391,0.521148,-0.352345,78,282,695.0,44.0,35.0,6.0,0.97
+784,rice,exporter,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,83,382,534.0,30.0,18.0,11.0,0.19
+785,rice;cotton;sugar,trader,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,48,160,869.0,57.0,37.0,10.0,2.26
+786,sugar;cotton,exporter,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,74,230,620.0,90.0,36.0,6.0,1.6
+787,rice;cotton,exporter,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,66,117,303.0,31.0,9.0,14.0,0.72
+788,sugar;cotton,trader,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,-0.793296,-0.261745,69,340,579.0,86.0,17.0,11.0,1.57
+789,cotton;sugar;rice,exporter,Jalgaon,Maharashtra,21.1687,75.568,-0.024541,-0.478069,72,366,602.0,65.0,42.0,10.0,2.78
+790,cotton,exporter,Rewa,Madhya Pradesh,24.541,81.2956,0.225259,-0.083062,82,381,367.0,52.0,30.0,5.0,0.98
+791,rice,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,71,138,463.0,76.0,27.0,8.0,1.28
+792,sugar;cotton,exporter,Hyderabad,Telangana,17.385,78.4867,-0.304815,-0.276779,51,110,889.0,60.0,7.0,0.0,0.08
+793,sugar;cotton;rice,broker,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,41,271,949.0,52.0,21.0,25.0,1.72
+794,cotton;rice,trader,Pathankot,Punjab,32.258,75.6345,0.796889,-0.473483,97,329,250.0,47.0,27.0,10.0,1.89
+795,rice;cotton;sugar,trader,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,68,285,385.0,62.0,16.0,10.0,1.34
+796,cotton,broker,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,28,151,871.0,33.0,13.0,12.0,1.27
+797,cotton;rice,broker,Nashik,Maharashtra,19.9975,73.7898,-0.111296,-0.600703,57,298,761.0,12.0,13.0,17.0,1.49
+798,rice;sugar,broker,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,51,213,490.0,54.0,7.0,13.0,0.87
+799,rice,trader,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,47,210,806.0,91.0,12.0,8.0,2.25
+800,sugar;cotton,trader,Noida,Uttar Pradesh,28.5355,77.391,0.521148,-0.352345,88,343,9464.0,145.0,56.0,6.0,3.33
+801,sugar;rice;cotton,trader,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,71,334,491.0,60.0,26.0,8.0,1.41
+802,cotton;sugar,trader,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,56,138,449.0,22.0,2.0,11.0,1.56
+803,cotton;sugar,broker,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,21,222,425.0,56.0,17.0,16.0,1.6
+804,sugar;rice;cotton,exporter,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,84,278,3045.0,348.0,115.0,90.0,2.96
+805,sugar;rice,exporter,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,44,210,694.0,57.0,32.0,13.0,1.66
+806,cotton,broker,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,59,322,589.0,49.0,25.0,13.0,2.95
+807,sugar;rice,broker,Ramagundam,Telangana,18.7522,79.4318,-0.203541,-0.2116,95,273,262.0,49.0,9.0,12.0,1.65
+808,rice,exporter,Krishnanagar,West Bengal,23.4087,88.5123,0.141385,0.414641,66,350,666.0,47.0,24.0,10.0,1.1
+809,sugar,exporter,Phagwara,Punjab,31.1089,75.8022,0.71177,-0.461917,29,82,628.0,62.0,21.0,12.0,2.38
+810,cotton;rice;sugar,trader,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,53,346,392.0,84.0,38.0,8.0,0.94
+811,cotton,broker,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,78,316,377.0,34.0,11.0,9.0,0.53
+812,cotton;rice,broker,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,64,261,806.0,68.0,9.0,14.0,1.17
+813,rice;cotton,exporter,Jabalpur,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,35,100,251.0,49.0,6.0,7.0,1.86
+814,sugar,trader,Tiruchirappalli,Tamil Nadu,10.7905,78.7047,-0.793296,-0.261745,94,240,734.0,84.0,23.0,11.0,2.09
+815,cotton;sugar;rice,exporter,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,89,361,110.0,73.0,22.0,17.0,1.18
+816,rice,broker,Chennai,Tamil Nadu,13.0827,80.2707,-0.623504,-0.153745,46,115,0.0,50.0,34.0,10.0,0.68
+817,rice,trader,Bikaner,Rajasthan,28.0229,71.8315,0.483178,-0.735759,100,399,571.0,29.0,0.0,7.0,1.14
+818,cotton;rice,trader,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,42,327,2765.0,174.0,104.0,0.0,2.46
+819,rice,exporter,Mangaluru,Karnataka,12.8656,74.8547,-0.639585,-0.527262,34,131,310.0,79.0,13.0,8.0,0.75
+820,cotton,broker,Gandhinagar,Gujarat,23.2156,72.6369,0.127081,-0.680214,58,244,596.0,64.0,18.0,11.0,1.0
+821,rice;cotton;sugar,broker,Aurangabad,Maharashtra,19.8762,75.3433,-0.120281,-0.493566,46,199,673.0,66.0,27.0,16.0,2.61
+822,cotton,trader,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,97,254,518.0,64.0,17.0,4.0,1.5
+823,sugar;cotton;rice,exporter,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,73,338,603.0,22.0,18.0,9.0,1.84
+824,rice,broker,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,74,374,2500.0,252.0,119.0,0.0,3.42
+825,cotton,trader,Raiganj,West Bengal,25.5941,88.1084,0.303267,0.386786,82,195,592.0,59.0,0.0,9.0,1.19
+826,rice,trader,Jalandhar,Punjab,31.726,75.5762,0.757481,-0.477503,97,328,373.0,57.0,37.0,9.0,1.13
+827,sugar,broker,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,23,82,758.0,63.0,0.0,7.0,1.29
+828,sugar,trader,Gwalior,Madhya Pradesh,26.2183,78.1629,0.349504,-0.29911,61,345,545.0,91.0,15.0,9.0,1.66
+829,rice;cotton,exporter,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,36,189,599.0,61.0,18.0,7.0,1.04
+830,rice;cotton,broker,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,40,291,284.0,17.0,10.0,0.0,1.2
+831,sugar;rice,exporter,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,83,192,629.0,49.0,54.0,18.0,1.18
+832,rice;cotton;sugar,broker,Mohali,Punjab,30.6394,76.7007,0.676993,-0.399952,90,305,571.0,69.0,4.0,8.0,1.46
+833,rice,broker,Udupi,Karnataka,13.3409,74.7421,-0.604378,-0.535028,95,291,413.0,74.0,31.0,17.0,1.22
+834,cotton,broker,Aurangabad,Maharashtra,19.8762,75.3433,-0.120281,-0.493566,37,201,745.0,56.0,30.0,14.0,1.74
+835,cotton;sugar,broker,Varanasi,Uttar Pradesh,25.3176,82.9739,0.282785,0.032683,96,206,495.0,57.0,9.0,2.0,1.07
+836,sugar;cotton,exporter,Bareilly,Uttar Pradesh,28.367,79.4304,0.508667,-0.211697,39,185,425.0,39.0,8.0,15.0,1.02
+837,rice,trader,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,73,293,396.0,27.0,8.0,7.0,1.75
+838,cotton;rice;sugar,trader,Jabalpur,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,23,167,635.0,28.0,15.0,4.0,1.5
+839,sugar;rice,trader,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,32,207,346.0,71.0,26.0,9.0,0.71
+840,cotton;sugar,broker,Shivamogga,Karnataka,13.7339,75.5865,-0.575267,-0.476793,62,130,592.0,63.0,32.0,15.0,1.83
+841,rice,broker,Hyderabad,Telangana,17.385,78.4867,-0.304815,-0.276779,67,250,832.0,56.0,25.0,17.0,1.72
+842,sugar;rice;cotton,exporter,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,63,288,3192.0,336.0,77.0,56.0,2.0
+843,rice,broker,Mohali,Punjab,30.6394,76.7007,0.676993,-0.399952,78,336,510.0,73.0,7.0,10.0,2.03
+844,cotton;sugar,exporter,Malda,West Bengal,25.0449,88.1352,0.262585,0.388634,48,98,457.0,39.0,27.0,15.0,2.05
+845,sugar;cotton;rice,broker,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,72,243,590.0,73.0,29.0,11.0,2.12
+846,cotton;rice,broker,Mumbai,Maharashtra,19.076,72.8777,-0.179556,-0.663607,48,237,687.0,61.0,19.0,7.0,1.86
+847,cotton;rice;sugar,broker,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,55,288,304.0,48.0,29.0,5.0,1.93
+848,sugar;cotton;rice,trader,Ramagundam,Telangana,18.7522,79.4318,-0.203541,-0.2116,88,243,257.0,48.0,19.0,4.0,1.71
+849,rice,trader,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,60,319,483.0,55.0,34.0,2.0,2.53
+850,sugar;rice;cotton,broker,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,26,106,500.0,30.0,15.0,1.0,1.88
+851,sugar,trader,Raiganj,West Bengal,25.5941,88.1084,0.303267,0.386786,33,323,703.0,67.0,12.0,8.0,0.63
+852,cotton;sugar,broker,Warangal,Telangana,17.9689,79.5941,-0.261563,-0.200407,91,373,92.0,72.0,8.0,8.0,1.75
+853,cotton,trader,Ghaziabad,Uttar Pradesh,28.6692,77.4538,0.531052,-0.348014,55,126,158.0,30.0,9.0,8.0,1.24
+854,rice,exporter,Warangal,Telangana,17.9689,79.5941,-0.261563,-0.200407,35,248,299.0,55.0,27.0,11.0,1.15
+855,sugar;rice,broker,Rewa,Madhya Pradesh,24.541,81.2956,0.225259,-0.083062,79,361,548.0,54.0,15.0,14.0,0.81
+856,cotton;rice;sugar,trader,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,69,176,657.0,55.0,13.0,0.0,0.44
+857,sugar;cotton;rice,exporter,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,66,262,377.0,53.0,21.0,6.0,1.32
+858,rice;cotton;sugar,trader,Bareilly,Uttar Pradesh,28.367,79.4304,0.508667,-0.211697,83,340,629.0,60.0,11.0,9.0,2.5
+859,rice,exporter,Nagpur,Maharashtra,21.1458,79.0882,-0.026237,-0.235297,94,221,691.0,79.0,30.0,6.0,2.1
+860,sugar,broker,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,85,292,850.0,57.0,19.0,11.0,0.89
+861,cotton;rice,trader,Agra,Uttar Pradesh,27.1767,78.0081,0.420496,-0.309786,52,189,511.0,55.0,20.0,9.0,1.72
+862,rice;cotton;sugar,broker,Amravati,Maharashtra,20.853,77.7539,-0.047926,-0.327317,55,211,545.0,91.0,34.0,8.0,2.13
+863,sugar,broker,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,45,231,656.0,46.0,25.0,7.0,2.14
+864,cotton,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,43,278,1010.0,558.0,189.0,55.0,7.89
+865,sugar;cotton;rice,broker,Malda,West Bengal,25.0449,88.1352,0.262585,0.388634,34,320,447.0,39.0,15.0,14.0,1.26
+866,cotton;rice,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,65,239,256.0,55.0,23.0,12.0,1.58
+867,cotton;sugar;rice,broker,Hyderabad,Telangana,17.385,78.4867,-0.304815,-0.276779,44,340,264.0,45.0,26.0,2.0,1.6
+868,rice;sugar;cotton,exporter,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,68,293,470.0,75.0,18.0,17.0,2.38
+869,sugar;cotton,trader,Krishnanagar,West Bengal,23.4087,88.5123,0.141385,0.414641,90,328,491.0,26.0,28.0,21.0,1.42
+870,rice;cotton;sugar,trader,Anand,Gujarat,22.5679,72.9264,0.079104,-0.660248,57,261,701.0,84.0,25.0,15.0,1.66
+871,rice,exporter,Thoothukudi,Tamil Nadu,8.7642,78.1348,-0.943393,-0.301048,80,135,296.0,91.0,21.0,9.0,2.17
+872,cotton;sugar,broker,Meerut,Uttar Pradesh,28.9845,77.7064,0.554407,-0.330593,50,114,225.0,61.0,11.0,9.0,1.01
+873,cotton;sugar,exporter,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,35,240,805.0,70.0,26.0,12.0,2.0
+874,rice;sugar,broker,Mangaluru,Karnataka,12.8656,74.8547,-0.639585,-0.527262,80,327,590.0,56.0,11.0,12.0,1.15
+875,cotton;sugar,broker,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,26,171,442.0,16.0,16.0,11.0,2.19
+876,cotton;sugar;rice,trader,Durgapur,West Bengal,23.8103,87.3118,0.171133,0.331848,35,116,4998.0,160.0,18.0,35.0,1.92
+877,sugar;rice;cotton,trader,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,47,98,395.0,44.0,19.0,9.0,1.57
+878,sugar;rice;cotton,trader,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,52,143,693.0,62.0,25.0,10.0,2.29
+879,sugar,exporter,Kharagpur,West Bengal,22.3045,87.3127,0.059593,0.33191,87,137,570.0,62.0,12.0,6.0,1.14
+880,sugar;rice,broker,Dindigul,Tamil Nadu,10.3673,77.9757,-0.824644,-0.312021,23,155,682.0,49.0,33.0,12.0,2.32
+881,cotton;rice;sugar,exporter,Gwalior,Madhya Pradesh,26.2183,78.1629,0.349504,-0.29911,42,234,425.0,40.0,25.0,10.0,2.49
+882,rice,broker,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,83,332,304.0,46.0,1.0,10.0,1.01
+883,cotton;rice;sugar,exporter,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,89,218,488.0,29.0,23.0,0.0,1.53
+884,cotton,trader,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,49,205,428.0,24.0,31.0,3.0,1.0
+885,cotton;sugar;rice,trader,Phagwara,Punjab,31.1089,75.8022,0.71177,-0.461917,74,192,442.0,32.0,26.0,19.0,0.92
+886,rice,trader,Solapur,Maharashtra,17.6599,75.9064,-0.284452,-0.454731,72,178,279.0,74.0,28.0,9.0,1.25
+887,sugar;rice,exporter,Udaipur,Rajasthan,24.5854,73.7125,0.228548,-0.606034,95,305,351.0,46.0,7.0,17.0,0.96
+888,cotton;sugar,broker,Mysuru,Karnataka,12.2958,76.6394,-0.681793,-0.404179,72,212,541.0,50.0,36.0,6.0,0.89
+889,sugar,exporter,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,59,300,280.0,63.0,14.0,6.0,1.42
+890,cotton;sugar;rice,trader,Siliguri,West Bengal,26.5124,88.4262,0.371289,0.408703,25,144,629.0,13.0,31.0,10.0,2.12
+891,rice;sugar;cotton,exporter,Noida,Uttar Pradesh,28.5355,77.391,0.521148,-0.352345,48,207,471.0,23.0,16.0,10.0,1.53
+892,sugar;cotton,trader,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,47,205,625.0,35.0,27.0,10.0,0.41
+893,sugar;rice;cotton,broker,Kanpur,Uttar Pradesh,26.4499,80.3319,0.366659,-0.149524,46,331,405.0,26.0,47.0,3.0,1.14
+894,cotton;rice,broker,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,57,275,733.0,75.0,44.0,9.0,2.78
+895,cotton;rice;sugar,trader,Malda,West Bengal,25.0449,88.1352,0.262585,0.388634,57,321,536.0,88.0,5.0,15.0,1.51
+896,rice;cotton;sugar,broker,Jalandhar,Punjab,31.726,75.5762,0.757481,-0.477503,72,160,692.0,84.0,17.0,10.0,2.3
+897,cotton;sugar;rice,broker,Kolhapur,Maharashtra,16.705,74.2433,-0.355185,-0.569428,28,133,530.0,33.0,34.0,15.0,1.47
+898,sugar,broker,Haldia,West Bengal,22.0197,88.0636,0.038496,0.383697,20,158,367.0,16.0,13.0,5.0,1.22
+899,sugar;rice;cotton,broker,Ratlam,Madhya Pradesh,23.3325,75.0409,0.135741,-0.514421,88,159,124.0,85.0,30.0,5.0,1.49
+900,cotton,exporter,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,88,207,683.0,46.0,28.0,10.0,1.37
+901,rice;sugar;cotton,trader,Thanjavur,Tamil Nadu,10.787,79.1378,-0.793556,-0.231876,82,155,307.0,71.0,35.0,24.0,1.13
+902,cotton;sugar;rice,exporter,Raiganj,West Bengal,25.5941,88.1084,0.303267,0.386786,77,363,614.0,69.0,8.0,12.0,0.39
+903,sugar;cotton;rice,exporter,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,89,299,296.0,55.0,27.0,11.0,2.08
+904,cotton;rice,exporter,Jalandhar,Punjab,31.726,75.5762,0.757481,-0.477503,35,226,608.0,74.0,15.0,13.0,0.71
+905,sugar,trader,Jabalpur,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,85,309,150.0,26.0,31.0,8.0,1.39
+906,sugar;rice;cotton,broker,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,37,267,601.0,60.0,8.0,10.0,1.48
+907,sugar;cotton,broker,Rajkot,Gujarat,22.3039,70.8022,0.059548,-0.806745,24,240,574.0,42.0,16.0,7.0,1.66
+908,rice;cotton,exporter,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,36,245,671.0,37.0,10.0,7.0,1.96
+909,sugar;cotton,broker,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,54,165,411.0,55.0,20.0,3.0,1.89
+910,sugar;rice;cotton,trader,Thoothukudi,Tamil Nadu,8.7642,78.1348,-0.943393,-0.301048,37,280,617.0,25.0,16.0,2.0,1.99
+911,rice,exporter,Ramagundam,Telangana,18.7522,79.4318,-0.203541,-0.2116,60,319,551.0,73.0,12.0,7.0,1.24
+912,sugar;rice,broker,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,98,265,289.0,53.0,14.0,5.0,1.18
+913,sugar;rice;cotton,broker,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,58,278,339.0,63.0,4.0,8.0,1.49
+914,sugar;cotton;rice,exporter,Bareilly,Uttar Pradesh,28.367,79.4304,0.508667,-0.211697,72,192,784.0,41.0,13.0,12.0,0.0
+915,sugar,exporter,Jabalpur,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,29,187,572.0,52.0,19.0,14.0,1.08
+916,rice;cotton,trader,Navsari,Gujarat,20.9467,72.952,-0.040985,-0.658483,26,173,778.0,53.0,4.0,8.0,1.65
+917,sugar;cotton;rice,trader,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,68,252,411.0,15.0,31.0,7.0,1.11
+918,sugar;rice;cotton,trader,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,78,231,767.0,66.0,10.0,8.0,2.07
+919,cotton,trader,Mohali,Punjab,30.6394,76.7007,0.676993,-0.399952,100,243,611.0,67.0,46.0,0.0,1.88
+920,sugar,exporter,Ahmedabad,Gujarat,23.0225,72.5714,0.112778,-0.684731,77,342,488.0,73.0,13.0,15.0,1.72
+921,sugar;rice;cotton,exporter,Moga,Punjab,30.8136,75.2707,0.689896,-0.498572,49,284,693.0,52.0,34.0,2.0,0.91
+922,cotton;sugar,exporter,Meerut,Uttar Pradesh,28.9845,77.7064,0.554407,-0.330593,92,298,14.0,66.0,3.0,11.0,1.22
+923,rice,exporter,Krishnanagar,West Bengal,23.4087,88.5123,0.141385,0.414641,54,213,96.0,53.0,7.0,7.0,1.69
+924,cotton;sugar;rice,broker,Jodhpur,Rajasthan,26.2389,73.0243,0.35103,-0.653497,92,288,443.0,46.0,9.0,13.0,1.07
+925,sugar;rice,trader,Miryalaguda,Telangana,17.3114,79.5155,-0.310267,-0.205828,33,96,394.0,39.0,12.0,14.0,1.15
+926,cotton;sugar;rice,broker,Nizamabad,Telangana,18.6725,78.0945,-0.209444,-0.303828,66,195,628.0,63.0,19.0,5.0,1.3
+927,cotton,exporter,Ludhiana,Punjab,30.901,75.8573,0.69637,-0.458117,21,310,710.0,50.0,19.0,13.0,2.06
+928,sugar;cotton,exporter,Sagar,Madhya Pradesh,23.185,78.7382,0.124815,-0.259434,86,196,445.0,15.0,13.0,2.0,1.75
+929,sugar;cotton,broker,Gorakhpur,Uttar Pradesh,26.7597,83.3732,0.389607,0.060221,53,306,587.0,32.0,17.0,14.0,1.52
+930,rice,exporter,Thanjavur,Tamil Nadu,10.787,79.1378,-0.793556,-0.231876,49,304,562.0,43.0,13.0,9.0,1.16
+931,sugar;rice,exporter,Ahmedabad,Gujarat,23.0225,72.5714,0.112778,-0.684731,65,319,330.0,95.0,27.0,4.0,1.58
+932,sugar;rice,exporter,Hubli,Karnataka,15.3647,75.124,-0.454467,-0.50869,73,321,572.0,81.0,32.0,3.0,2.19
+933,rice;cotton;sugar,exporter,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,73,166,392.0,55.0,23.0,15.0,2.35
+934,rice,broker,Vellore,Tamil Nadu,12.9689,79.1288,-0.631933,-0.232497,60,189,2125.0,380.0,153.0,91.0,4.28
+935,rice;sugar;cotton,trader,Nizamabad,Telangana,18.6725,78.0945,-0.209444,-0.303828,53,190,0.0,24.0,26.0,0.0,2.09
+936,rice;cotton,broker,Tumkur,Karnataka,13.2171,77.1144,-0.613548,-0.371421,46,102,757.0,7.0,29.0,11.0,1.86
+937,sugar;rice,exporter,Hoshiarpur,Punjab,31.5273,75.9241,0.742763,-0.45351,21,210,806.0,28.0,6.0,9.0,1.26
+938,sugar;cotton,exporter,Karimnagar,Telangana,18.4268,79.1288,-0.227644,-0.232497,97,310,528.0,6.0,35.0,13.0,1.77
+939,cotton,exporter,Gwalior,Madhya Pradesh,26.2183,78.1629,0.349504,-0.29911,82,279,597.0,46.0,20.0,10.0,1.03
+940,rice;sugar,broker,Gwalior,Madhya Pradesh,26.2183,78.1629,0.349504,-0.29911,90,243,98.0,40.0,16.0,9.0,1.71
+941,rice;sugar,exporter,Navsari,Gujarat,20.9467,72.952,-0.040985,-0.658483,30,131,549.0,73.0,19.0,12.0,2.02
+942,cotton,broker,Jalgaon,Maharashtra,21.1687,75.568,-0.024541,-0.478069,80,294,566.0,40.0,10.0,9.0,1.62
+943,sugar;cotton,trader,Junagadh,Gujarat,21.523,70.473,0.001704,-0.829448,55,182,475.0,77.0,24.0,5.0,1.61
+944,cotton;sugar;rice,trader,Indore,Madhya Pradesh,22.7196,75.8577,0.090341,-0.45809,70,172,558.0,70.0,10.0,15.0,1.46
+945,rice,exporter,Malda,West Bengal,25.0449,88.1352,0.262585,0.388634,37,91,567.0,73.0,13.0,9.0,1.41
+946,cotton;rice,trader,Durgapur,West Bengal,23.8103,87.3118,0.171133,0.331848,56,275,498.0,22.0,28.0,17.0,2.26
+947,sugar,trader,Bharatpur,Rajasthan,27.2212,77.4873,0.423793,-0.345703,54,207,322.0,57.0,33.0,0.0,1.84
+948,rice;cotton,trader,Kota,Rajasthan,25.2138,75.8648,0.275096,-0.4576,28,182,554.0,23.0,21.0,7.0,1.59
+949,sugar;rice;cotton,exporter,Jaipur,Rajasthan,26.9124,75.7873,0.400919,-0.462945,91,220,635.0,41.0,24.0,8.0,0.36
+950,sugar;rice,trader,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,42,293,0.0,35.0,26.0,9.0,1.77
+951,cotton;rice,trader,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,73,240,360.0,51.0,13.0,9.0,0.74
+952,cotton,broker,Sikar,Rajasthan,27.6145,75.139,0.452926,-0.507655,56,343,423.0,22.0,0.0,5.0,1.37
+953,cotton;sugar;rice,exporter,Pali,Rajasthan,25.1752,73.3216,0.272237,-0.632993,61,193,484.0,17.0,25.0,18.0,0.86
+954,rice,broker,Kanpur,Uttar Pradesh,26.4499,80.3319,0.366659,-0.149524,74,370,693.0,32.0,0.0,14.0,2.12
+955,rice;cotton,trader,Jalandhar,Punjab,31.726,75.5762,0.757481,-0.477503,70,185,5690.0,310.0,136.0,54.0,6.48
+956,cotton;sugar,exporter,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,89,389,7182.0,282.0,198.0,64.0,3.9000000000000004
+957,cotton;rice,broker,Adilabad,Telangana,19.6753,78.4299,-0.135163,-0.280697,78,357,451.0,46.0,11.0,12.0,1.16
+958,cotton,exporter,Howrah,West Bengal,22.5958,88.2636,0.08117,0.39749,52,186,679.0,52.0,15.0,17.0,1.4
+959,sugar,exporter,Pune,Maharashtra,18.5204,73.8567,-0.220711,-0.59609,74,235,671.0,61.0,25.0,9.0,2.22
+960,cotton;rice,trader,Coimbatore,Tamil Nadu,11.0026,76.9969,-0.777585,-0.379524,62,213,436.0,83.0,48.0,14.0,2.31
+961,sugar;rice;cotton,broker,Haldia,West Bengal,22.0197,88.0636,0.038496,0.383697,92,190,359.0,49.0,33.0,16.0,1.43
+962,cotton;sugar,exporter,Jamnagar,Gujarat,22.4625,70.058,0.071296,-0.858069,68,285,798.0,80.0,10.0,8.0,1.33
+963,rice;sugar,broker,Gandhinagar,Gujarat,23.2156,72.6369,0.127081,-0.680214,95,359,653.0,113.0,35.0,7.0,2.3
+964,rice;sugar;cotton,trader,Amritsar,Punjab,31.634,74.8723,0.750667,-0.526048,34,233,345.0,52.0,32.0,20.0,1.01
+965,cotton;sugar;rice,broker,Khammam,Telangana,17.2696,80.6112,-0.313363,-0.130262,63,181,575.0,39.0,24.0,8.0,1.24
+966,sugar;rice,exporter,Durgapur,West Bengal,23.8103,87.3118,0.171133,0.331848,21,111,687.0,32.0,16.0,10.0,1.58
+967,cotton;rice,trader,Anand,Gujarat,22.5679,72.9264,0.079104,-0.660248,90,357,271.0,40.0,22.0,2.0,0.51
+968,sugar;rice,exporter,Agra,Uttar Pradesh,27.1767,78.0081,0.420496,-0.309786,20,132,54.0,36.0,11.0,12.0,1.75
+969,sugar;cotton,trader,Meerut,Uttar Pradesh,28.9845,77.7064,0.554407,-0.330593,34,319,384.0,55.0,16.0,1.0,1.8
+970,sugar;cotton;rice,broker,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,76,212,268.0,40.0,22.0,0.0,1.13
+971,cotton;sugar;rice,broker,Surat,Gujarat,21.1702,72.8311,-0.02443,-0.666821,93,299,726.0,57.0,21.0,12.0,1.81
+972,cotton;sugar;rice,broker,Ujjain,Madhya Pradesh,23.1815,75.7854,0.124556,-0.463076,97,349,396.0,75.0,0.0,9.0,1.91
+973,sugar;rice,exporter,Mumbai,Maharashtra,19.076,72.8777,-0.179556,-0.663607,75,257,802.0,26.0,32.0,11.0,1.46
+974,sugar;rice;cotton,trader,Kolkata,West Bengal,22.5726,88.3639,0.079452,0.404407,78,347,402.0,57.0,12.0,9.0,1.27
+975,cotton,exporter,Aurangabad,Maharashtra,19.8762,75.3433,-0.120281,-0.493566,47,226,1202.0,33.0,20.0,8.0,2.56
+976,sugar;cotton;rice,broker,Vadodara,Gujarat,22.3072,73.1812,0.059793,-0.642676,92,167,555.0,33.0,40.0,8.0,2.34
+977,sugar;cotton;rice,exporter,Meerut,Uttar Pradesh,28.9845,77.7064,0.554407,-0.330593,53,176,107.0,26.0,15.0,9.0,1.31
+978,rice,exporter,Ajmer,Rajasthan,26.4499,74.6399,0.366659,-0.542076,96,243,302.0,26.0,35.0,6.0,1.35
+979,sugar,broker,Erode,Tamil Nadu,11.3881,77.7173,-0.74903,-0.329841,89,285,589.0,78.0,25.0,12.0,0.74
+980,rice;sugar,broker,Noida,Uttar Pradesh,28.5355,77.391,0.521148,-0.352345,38,264,586.0,30.0,18.0,14.0,2.24
+981,sugar;rice,exporter,Hubli,Karnataka,15.3647,75.124,-0.454467,-0.50869,23,88,292.0,81.0,7.0,15.0,2.39
+982,cotton;rice,broker,Bhavnagar,Gujarat,21.7645,71.9253,0.019593,-0.72929,26,172,378.0,77.0,14.0,0.0,1.55
+983,rice,exporter,Katni,Madhya Pradesh,23.834,80.3969,0.172889,-0.145041,91,155,750.0,38.0,8.0,10.0,1.75
+984,rice,broker,Ratlam,Madhya Pradesh,23.3325,75.0409,0.135741,-0.514421,87,149,371.0,15.0,34.0,11.0,1.08
+985,cotton;rice,exporter,Asansol,West Bengal,23.6836,86.9649,0.161748,0.307924,90,251,238.0,61.0,20.0,5.0,0.76
+986,rice;cotton;sugar,trader,Madurai,Tamil Nadu,9.9252,78.1198,-0.857393,-0.302083,32,105,620.0,58.0,11.0,9.0,2.24
+987,cotton;rice,trader,Ratlam,Madhya Pradesh,23.3325,75.0409,0.135741,-0.514421,29,299,755.0,65.0,21.0,16.0,1.46
+988,cotton;rice;sugar,exporter,Jalandhar,Punjab,31.726,75.5762,0.757481,-0.477503,60,147,418.0,72.0,31.0,6.0,1.13
+989,sugar;cotton,broker,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,58,150,327.0,48.0,15.0,13.0,1.75
+990,cotton;rice;sugar,trader,Suryapet,Telangana,17.1603,79.913,-0.321459,-0.178414,66,192,732.0,53.0,39.0,6.0,0.65
+991,cotton;sugar;rice,broker,Belagavi,Karnataka,15.8497,74.4977,-0.418541,-0.551883,21,317,405.0,44.0,8.0,7.0,2.22
+992,sugar,broker,Satna,Madhya Pradesh,24.5936,80.827,0.229156,-0.115379,100,255,678.0,56.0,22.0,18.0,1.97
+993,cotton;sugar;rice,exporter,Kharagpur,West Bengal,22.3045,87.3127,0.059593,0.33191,26,164,735.0,29.0,32.0,19.0,1.81
+994,rice;cotton;sugar,broker,Bengaluru,Karnataka,12.9716,77.5946,-0.631733,-0.338303,41,210,668.0,73.0,7.0,10.0,1.06
+995,sugar;rice,exporter,Lucknow,Uttar Pradesh,26.8467,80.9462,0.396052,-0.107159,45,141,531.0,97.0,0.0,8.0,0.38
+996,cotton;rice,broker,Belagavi,Karnataka,15.8497,74.4977,-0.418541,-0.551883,43,229,371.0,76.0,10.0,8.0,2.03
+997,rice;sugar;cotton,broker,Salem,Tamil Nadu,11.6643,78.146,-0.72857,-0.300276,68,229,629.0,39.0,9.0,10.0,1.25
+998,rice;cotton;sugar,broker,Coimbatore,Tamil Nadu,11.0026,76.9969,-0.777585,-0.379524,48,157,657.0,91.0,24.0,6.0,2.07
+999,sugar,exporter,Coimbatore,Tamil Nadu,11.0026,76.9969,-0.777585,-0.379524,76,253,831.0,51.0,23.0,17.0,1.59
+1000,rice,trader,Bhopal,Madhya Pradesh,23.1815,79.9864,0.124556,-0.173352,89,145,750.0,54.0,24.0,10.0,1.18

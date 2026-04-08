@@ -170,7 +170,7 @@ async def refresh_recommendations(user_id: int):
     then returns fresh recommendations.
     Useful when encoding logic or boost weights change.
     """
-    user = await _fetch_user(user_id)
+    user = await _fetch_user_from_chromadb(user_id)
 
     commodity_list = [c.strip() for c in user["commodity"].split(";")]
 
@@ -178,8 +178,8 @@ async def refresh_recommendations(user_id: int):
     candidate_vec = build_candidate_vector(
         commodity_list=commodity_list,
         role=user["role"],
-        lat=float(user["latitude_raw"]),
-        lon=float(user["longitude_raw"]),
+        lat=float(user["lat"]),
+        lon=float(user["lon"]),
     )
     collection = get_chroma_collection()
     collection.upsert(
@@ -191,10 +191,10 @@ async def refresh_recommendations(user_id: int):
             "commodity":     user["commodity"],
             "city":          user["city"],
             "state":         user["state"],
-            "latitude_raw":  float(user["latitude_raw"]),
-            "longitude_raw": float(user["longitude_raw"]),
-            "qty_min":       int(user["min_quantity_mt"]),
-            "qty_max":       int(user["max_quantity_mt"]),
+            "latitude_raw":  float(user["lat"]),
+            "longitude_raw": float(user["lon"]),
+            "qty_min":       int(user["qty_min"]),
+            "qty_max":       int(user["qty_max"]),
         }],
     )
 
@@ -202,8 +202,8 @@ async def refresh_recommendations(user_id: int):
     query_vec = build_query_vector(
         commodity_list=commodity_list,
         role=user["role"],
-        lat=float(user["latitude_raw"]),
-        lon=float(user["longitude_raw"]),
+        lat=float(user["lat"]),
+        lon=float(user["lon"]),
     )
     matches = _run_search(query_vec, exclude_user_id=user_id, top_k=TOP_K)
 
