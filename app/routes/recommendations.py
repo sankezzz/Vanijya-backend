@@ -1,11 +1,13 @@
 # app/routes/recommendations.py
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 from pydantic import BaseModel
-import time
-from app.db.postgres import AsyncSessionLocal
-from app.db.chromadb import get_chroma_collection
+from app.db.pgvector import fetch_user, vector_search, update_embedding
 from app.encoding.vector import build_query_vector, build_candidate_vector
-from sqlalchemy import text
+# ── OLD ChromaDB imports (removed) ──
+# import time
+# from app.db.postgres import AsyncSessionLocal
+# from app.db.chromadb import get_chroma_collection
+# from sqlalchemy import text
 
 router = APIRouter(prefix="/recommendations", tags=["recommendations"])
 
@@ -13,89 +15,73 @@ TOP_K = 20
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 
-async def _fetch_user_from_postgres(user_id: int) -> dict:
-    """Fetch a user row from Postgres by user_id."""
-    async with AsyncSessionLocal() as db:
-        result = await db.execute(
-            text('SELECT * FROM "Users" WHERE user_id = :uid'),
-            {"uid": user_id}
-        )
-        row = result.mappings().first()
-    if not row:
-        raise HTTPException(status_code=404, detail=f"User {user_id} not found")
-    return dict(row)
+def _fmt_matches(rows: list[dict]) -> list[dict]:
+    """Shape pgvector result rows into the public response format."""
+    return [
+        {
+            "user_id":   r["user_id"],
+            "role":      r["role"],
+            "commodity": r["commodity"],
+            "city":      r["city"],
+            "state":     r["state"],
+            "qty_range": f"{r['min_quantity_mt']}–{r['max_quantity_mt']}mt",
+            "similarity":round(float(r["similarity"]), 4),
+        }
+        for r in rows
+    ]
 
+# ── OLD ChromaDB helpers (kept for reference) ──────────────────────────────
+# async def _fetch_user_from_postgres(user_id: int) -> dict:
+#     async with AsyncSessionLocal() as db:
+#         result = await db.execute(text('SELECT * FROM "Users" WHERE user_id = :uid'), {"uid": user_id})
+#         row = result.mappings().first()
+#     if not row:
+#         raise HTTPException(status_code=404, detail=f"User {user_id} not found")
+#     return dict(row)
 
-async def _fetch_user_from_chromadb(user_id: int) -> dict:
-    """Fetch user data from ChromaDB metadata — no Postgres call needed."""
-    collection = get_chroma_collection()
-    result = collection.get(
-        ids=[str(user_id)],
-        include=["metadatas"]
-    )
-    if not result["ids"]:
-        raise HTTPException(status_code=404, detail=f"User {user_id} not found")
-    return result["metadatas"][0]
+# async def _fetch_user_from_chromadb(user_id: int) -> dict:
+#     collection = get_chroma_collection()
+#     result = collection.get(ids=[str(user_id)], include=["metadatas"])
+#     if not result["ids"]:
+#         raise HTTPException(status_code=404, detail=f"User {user_id} not found")
+#     return result["metadatas"][0]
 
-
-def _run_search(query_vec: list[float], exclude_user_id: int, top_k: int) -> list[dict]:
-    """
-    Queries ChromaDB via HNSW, excludes the searcher,
-    converts distance → similarity, returns list of result dicts.
-    """
-    collection = get_chroma_collection()
-
-    # Fetch top_k + 1 in case searcher appears in results
-    results = collection.query(
-        query_embeddings=[query_vec],
-        n_results=top_k + 1,
-        include=["metadatas", "distances"],
-    )
-
-    matches = []
-    for meta, dist in zip(results["metadatas"][0], results["distances"][0]):
-        if meta["user_id"] == exclude_user_id:
-            continue
-        matches.append({
-            "user_id":    meta["user_id"],
-            "role":       meta["role"],
-            "commodity":  meta["commodity"],
-            "city":       meta["city"],
-            "state":      meta["state"],
-            "qty_range":  f"{meta['qty_min']}–{meta['qty_max']}mt",
-            "similarity": round(1 - dist, 4),   # distance → similarity
-        })
-
-    return matches[:top_k]
+# def _run_search(query_vec, exclude_user_id, top_k) -> list[dict]:
+#     collection = get_chroma_collection()
+#     results = collection.query(query_embeddings=[query_vec], n_results=top_k + 1, include=["metadatas", "distances"])
+#     matches = []
+#     for meta, dist in zip(results["metadatas"][0], results["distances"][0]):
+#         if meta["user_id"] == exclude_user_id:
+#             continue
+#         matches.append({"user_id": meta["user_id"], "role": meta["role"], "commodity": meta["commodity"],
+#                         "city": meta["city"], "state": meta["state"],
+#                         "qty_range": f"{meta['qty_min']}–{meta['qty_max']}mt", "similarity": round(1 - dist, 4)})
+#     return matches[:top_k]
 
 
 # ─── GET /recommendations/{user_id} ──────────────────────────────────────────
 
 @router.get("/{user_id}")
 async def get_recommendations(user_id: int):
-    """
-    Fetch top 20 matches for a user.
-    Pulls user from Postgres, builds WANT vector, queries ChromaDB via HNSW.
-    """
-    user = await _fetch_user_from_chromadb(user_id)
-    print(f"User {user_id} fetched from ChromaDB metadata.")
+    """Fetch top 20 matches for a user via pgvector HNSW cosine search."""
+    user = await fetch_user(user_id)
 
     commodity_list = [c.strip() for c in user["commodity"].split(";")]
     query_vec = build_query_vector(
         commodity_list=commodity_list,
         role=user["role"],
-        lat=float(user["lat"]),
-        lon=float(user["lon"]),
+        lat=float(user["latitude_raw"]),
+        lon=float(user["longitude_raw"]),
     )
 
-    matches = _run_search(query_vec, exclude_user_id=user_id, top_k=TOP_K)
+    matches = await vector_search(query_vec, exclude_user_id=user_id, top_k=TOP_K)
 
     return {
-        "user_id":  user_id,
-        "role":     user["role"],
-        "commodity":user["commodity"],
-        "total":    len(matches),
-        "results":  matches,
+        "user_id":   user_id,
+        "role":      user["role"],
+        "commodity": user["commodity"],
+        "total":     len(matches),
+        "results":   _fmt_matches(matches),
     }
 
 '''This is the function to calculate which entitiy is taking more time in the recommendation process. We can use this to optimize the code in future.'''
@@ -142,10 +128,7 @@ class SearchPayload(BaseModel):
 
 @router.post("/search")
 async def custom_search(payload: SearchPayload):
-    """
-    Search with a custom payload — no user_id needed.
-    Useful for searching before registration or testing.
-    """
+    """Search with a custom payload — no user_id needed."""
     query_vec = build_query_vector(
         commodity_list=payload.commodity,
         role=payload.role,
@@ -153,11 +136,11 @@ async def custom_search(payload: SearchPayload):
         lon=payload.longitude_raw,
     )
 
-    matches = _run_search(query_vec, exclude_user_id=-1, top_k=TOP_K)
+    matches = await vector_search(query_vec, exclude_user_id=-1, top_k=TOP_K)
 
     return {
         "total":   len(matches),
-        "results": matches,
+        "results": _fmt_matches(matches),
     }
 
 
@@ -166,50 +149,41 @@ async def custom_search(payload: SearchPayload):
 @router.get("/{user_id}/refresh")
 async def refresh_recommendations(user_id: int):
     """
-    Recomputes and re-upserts the user's IS vector into ChromaDB,
+    Recomputes the user's IS vector, persists it to Postgres,
     then returns fresh recommendations.
     Useful when encoding logic or boost weights change.
     """
-    user = await _fetch_user_from_chromadb(user_id)
+    user = await fetch_user(user_id)
 
     commodity_list = [c.strip() for c in user["commodity"].split(";")]
 
-    # Rebuild IS vector and re-upsert
+    # Rebuild IS vector and persist to Postgres
     candidate_vec = build_candidate_vector(
         commodity_list=commodity_list,
         role=user["role"],
-        lat=float(user["lat"]),
-        lon=float(user["lon"]),
+        lat=float(user["latitude_raw"]),
+        lon=float(user["longitude_raw"]),
+        qty_min=int(user["min_quantity_mt"]),
+        qty_max=int(user["max_quantity_mt"]),
     )
-    collection = get_chroma_collection()
-    collection.upsert(
-        ids=[str(user_id)],
-        embeddings=[candidate_vec],
-        metadatas=[{
-            "user_id":       user_id,
-            "role":          user["role"],
-            "commodity":     user["commodity"],
-            "city":          user["city"],
-            "state":         user["state"],
-            "latitude_raw":  float(user["lat"]),
-            "longitude_raw": float(user["lon"]),
-            "qty_min":       int(user["qty_min"]),
-            "qty_max":       int(user["qty_max"]),
-        }],
-    )
+    await update_embedding(user_id, candidate_vec)
 
-    # Now run fresh search
+    # ── OLD: ChromaDB upsert (removed — embedding now lives in Postgres) ──
+    # collection = get_chroma_collection()
+    # collection.upsert(ids=[str(user_id)], embeddings=[candidate_vec], metadatas=[{...}])
+
+    # Run fresh search
     query_vec = build_query_vector(
         commodity_list=commodity_list,
         role=user["role"],
-        lat=float(user["lat"]),
-        lon=float(user["lon"]),
+        lat=float(user["latitude_raw"]),
+        lon=float(user["longitude_raw"]),
     )
-    matches = _run_search(query_vec, exclude_user_id=user_id, top_k=TOP_K)
+    matches = await vector_search(query_vec, exclude_user_id=user_id, top_k=TOP_K)
 
     return {
         "user_id":   user_id,
         "refreshed": True,
         "total":     len(matches),
-        "results":   matches,
+        "results":   _fmt_matches(matches),
     }

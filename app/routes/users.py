@@ -2,7 +2,8 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from app.db.postgres import AsyncSessionLocal
-from app.db.chromadb import get_chroma_collection
+# from app.db.chromadb import get_chroma_collection  # replaced by pgvector
+from app.db.pgvector import list_to_pgvec
 from app.encoding.vector import build_candidate_vector
 from sqlalchemy import text
 
@@ -35,46 +36,50 @@ class UserUpdate(BaseModel):
 
 @router.post("")
 async def create_user(user: UserCreate):
-    async with AsyncSessionLocal() as db:
-        # 1. Save to Postgres
-        await db.execute(text("""
-            INSERT INTO "Users" (
-                user_id, commodity, role, city, state,
-                latitude_raw, longitude_raw,
-                min_quantity_mt, max_quantity_mt
-            ) VALUES (
-                :user_id, :commodity, :role, :city, :state,
-                :latitude_raw, :longitude_raw,
-                :min_quantity_mt, :max_quantity_mt
-            )
-        """), user.model_dump())
-        await db.commit()
-
-    # 2. Build IS vector and upsert into ChromaDB
+    # Build IS vector before the DB write so INSERT is atomic (profile + embedding in one shot)
     commodity_list = [c.strip() for c in user.commodity.split(";")]
     vector = build_candidate_vector(
         commodity_list=commodity_list,
         role=user.role,
         lat=user.latitude_raw,
         lon=user.longitude_raw,
+        qty_min=user.min_quantity_mt,
+        qty_max=user.max_quantity_mt,
     )
 
-    collection = get_chroma_collection()
-    collection.upsert(
-        ids=[str(user.user_id)],
-        embeddings=[vector],
-        metadatas=[{
-            "user_id":       user.user_id,
-            "role":          user.role,
-            "commodity":     user.commodity,
-            "city":          user.city,
-            "state":         user.state,
-            "latitude_raw":  user.latitude_raw,
-            "longitude_raw": user.longitude_raw,
-            "qty_min":       user.min_quantity_mt,
-            "qty_max":       user.max_quantity_mt,
-        }],
-    )
+    async with AsyncSessionLocal() as db:
+        await db.execute(text("""
+            INSERT INTO "Users" (
+                user_id, commodity, role, city, state,
+                latitude_raw, longitude_raw,
+                min_quantity_mt, max_quantity_mt,
+                embedding
+            ) VALUES (
+                :user_id, :commodity, :role, :city, :state,
+                :latitude_raw, :longitude_raw,
+                :min_quantity_mt, :max_quantity_mt,
+                CAST(:embedding AS vector)
+            )
+        """), {**user.model_dump(), "embedding": list_to_pgvec(vector)})
+        await db.commit()
+
+    # ── OLD: separate ChromaDB upsert (removed — embedding now lives in Postgres) ──
+    # collection = get_chroma_collection()
+    # collection.upsert(
+    #     ids=[str(user.user_id)],
+    #     embeddings=[vector],
+    #     metadatas=[{
+    #         "user_id":       user.user_id,
+    #         "role":          user.role,
+    #         "commodity":     user.commodity,
+    #         "city":          user.city,
+    #         "state":         user.state,
+    #         "latitude_raw":  user.latitude_raw,
+    #         "longitude_raw": user.longitude_raw,
+    #         "qty_min":       user.min_quantity_mt,
+    #         "qty_max":       user.max_quantity_mt,
+    #     }],
+    # )
 
     return {"status": "created", "user_id": user.user_id}
 
@@ -97,7 +102,18 @@ async def update_user(user_id: int, update: UserUpdate):
         for field, val in update.model_dump(exclude_none=True).items():
             updated[field] = val
 
-        # 3. Update Postgres
+        # 3. Rebuild IS vector
+        commodity_list = [c.strip() for c in updated["commodity"].split(";")]
+        vector = build_candidate_vector(
+            commodity_list=commodity_list,
+            role=updated["role"],
+            lat=float(updated["latitude_raw"]),
+            lon=float(updated["longitude_raw"]),
+            qty_min=int(updated["min_quantity_mt"]),
+            qty_max=int(updated["max_quantity_mt"]),
+        )
+
+        # 4. Update profile + embedding atomically
         await db.execute(text("""
             UPDATE "Users" SET
                 commodity       = :commodity,
@@ -107,7 +123,8 @@ async def update_user(user_id: int, update: UserUpdate):
                 latitude_raw    = :latitude_raw,
                 longitude_raw   = :longitude_raw,
                 min_quantity_mt = :min_quantity_mt,
-                max_quantity_mt = :max_quantity_mt
+                max_quantity_mt = :max_quantity_mt,
+                embedding       = CAST(:embedding AS vector)
             WHERE user_id = :user_id
         """), {
             "user_id":        user_id,
@@ -119,34 +136,17 @@ async def update_user(user_id: int, update: UserUpdate):
             "longitude_raw":  updated["longitude_raw"],
             "min_quantity_mt":updated["min_quantity_mt"],
             "max_quantity_mt":updated["max_quantity_mt"],
+            "embedding":      list_to_pgvec(vector),
         })
         await db.commit()
 
-    # 4. Rebuild IS vector and upsert into ChromaDB
-    commodity_list = [c.strip() for c in updated["commodity"].split(";")]
-    vector = build_candidate_vector(
-        commodity_list=commodity_list,
-        role=updated["role"],
-        lat=float(updated["latitude_raw"]),
-        lon=float(updated["longitude_raw"]),
-    )
-
-    collection = get_chroma_collection()
-    collection.upsert(
-        ids=[str(user_id)],
-        embeddings=[vector],
-        metadatas=[{
-            "user_id":       user_id,
-            "role":          updated["role"],
-            "commodity":     updated["commodity"],
-            "city":          updated["city"],
-            "state":         updated["state"],
-            "latitude_raw":  float(updated["latitude_raw"]),
-            "longitude_raw": float(updated["longitude_raw"]),
-            "qty_min":       int(updated["min_quantity_mt"]),
-            "qty_max":       int(updated["max_quantity_mt"]),
-        }],
-    )
+    # ── OLD: separate ChromaDB upsert (removed — embedding now lives in Postgres) ──
+    # collection = get_chroma_collection()
+    # collection.upsert(
+    #     ids=[str(user_id)],
+    #     embeddings=[vector],
+    #     metadatas=[{...}],
+    # )
 
     return {"status": "updated", "user_id": user_id}
 
@@ -161,8 +161,8 @@ async def delete_user(user_id: int):
         )
         await db.commit()
 
-    # Remove from ChromaDB too
-    collection = get_chroma_collection()
-    collection.delete(ids=[str(user_id)])
+    # ── OLD: ChromaDB delete (removed — row deletion in Postgres is sufficient) ──
+    # collection = get_chroma_collection()
+    # collection.delete(ids=[str(user_id)])
 
     return {"status": "deleted", "user_id": user_id}

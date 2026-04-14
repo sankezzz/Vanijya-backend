@@ -61,13 +61,24 @@ def encode_geo(lat: float, lon: float) -> np.ndarray:
     return np.array([x, y, z])
 
 
+def encode_quantity(qty_min: int, qty_max: int) -> np.ndarray:
+    """
+    Encodes quantity range as a 2D vector: [qty_min, qty_max].
+    This is a simple encoding and may not capture all nuances of quantity preferences.
+    Returns a vector of shape (2,).
+    """
+
+    return  np.array([qty_min, qty_max])
+
 # ─── Final Vector Assembly ────────────────────────────────────────────────────
 
 def build_candidate_vector(
     commodity_list: list[str],
     role: str,
     lat: float,
-    lon: float
+    lon: float,
+    qty_min: int,
+    qty_max: int,
 ) -> list[float]:
     """
     Builds the IS vector for a user.
@@ -79,6 +90,7 @@ def build_candidate_vector(
         encode_commodity(commodity_list),
         encode_role_candidate(role),
         encode_geo(lat, lon) * GEO_BOOST,
+        encode_quantity(qty_min, qty_max)
     ])
     return vec.tolist()
 
@@ -100,6 +112,7 @@ def build_query_vector(
         encode_commodity(commodity_list),
         encode_role_searcher(role),
         encode_geo(lat, lon) * GEO_BOOST,
+        encode_quantity(0, 0)  # Placeholder for quantity in query vector
     ])
     return vec.tolist()
 
