@@ -8,7 +8,7 @@ import asyncio
 import asyncpg
 import numpy as np
 from dotenv import load_dotenv
-from app.config import (
+from app.weights_config import (
     ALL_COMMODITIES, COMMODITY_BOOST,
     ROLE_DIMS, ROLE_BOOST, ROLE_OFFERS,
     GEO_BOOST
