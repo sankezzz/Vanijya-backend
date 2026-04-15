@@ -2,7 +2,7 @@ import numpy as np
 from app.config import (
     ALL_COMMODITIES, COMMODITY_BOOST,
     ROLE_DIMS, ROLE_AFFINITY, ROLE_OFFERS, ROLE_BOOST,
-    GEO_BOOST
+    GEO_BOOST, QTY_BOOST, QTY_REF_MAX
 )
 
 
@@ -63,12 +63,17 @@ def encode_geo(lat: float, lon: float) -> np.ndarray:
 
 def encode_quantity(qty_min: int, qty_max: int) -> np.ndarray:
     """
-    Encodes quantity range as a 2D vector: [qty_min, qty_max].
-    This is a simple encoding and may not capture all nuances of quantity preferences.
+    Log-normalises quantity range to [0, QTY_BOOST] so it doesn't dominate cosine similarity.
+
+    Raw values (e.g. 50 000 MT) have magnitudes hundreds of times larger than the
+    geo unit-sphere components, overriding carefully tuned boosts.  log1p compresses
+    the range and preserves meaningful scale differences (small vs large trader) while
+    keeping the vector components in the same ballpark as GEO_BOOST / ROLE_BOOST.
+
     Returns a vector of shape (2,).
     """
-
-    return  np.array([qty_min, qty_max])
+    log_ref = np.log1p(QTY_REF_MAX)
+    return np.log1p([qty_min, qty_max]) / log_ref * QTY_BOOST
 
 # ─── Final Vector Assembly ────────────────────────────────────────────────────
 
@@ -99,20 +104,21 @@ def build_query_vector(
     commodity_list: list[str],
     role: str,
     lat: float,
-    lon: float
+    lon: float,
+    qty_min: int,
+    qty_max: int,
 ) -> list[float]:
     """
     Builds the WANT vector for a user.
-    This is what gets passed to ChromaDB at query time.
-    Never stored.
+    Never stored — only used at query time.
 
-    Layout: [commodity_dims | role_want_dims | geo_dims]
+    Layout: [commodity_dims | role_want_dims | geo_dims | qty_dims]
     """
     vec = np.hstack([
         encode_commodity(commodity_list),
         encode_role_searcher(role),
         encode_geo(lat, lon) * GEO_BOOST,
-        encode_quantity(0, 0)  # Placeholder for quantity in query vector
+        encode_quantity(qty_min, qty_max),
     ])
     return vec.tolist()
 
@@ -120,15 +126,19 @@ def build_query_vector(
 # ─── Dimension Info (useful for debugging) ────────────────────────────────────
 
 def vector_dim() -> int:
-    return len(ALL_COMMODITIES) + len(ROLE_DIMS) + 3
+    # commodity + role + geo(3) + quantity(2)
+    return len(ALL_COMMODITIES) + len(ROLE_DIMS) + 3 + 2
 
 
 def vector_layout() -> dict:
     n_comm = len(ALL_COMMODITIES)
     n_role = len(ROLE_DIMS)
+    n_geo  = 3
+    n_qty  = 2
     return {
-        "total_dims":  vector_dim(),
-        "commodity":   {"range": f"[0:{n_comm}]",              "dims": [f"has_{c}" for c in ALL_COMMODITIES]},
-        "role":        {"range": f"[{n_comm}:{n_comm+n_role}]","dims": ROLE_DIMS},
-        "geo":         {"range": f"[{n_comm+n_role}:{vector_dim()}]", "dims": ["x", "y", "z"]},
+        "total_dims": vector_dim(),
+        "commodity":  {"range": f"[0:{n_comm}]",                              "dims": [f"has_{c}" for c in ALL_COMMODITIES]},
+        "role":       {"range": f"[{n_comm}:{n_comm+n_role}]",                "dims": ROLE_DIMS},
+        "geo":        {"range": f"[{n_comm+n_role}:{n_comm+n_role+n_geo}]",   "dims": ["x", "y", "z"]},
+        "quantity":   {"range": f"[{n_comm+n_role+n_geo}:{n_comm+n_role+n_geo+n_qty}]", "dims": ["qty_min_log", "qty_max_log"]},
     }

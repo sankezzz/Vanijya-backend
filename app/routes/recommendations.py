@@ -72,6 +72,8 @@ async def get_recommendations(user_id: int):
         role=user["role"],
         lat=float(user["latitude_raw"]),
         lon=float(user["longitude_raw"]),
+        qty_min=int(user["min_quantity_mt"]),
+        qty_max=int(user["max_quantity_mt"]),
     )
 
     matches = await vector_search(query_vec, exclude_user_id=user_id, top_k=TOP_K)
@@ -80,6 +82,7 @@ async def get_recommendations(user_id: int):
         "user_id":   user_id,
         "role":      user["role"],
         "commodity": user["commodity"],
+        "qty_range": f"{user['min_quantity_mt']}–{user['max_quantity_mt']}mt",
         "total":     len(matches),
         "results":   _fmt_matches(matches),
     }
@@ -121,10 +124,12 @@ async def get_recommendations(user_id: int):
 # ─── POST /recommendations/search ────────────────────────────────────────────
 
 class SearchPayload(BaseModel):
-    commodity:    list[str]   # e.g. ["rice", "cotton"]
-    role:         str
-    latitude_raw: float
-    longitude_raw:float
+    commodity:       list[str]   # e.g. ["rice", "cotton"]
+    role:            str
+    latitude_raw:    float
+    longitude_raw:   float
+    qty_min_mt:      int
+    qty_max_mt:      int
 
 @router.post("/search")
 async def custom_search(payload: SearchPayload):
@@ -134,6 +139,8 @@ async def custom_search(payload: SearchPayload):
         role=payload.role,
         lat=payload.latitude_raw,
         lon=payload.longitude_raw,
+        qty_min=payload.qty_min_mt,
+        qty_max=payload.qty_max_mt,
     )
 
     matches = await vector_search(query_vec, exclude_user_id=-1, top_k=TOP_K)
@@ -178,6 +185,8 @@ async def refresh_recommendations(user_id: int):
         role=user["role"],
         lat=float(user["latitude_raw"]),
         lon=float(user["longitude_raw"]),
+        qty_min=int(user["min_quantity_mt"]),
+        qty_max=int(user["max_quantity_mt"]),
     )
     matches = await vector_search(query_vec, exclude_user_id=user_id, top_k=TOP_K)
 

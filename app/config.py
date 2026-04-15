@@ -2,6 +2,8 @@
 COMMODITY_BOOST = 0.9
 ROLE_BOOST      = 1.5
 GEO_BOOST       = 3.0
+QTY_BOOST       = 1.0   # tune upward to weight quantity scale-matching more
+QTY_REF_MAX     = 1_000_000  # log ceiling: log1p(1M) ≈ 13.8 — anything above maps to 1.0
 
 # ─── Commodities (fixed — never reorder, only append new ones at the end) ────
 ALL_COMMODITIES = [
