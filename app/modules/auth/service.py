@@ -31,13 +31,16 @@ def send_otp(phone_number: str, country_code: str) -> None:
         print(f"\n[DEV] OTP for {country_code} {phone_number}: {otp}\n")
         return
 
+    params: dict = {
+        "authkey": settings.MSG91_AUTH_KEY,
+        "mobile": _mobile(country_code, phone_number),
+    }
+    if settings.MSG91_TEMPLATE_ID:
+        params["template_id"] = settings.MSG91_TEMPLATE_ID
+
     resp = httpx.post(
         MSG91_BASE,
-        params={
-            "authkey": settings.MSG91_AUTH_KEY,
-            "template_id": settings.MSG91_TEMPLATE_ID,
-            "mobile": _mobile(country_code, phone_number),
-        },
+        params=params,
         timeout=10,
     )
     resp.raise_for_status()
@@ -46,7 +49,8 @@ def send_otp(phone_number: str, country_code: str) -> None:
         raise RuntimeError(f"MSG91 error: {data.get('message', 'unknown error')}")
 
 
-def verify_otp_and_issue_token(phone_number: str, country_code: str, otp_code: str) -> str:
+def verify_otp(phone_number: str, country_code: str, otp_code: str) -> None:
+    """Validate OTP. Raises ValueError on failure. Does NOT issue any token."""
     if settings.DEV_MODE:
         key = _phone_key(country_code, phone_number)
         entry = _dev_otp_store.get(key)
@@ -74,4 +78,7 @@ def verify_otp_and_issue_token(phone_number: str, country_code: str, otp_code: s
         if data.get("type") != "success":
             raise ValueError(data.get("message", "OTP verification failed"))
 
+
+def issue_onboarding_token(phone_number: str, country_code: str) -> str:
+    """Create a short-lived onboarding token for new user registration."""
     return create_onboarding_token(uuid4(), phone_number, country_code)

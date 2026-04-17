@@ -1,0 +1,200 @@
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy.orm import Session
+
+from app.dependencies import get_db
+from app.modules.post.schemas import PostCreate, PostUpdate, CommentCreate
+from app.modules.post import service
+from app.shared.utils.response import ok
+
+router = APIRouter(prefix="/posts", tags=["Posts"])
+
+
+# ----------------------------------------------------------------------------
+# Post CRUD
+# ----------------------------------------------------------------------------
+
+@router.post("/", status_code=201)
+def create_post_api(
+    payload: PostCreate,
+    profile_id: int = Query(..., description="Your profile ID"),
+    db: Session = Depends(get_db),
+):
+    result = service.create_post(db, profile_id, payload)
+    return ok(result, "Post created successfully")
+
+
+@router.get("/")
+def get_feed_api(
+    profile_id: int = Query(..., description="Your profile ID"),
+    limit: int = 20,
+    offset: int = 0,
+    db: Session = Depends(get_db),
+):
+    result = service.get_feed(db, profile_id, limit, offset)
+    return ok(result, "Feed fetched successfully")
+
+
+@router.get("/mine")
+def get_my_posts_api(
+    profile_id: int = Query(..., description="Your profile ID"),
+    limit: int = 20,
+    offset: int = 0,
+    db: Session = Depends(get_db),
+):
+    result = service.get_my_posts(db, profile_id, limit, offset)
+    return ok(result, "Posts fetched successfully")
+
+
+@router.get("/saved")
+def get_saved_posts_api(
+    profile_id: int = Query(..., description="Your profile ID"),
+    limit: int = 20,
+    offset: int = 0,
+    db: Session = Depends(get_db),
+):
+    result = service.get_saved_posts(db, profile_id, limit, offset)
+    return ok(result, "Saved posts fetched successfully")
+
+
+@router.get("/{post_id}")
+def get_post_api(
+    post_id: int,
+    profile_id: int = Query(..., description="Your profile ID"),
+    db: Session = Depends(get_db),
+):
+    try:
+        result = service.get_post(db, post_id, profile_id)
+        return ok(result, "Post fetched successfully")
+    except service.PostNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.patch("/{post_id}")
+def update_post_api(
+    post_id: int,
+    payload: PostUpdate,
+    profile_id: int = Query(..., description="Your profile ID"),
+    db: Session = Depends(get_db),
+):
+    try:
+        result = service.update_post(db, post_id, profile_id, payload)
+        return ok(result, "Post updated successfully")
+    except service.PostNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except service.PostForbiddenError as e:
+        raise HTTPException(status_code=403, detail=str(e))
+
+
+@router.delete("/{post_id}", status_code=204)
+def delete_post_api(
+    post_id: int,
+    profile_id: int = Query(..., description="Your profile ID"),
+    db: Session = Depends(get_db),
+):
+    try:
+        service.delete_post(db, post_id, profile_id)
+    except service.PostNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except service.PostForbiddenError as e:
+        raise HTTPException(status_code=403, detail=str(e))
+
+
+# ----------------------------------------------------------------------------
+# Likes
+# ----------------------------------------------------------------------------
+
+@router.post("/{post_id}/like")
+def toggle_like_api(
+    post_id: int,
+    profile_id: int = Query(..., description="Your profile ID"),
+    db: Session = Depends(get_db),
+):
+    try:
+        result = service.toggle_like(db, post_id, profile_id)
+        return ok(result, "Like toggled")
+    except service.PostNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+# ----------------------------------------------------------------------------
+# Comments
+# ----------------------------------------------------------------------------
+
+@router.get("/{post_id}/comments")
+def get_comments_api(
+    post_id: int,
+    profile_id: int = Query(..., description="Your profile ID"),
+    limit: int = 20,
+    offset: int = 0,
+    db: Session = Depends(get_db),
+):
+    try:
+        result = service.get_comments(db, post_id, limit, offset)
+        return ok(result, "Comments fetched successfully")
+    except service.PostNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.post("/{post_id}/comments", status_code=201)
+def add_comment_api(
+    post_id: int,
+    payload: CommentCreate,
+    profile_id: int = Query(..., description="Your profile ID"),
+    db: Session = Depends(get_db),
+):
+    try:
+        result = service.add_comment(db, post_id, profile_id, payload)
+        return ok(result, "Comment added successfully")
+    except service.PostNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except service.PostForbiddenError as e:
+        raise HTTPException(status_code=403, detail=str(e))
+
+
+@router.delete("/{post_id}/comments/{comment_id}", status_code=204)
+def delete_comment_api(
+    post_id: int,
+    comment_id: int,
+    profile_id: int = Query(..., description="Your profile ID"),
+    db: Session = Depends(get_db),
+):
+    try:
+        service.delete_comment(db, post_id, comment_id, profile_id)
+    except service.CommentNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except service.CommentForbiddenError as e:
+        raise HTTPException(status_code=403, detail=str(e))
+
+
+# ----------------------------------------------------------------------------
+# Shares
+# ----------------------------------------------------------------------------
+
+@router.post("/{post_id}/share")
+def record_share_api(
+    post_id: int,
+    profile_id: int = Query(..., description="Your profile ID"),
+    db: Session = Depends(get_db),
+):
+    try:
+        result = service.record_share(db, post_id, profile_id)
+        return ok(result, "Share recorded")
+    except service.PostNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+# ----------------------------------------------------------------------------
+# Saves
+# ----------------------------------------------------------------------------
+
+@router.post("/{post_id}/save")
+def toggle_save_api(
+    post_id: int,
+    profile_id: int = Query(..., description="Your profile ID"),
+    db: Session = Depends(get_db),
+):
+    try:
+        result = service.toggle_save(db, post_id, profile_id)
+        return ok(result, "Save toggled")
+    except service.PostNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))

@@ -12,7 +12,7 @@ Onboarding uses a short-lived **onboarding token** to carry your phone identity 
 
 | Token | Used for | How to get it |
 |---|---|---|
-| `onboarding_token` | `POST /profile/user` and `POST /profile/` only | Returned by `POST /auth/verify-otp` |
+| `onboarding_token` | `POST /profile/user` and `POST /profile/` only | Returned by `POST /auth/verify-otp` — **new users only** |
 
 The onboarding token goes in the `Authorization` header during registration:
 ```
@@ -79,7 +79,7 @@ Content-Type: application/json
     "data": {
         "is_new_user": true,
         "onboarding_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-        "access_token": null,
+        "user_id": null,
         "token_type": "bearer"
     }
 }
@@ -89,11 +89,11 @@ Content-Type: application/json
 ```json
 {
     "success": true,
-    "message": "Welcome back.",
+    "message": "Welcome back. Use your saved user_id to continue.",
     "data": {
         "is_new_user": false,
-        "onboarding_token": "eyJ...",
-        "access_token": null,
+        "onboarding_token": null,
+        "user_id": "c37a3257-dc3f-43be-9fb0-33cf918b11ff",
         "token_type": "bearer"
     }
 }
@@ -102,7 +102,7 @@ Content-Type: application/json
 **Frontend logic:**
 ```
 if is_new_user == true  → proceed to Steps 3 & 4 using the onboarding_token
-if is_new_user == false → skip onboarding — use the saved user_id from your local storage
+if is_new_user == false → skip onboarding — save the returned user_id to local storage
 ```
 
 > The `onboarding_token` expires in **15 minutes**.
@@ -276,8 +276,8 @@ PATCH /profile/user/fcm-token?user_id=<uuid>            → device registered fo
 RETURNING USER
 ──────────────
 POST /auth/send-otp                                     → OTP sent to phone
-POST /auth/verify-otp                                   → { is_new_user: false }
-                                                           ↑ skip all steps — use saved user_id
+POST /auth/verify-otp                                   → { is_new_user: false, user_id: "<uuid>" }
+                                                           ↑ skip all steps — save user_id to local storage
 ```
 
 ---
@@ -287,7 +287,7 @@ POST /auth/verify-otp                                   → { is_new_user: false
 | Method | Endpoint | Token Required | What it does |
 |---|---|---|---|
 | `POST` | `/auth/send-otp` | None | Request OTP via SMS |
-| `POST` | `/auth/verify-otp` | None | Verify OTP → get onboarding_token |
+| `POST` | `/auth/verify-otp` | None | Verify OTP → onboarding_token (new) or user_id (returning) |
 | `POST` | `/profile/user` | `onboarding_token` | Create user row — returns `user_id` UUID |
 | `POST` | `/profile/` | `onboarding_token` | Create profile |
 | `PATCH` | `/profile/user/fcm-token?user_id=` | None | Register device for push notifications |
