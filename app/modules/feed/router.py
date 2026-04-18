@@ -1,0 +1,65 @@
+"""
+Home Feed Router
+
+GET  /feed/home       — fetch a page of the home feed
+POST /feed/engagement — submit engagement signals
+"""
+from __future__ import annotations
+
+import json
+from typing import Optional
+from uuid import UUID
+
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy.orm import Session
+
+from app.dependencies import get_db
+from app.modules.feed.schemas import EngagementBatch, FeedCursor
+from app.modules.feed.service import (
+    ProfileNotFoundError,
+    get_home_feed,
+    submit_engagement,
+)
+from app.shared.utils.response import ok
+
+router = APIRouter(prefix="/feed", tags=["Home Feed"])
+
+
+@router.get("/home")
+def home_feed(
+    user_id: UUID = Query(..., description="Caller's user UUID (from auth token)"),
+    cursor: Optional[str] = Query(None, description="JSON-encoded FeedCursor from previous page"),
+    db: Session = Depends(get_db),
+):
+    """
+    Returns a paginated, mixed home feed.
+
+    - First call: omit `cursor` — priority pins are resolved and prepended.
+    - Subsequent calls: pass the `cursor` returned from the previous response.
+    """
+    parsed_cursor: Optional[FeedCursor] = None
+    if cursor:
+        try:
+            parsed_cursor = FeedCursor(**json.loads(cursor))
+        except Exception:
+            raise HTTPException(status_code=400, detail="Invalid cursor format")
+
+    try:
+        result = get_home_feed(db, user_id, parsed_cursor)
+    except ProfileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+    return ok(result.model_dump(), "Feed fetched successfully")
+
+
+@router.post("/engagement")
+def record_engagement(
+    body: EngagementBatch,
+    user_id: UUID = Query(..., description="Caller's user UUID"),
+):
+    """
+    Accepts a batch of engagement signals (dwell, like, save, skip, etc.).
+    Acknowledged only for now — session taste processing re-enabled with Redis.
+    """
+    result = submit_engagement(user_id, body)
+    return ok(result, "Engagement recorded")

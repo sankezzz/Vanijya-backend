@@ -16,6 +16,7 @@ from app.modules.connections.router import (
     recommendations_router,
 )
 from app.modules.news.router import router as news_router
+from app.modules.feed.router import router as feed_router
 from app.modules.news.tasks import ingest, recalc_trending, update_taste, archive_old
 from app.core.database.session import SessionLocal
 
@@ -82,3 +83,6 @@ app.include_router(recommendations_router)
 
 # News module
 app.include_router(news_router)
+
+# Home Feed module
+app.include_router(feed_router)

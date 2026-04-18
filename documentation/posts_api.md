@@ -69,7 +69,8 @@ Every endpoint that returns a post will include this shape inside `data`:
   "target_roles": null,
   "allow_comments": true,
   "grain_type_size": null,
-  "commodity_quantity": null,
+  "commodity_quantity_min": null,
+  "commodity_quantity_max": null,
   "price_type": null,
   "other_description": null,
   "view_count": 14,
@@ -94,7 +95,8 @@ Every endpoint that returns a post will include this shape inside `data`:
 | `target_roles` | int[] \| null | `null` = all roles, or array like `[1, 3]` |
 | `allow_comments` | bool | Whether comments are enabled |
 | `grain_type_size` | string \| null | Filled only for category 4 |
-| `commodity_quantity` | float \| null | Filled only for category 4 |
+| `commodity_quantity_min` | float \| null | Lower bound of trade range — only for category 4 |
+| `commodity_quantity_max` | float \| null | Upper bound of trade range — only for category 4 |
 | `price_type` | string \| null | `"fixed"` or `"negotiable"` — only for category 4 |
 | `other_description` | string \| null | Filled only for category 5 |
 | `view_count` | int | Unique profile views |
@@ -137,7 +139,8 @@ Every endpoint that returns a post will include this shape inside `data`:
   "is_public": true,
   "allow_comments": true,
   "grain_type_size": "Basmati Long Grain",
-  "commodity_quantity": 500.0,
+  "commodity_quantity_min": 200.0,
+  "commodity_quantity_max": 500.0,
   "price_type": "negotiable"
 }
 ```
@@ -167,7 +170,8 @@ Every endpoint that returns a post will include this shape inside `data`:
 | `target_roles` | int[] \| null | No | Default: `null` (all roles) |
 | `image_url` | string \| null | No | Default: `null` |
 | `grain_type_size` | string | **Required if category 4** | — |
-| `commodity_quantity` | float | **Required if category 4** | In metric tonnes (MT) |
+| `commodity_quantity_min` | float | **Required if category 4** | Lower bound in metric tonnes (MT) |
+| `commodity_quantity_max` | float | **Required if category 4** | Upper bound in metric tonnes (MT) |
 | `price_type` | string | **Required if category 4** | `"fixed"` or `"negotiable"` |
 | `other_description` | string | **Required if category 5** | Cannot be empty |
 
@@ -322,7 +326,8 @@ Fetches a single post. **Increments `view_count` by 1** (only once per profile �
     "target_roles": null,
     "allow_comments": true,
     "grain_type_size": "Basmati Long Grain",
-    "commodity_quantity": 500.0,
+    "commodity_quantity_min": 200.0,
+    "commodity_quantity_max": 500.0,
     "price_type": "negotiable",
     "other_description": null,
     "view_count": 1,
@@ -358,7 +363,8 @@ Updates a post. Only the owner (`profile_id` must match `post.profile_id`) can u
   "allow_comments": false,
   "is_public": true,
   "grain_type_size": "Short Grain",
-  "commodity_quantity": 300.0,
+  "commodity_quantity_min": 100.0,
+  "commodity_quantity_max": 300.0,
   "price_type": "fixed",
   "other_description": null,
   "image_url": null
@@ -373,7 +379,8 @@ Updates a post. Only the owner (`profile_id` must match `post.profile_id`) can u
 | `target_roles` | int[] \| null | — |
 | `allow_comments` | bool \| null | — |
 | `grain_type_size` | string \| null | — |
-| `commodity_quantity` | float \| null | — |
+| `commodity_quantity_min` | float \| null | — |
+| `commodity_quantity_max` | float \| null | — |
 | `price_type` | string \| null | `"fixed"` or `"negotiable"` |
 | `other_description` | string \| null | — |
 
