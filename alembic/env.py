@@ -31,6 +31,13 @@ from app.modules.groups.models import (  # noqa: F401
     GroupActivityCache,
     GroupEmbedding,
 )
+from app.modules.news.models import (  # noqa: F401
+    NewsSource,
+    NewsArticle,
+    NewsEngagement,
+    UserClusterTaste,
+    NewsTrending,
+)
 
 from app.core.config import settings
 

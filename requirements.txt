@@ -12,3 +12,6 @@ greenlet
 PyJWT
 python-multipart
 httpx
+apscheduler
+google-genai
+google-auth
