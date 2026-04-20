@@ -22,9 +22,7 @@ import time
 from datetime import datetime, timedelta, timezone
 from math import log1p
 
-import google.auth
 from google import genai
-from google.oauth2.service_account import Credentials
 from sqlalchemy.orm import Session
 import requests
 
@@ -51,14 +49,7 @@ from app.modules.news.weights_config import (
 
 log = logging.getLogger(__name__)
 
-GEMINI_MODEL = "gemini-2.5-flash-lite-preview-06-17"
-GEMINI_PROJECT = "vanijyaa-493705"
-GEMINI_LOCATION = "us-central1"
-GEMINI_SA_PATH = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))),
-    "service.json",
-)
-GEMINI_SCOPES = ["https://www.googleapis.com/auth/cloud-platform"]
+GEMINI_MODEL = "gemini-2.0-flash"
 
 _gemini_client: genai.Client | None = None
 
@@ -66,21 +57,10 @@ _gemini_client: genai.Client | None = None
 def _get_client() -> genai.Client:
     global _gemini_client
     if _gemini_client is None:
-        sa_json = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
-        if sa_json:
-            creds = Credentials.from_service_account_info(
-                json.loads(sa_json), scopes=GEMINI_SCOPES
-            )
-        else:
-            creds = Credentials.from_service_account_file(
-                GEMINI_SA_PATH, scopes=GEMINI_SCOPES
-            )
-        _gemini_client = genai.Client(
-            vertexai=True,
-            project=GEMINI_PROJECT,
-            location=GEMINI_LOCATION,
-            credentials=creds,
-        )
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise RuntimeError("GEMINI_API_KEY environment variable is not set")
+        _gemini_client = genai.Client(api_key=api_key)
     return _gemini_client
 
 GEMINI_SYSTEM_PROMPT = """
