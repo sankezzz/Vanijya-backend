@@ -262,7 +262,10 @@ def create_profile(db: Session, user_id: UUID, payload: ProfileCreate) -> Profil
         _upsert_user_embedding(db, user_id)
         db.commit()
 
-        return _to_response(_load_profile_for_user(db, user_id))
+        loaded_profile = _load_profile_for_user(db, user_id)
+        if not loaded_profile:
+            raise ProfileNotFoundError("Profile not found")
+        return _to_response(loaded_profile)
     except Exception:
         db.rollback()
         raise
@@ -324,7 +327,9 @@ def update_profile(db: Session, user_id: UUID, payload: ProfileUpdate) -> Profil
         _upsert_user_embedding(db, user_id)
         db.commit()
 
-    return _to_response(_load_profile_for_user(db, user_id))
+    profile_resp = _load_profile_for_user(db, user_id)
+    assert profile_resp is not None
+    return _to_response(profile_resp)
 
 
 def delete_profile(db: Session, user_id: UUID) -> None:
