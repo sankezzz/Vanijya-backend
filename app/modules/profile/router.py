@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from sqlalchemy.orm import Session
 from uuid import UUID
 
@@ -18,6 +18,7 @@ from app.modules.profile.service import (
     get_profile_by_id,
     delete_profile,
     update_profile,
+    update_avatar,
     update_fcm_token,
     store_access_token,
     submit_verification,
@@ -121,6 +122,21 @@ def get_my_profile_api(
         return ok(result, "Profile fetched successfully")
     except ProfileNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.patch("/avatar")
+async def update_avatar_api(
+    user_id: UUID = Query(..., description="Acting user's UUID"),
+    avatar: UploadFile = File(..., description="Profile image (jpeg/png/webp)"),
+    db: Session = Depends(get_db),
+):
+    try:
+        result = await update_avatar(db, user_id, avatar)
+        return ok(result, "Avatar updated successfully")
+    except ProfileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except ProfileValidationError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
 @router.patch("/")

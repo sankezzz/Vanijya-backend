@@ -3,6 +3,7 @@ load_dotenv()
 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from app.modules.auth.router import router as auth_router
@@ -65,6 +66,10 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Vanijyaa API", lifespan=lifespan)
+
+import os
+os.makedirs("uploads/avatars", exist_ok=True)
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # Auth module
 app.include_router(auth_router)

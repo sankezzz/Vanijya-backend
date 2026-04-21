@@ -89,6 +89,7 @@ class ProfileResponse(BaseModel):
     business_name: Optional[str]
     latitude: float
     longitude: float
+    avatar_url: Optional[str] = None
 
 
 class ProfilePublicResponse(BaseModel):
@@ -103,6 +104,7 @@ class ProfilePublicResponse(BaseModel):
     latitude: float
     longitude: float
     posts_count: int
+    avatar_url: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------

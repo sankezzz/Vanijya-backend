@@ -1,9 +1,15 @@
+import os
 from datetime import datetime, timezone
 from typing import Iterable
 from uuid import UUID
 
+from fastapi import UploadFile
 from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
+
+_AVATAR_DIR = os.path.join(os.getcwd(), "uploads", "avatars")
+_ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp"}
+_ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 
 from app.modules.profile.models import (
     Commodity,
@@ -176,6 +182,7 @@ def _to_response(profile: Profile) -> ProfileResponse:
         business_name=profile.business_name,
         latitude=profile.latitude,
         longitude=profile.longitude,
+        avatar_url=profile.avatar_url,
     )
 
 
@@ -370,6 +377,7 @@ def get_profile_by_id(db: Session, profile_id: int) -> ProfilePublicResponse:
         latitude=profile.latitude,
         longitude=profile.longitude,
         posts_count=posts_count,
+        avatar_url=profile.avatar_url,
     )
 
 
@@ -414,3 +422,35 @@ def submit_verification(db: Session, user_id: UUID, payload: VerifyProfileReques
 
     db.commit()
     return {"submitted": submitted, "status": "pending_review"}
+
+
+# ---------------------------------------------------------------------------
+# Avatar upload
+# ---------------------------------------------------------------------------
+
+async def update_avatar(db: Session, user_id: UUID, avatar: UploadFile) -> dict:
+    profile = db.query(Profile).filter(Profile.users_id == user_id).first()
+    if not profile:
+        raise ProfileNotFoundError("Profile not found")
+
+    if avatar.content_type not in _ALLOWED_IMAGE_TYPES:
+        raise ProfileValidationError(
+            f"Unsupported image type '{avatar.content_type}'. Allowed: jpeg, png, webp."
+        )
+
+    ext = os.path.splitext(avatar.filename or "")[1].lower()
+    if ext not in _ALLOWED_EXTENSIONS:
+        ext = ".jpg"
+
+    os.makedirs(_AVATAR_DIR, exist_ok=True)
+    filename = f"{user_id}{ext}"
+    filepath = os.path.join(_AVATAR_DIR, filename)
+
+    content = await avatar.read()
+    with open(filepath, "wb") as f:
+        f.write(content)
+
+    avatar_url = f"/uploads/avatars/{filename}"
+    profile.avatar_url = avatar_url
+    db.commit()
+    return {"avatar_url": avatar_url}

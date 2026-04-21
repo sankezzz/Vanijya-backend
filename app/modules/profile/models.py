@@ -82,6 +82,8 @@ class Profile(Base):
     quantity_min: Mapped[Decimal] = mapped_column(Numeric)
     quantity_max: Mapped[Decimal] = mapped_column(Numeric)
 
+    avatar_url: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+
     is_verified: Mapped[bool] = mapped_column(default=False)
     is_user_verified: Mapped[bool] = mapped_column(default=False)
     is_business_verified: Mapped[bool] = mapped_column(default=False)
