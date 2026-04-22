@@ -27,4 +27,5 @@ class VerifyOTPResponse(BaseModel):
     is_new_user: bool
     onboarding_token: Optional[str] = None  # only for new users — use for registration steps
     user_id: Optional[str] = None           # only for returning users — already completed onboarding
+    profile_id: Optional[int] = None        # only for returning users — required for all profile APIs
     token_type: str = "bearer"

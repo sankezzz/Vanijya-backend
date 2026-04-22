@@ -57,7 +57,8 @@ def firebase_verify(payload: FirebaseVerifyRequest, db: Session = Depends(get_db
             "OTP verified. Use the onboarding token to complete registration.",
         )
 
+    profile_id = existing_user.profile.id if existing_user.profile else None
     return ok(
-        VerifyOTPResponse(is_new_user=False, user_id=str(existing_user.id)),
+        VerifyOTPResponse(is_new_user=False, user_id=str(existing_user.id), profile_id=profile_id),
         "Welcome back. Use your saved user_id to continue.",
     )
