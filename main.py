@@ -57,7 +57,11 @@ async def lifespan(app: FastAPI):
     scheduler.start()
 
     # Run ingest once immediately so there are articles on first boot
-    ingest()
+    try:
+        ingest()
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("Startup ingest failed (non-fatal): %s", exc)
 
     yield
 

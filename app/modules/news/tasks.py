@@ -190,6 +190,7 @@ def ingest() -> dict:
     """Fetch RSS feeds, classify with Gemini, upsert articles. Run every 20 min."""
     db: Session = SessionLocal()
     new_count = skipped = 0
+    seen_urls: set[str] = set()
     try:
         sources = (
             db.query(NewsSource).filter(NewsSource.is_active == True).all()  # noqa: E712
@@ -200,9 +201,13 @@ def ingest() -> dict:
                 url = item["url"]
                 if not url:
                     continue
+                if url in seen_urls:
+                    skipped += 1
+                    continue
                 if db.query(NewsArticle.id).filter(NewsArticle.url == url).first():
                     skipped += 1
                     continue
+                seen_urls.add(url)
 
                 classification = classify_article(item["title"], item["content"])
                 time.sleep(6)  # stay under 10 req/min Gemini rate limit
