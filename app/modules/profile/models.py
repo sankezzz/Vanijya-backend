@@ -76,6 +76,8 @@ class Profile(Base):
     name: Mapped[str] = mapped_column(String(100))
     business_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
 
+    city: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    state: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     latitude: Mapped[float] = mapped_column(Float)
     longitude: Mapped[float] = mapped_column(Float)
 

@@ -553,6 +553,31 @@ def post_comment(
     db.commit()
 
 
+def get_saved_articles(db: Session, user_id: UUID) -> list[ArticleOut]:
+    saved_engagements = (
+        db.query(NewsEngagement.article_id)
+        .filter(
+            NewsEngagement.user_id == user_id,
+            NewsEngagement.action_type == "save",
+        )
+        .all()
+    )
+    article_ids = [row[0] for row in saved_engagements]
+    if not article_ids:
+        return []
+    articles = (
+        db.query(NewsArticle)
+        .options(joinedload(NewsArticle.source))
+        .filter(NewsArticle.id.in_(article_ids))
+        .order_by(NewsArticle.published_at.desc())
+        .all()
+    )
+    saved_id_set = set(article_ids)
+    liked_ids = _engagement_ids(db, user_id, article_ids, "like")
+    counts = _fetch_counts(db, article_ids)
+    return [_article_out(a, liked_ids, saved_id_set, counts) for a in articles]
+
+
 def get_comments(
     db: Session, article_id: UUID, page: int, per_page: int
 ) -> list[CommentOut]:

@@ -17,6 +17,7 @@ from app.modules.news.service import (
     get_comments,
     get_engagement_history,
     get_news_feed,
+    get_saved_articles,
     get_taste_profile,
     post_comment,
     record_engagement,
@@ -86,6 +87,17 @@ def my_history(
 ):
     results = get_engagement_history(db, user_id, action_type, page, per_page)
     return ok([r.model_dump() for r in results], "Engagement history fetched")
+
+
+# ── Saved articles ───────────────────────────────────────────────────────────
+
+@router.get("/saved")
+def saved_articles(
+    user_id: UUID = Query(..., description="Acting user's UUID"),
+    db: Session = Depends(get_db),
+):
+    results = get_saved_articles(db, user_id)
+    return ok([r.model_dump() for r in results], "Saved articles fetched")
 
 
 # ── Single article ────────────────────────────────────────────────────────────

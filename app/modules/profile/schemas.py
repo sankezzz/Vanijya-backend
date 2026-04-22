@@ -66,6 +66,8 @@ class ProfileCreate(BaseModel):
 
     # Screen 5
     business_name: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
     latitude: float
     longitude: float
 
@@ -87,6 +89,8 @@ class ProfileResponse(BaseModel):
     is_business_verified: bool
     followers_count: int
     business_name: Optional[str]
+    city: Optional[str] = None
+    state: Optional[str] = None
     latitude: float
     longitude: float
     avatar_url: Optional[str] = None
@@ -101,6 +105,8 @@ class ProfilePublicResponse(BaseModel):
     is_verified: bool
     commodities: List[CommodityOut]
     business_name: Optional[str]
+    city: Optional[str] = None
+    state: Optional[str] = None
     latitude: float
     longitude: float
     posts_count: int
@@ -118,6 +124,8 @@ class ProfileUpdate(BaseModel):
     quantity_min: Optional[float] = None
     quantity_max: Optional[float] = None
     business_name: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
