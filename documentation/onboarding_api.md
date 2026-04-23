@@ -71,7 +71,13 @@ Content-Type: application/json
 |---|---|---|---|
 | `firebase_id_token` | string | Yes | ID token from `user.getIdToken()` after phone sign-in |
 
-**Success `200` — new user:**
+**Success `200` — needs onboarding** (`is_new_user: true`):
+
+Returned in three situations:
+- Brand new phone number (never registered)
+- Previously deleted account re-registering (account will be reactivated in Step 3)
+- Existing user who never finished onboarding (no profile created yet)
+
 ```json
 {
     "success": true,
@@ -139,7 +145,9 @@ No request body — phone number and country code are read directly from the tok
 
 **Save the `id`** — this is the user's UUID. Store it locally and pass it in all subsequent API calls.
 
-**Error `409`** — phone number already registered:
+> **Re-registration after account deletion:** If this user previously deleted their account, this call automatically reactivates it and wipes the old profile so they start fresh. The response looks identical to a new user — proceed to Step 4 normally.
+
+**Error `409`** — active account already registered with this phone number:
 ```json
 { "detail": "Phone number already registered" }
 ```
@@ -164,9 +172,10 @@ Content-Type: application/json
     "quantity_min": 100,
     "quantity_max": 500,
     "business_name": "Ravi Agro Pvt Ltd",
+    "city": "Mumbai",
+    "state": "Maharashtra",
     "latitude": 19.076,
-    "longitude": 72.877,
-    "experience": 5
+    "longitude": 72.877
 }
 ```
 
@@ -179,9 +188,10 @@ Content-Type: application/json
 | `quantity_min` | float | Yes | Min trade quantity in MT |
 | `quantity_max` | float | Yes | Must be ≥ `quantity_min` |
 | `business_name` | string | No | Optional |
+| `city` | string | No | City name e.g. `"Mumbai"` |
+| `state` | string | No | State name e.g. `"Maharashtra"` |
 | `latitude` | float | Yes | Location latitude |
 | `longitude` | float | Yes | Location longitude |
-| `experience` | int | No | Years of experience |
 
 **Lookup IDs (pre-seeded integers):**
 
@@ -223,9 +233,11 @@ Interests:
             "is_verified": false,
             "followers_count": 0,
             "business_name": "Ravi Agro Pvt Ltd",
+            "city": "Mumbai",
+            "state": "Maharashtra",
             "latitude": 19.076,
             "longitude": 72.877,
-            "experience": 5
+            "avatar_url": null
         }
     }
 }
@@ -285,6 +297,16 @@ RETURNING USER
 [Client]  User enters OTP → signInWithCredential()         → get idToken
 POST /auth/firebase-verify  { firebase_id_token }          → { is_new_user: false, user_id: "<uuid>" }
                                                               ↑ skip all steps — save user_id to local storage
+
+RE-REGISTERING (previously deleted account)
+────────────────────────────────────────────
+[Client]  FirebaseAuth.verifyPhoneNumber(+91XXXXXXXXXX)   → Firebase sends SMS
+[Client]  User enters OTP → signInWithCredential()         → get idToken
+POST /auth/firebase-verify  { firebase_id_token }          → { is_new_user: true, onboarding_token }
+                                                              ↑ same response as new user
+POST /profile/user          ← onboarding_token             → account reactivated, old profile wiped ← SAVE UUID
+POST /profile/              ← onboarding_token             → fresh profile created
+PATCH /profile/user/fcm-token?user_id=<uuid>               → device registered for push
 ```
 
 ---

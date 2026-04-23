@@ -5,6 +5,7 @@ from app.dependencies import get_db
 from app.modules.auth.schemas import FirebaseVerifyRequest, VerifyOTPResponse
 from app.modules.auth.service import verify_firebase_token, issue_onboarding_token
 from app.modules.profile.models import User
+from app.core.security.jwt_handler import create_onboarding_token
 from app.shared.utils.response import ok
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -48,17 +49,35 @@ def firebase_verify(payload: FirebaseVerifyRequest, db: Session = Depends(get_db
         User.phone_number == phone_number,
     ).first()
 
-    is_new_user = existing_user is None
-
-    if is_new_user:
+    # Brand new user — no row at all
+    if existing_user is None:
         onboarding_token = issue_onboarding_token(phone_number, country_code)
         return ok(
             VerifyOTPResponse(is_new_user=True, onboarding_token=onboarding_token),
             "OTP verified. Use the onboarding token to complete registration.",
         )
 
-    profile_id = existing_user.profile.id if existing_user.profile else None
+    # Soft-deleted user re-registering — _reactivate_user will restore them by phone
+    if existing_user.is_deleted:
+        onboarding_token = issue_onboarding_token(phone_number, country_code)
+        return ok(
+            VerifyOTPResponse(is_new_user=True, onboarding_token=onboarding_token),
+            "OTP verified. Use the onboarding token to complete registration.",
+        )
+
+    # User exists but never finished onboarding (no profile) — reuse their existing
+    # UUID so POST /profile/user doesn't raise a phone conflict
+    if existing_user.profile is None:
+        onboarding_token = create_onboarding_token(
+            existing_user.id, phone_number, country_code
+        )
+        return ok(
+            VerifyOTPResponse(is_new_user=True, onboarding_token=onboarding_token),
+            "OTP verified. Use the onboarding token to complete registration.",
+        )
+
+    # Fully registered returning user
     return ok(
-        VerifyOTPResponse(is_new_user=False, user_id=str(existing_user.id), profile_id=profile_id),
+        VerifyOTPResponse(is_new_user=False, user_id=str(existing_user.id), profile_id=existing_user.profile.id),
         "Welcome back. Use your saved user_id to continue.",
     )
