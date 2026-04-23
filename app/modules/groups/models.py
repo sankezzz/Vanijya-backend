@@ -5,6 +5,7 @@ from typing import Optional, List
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.dialects.postgresql import UUID as PGUUID, JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from pgvector.sqlalchemy import Vector
 
 from app.core.database.base import Base
 
@@ -101,15 +102,14 @@ class GroupActivityCache(Base):
 
 
 class GroupEmbedding(Base):
-    """11-dim vector stored as JSONB list[float]. Same structure as user_embeddings."""
+    """11-dim pgvector IS vector. HNSW index for cosine ANN search."""
     __tablename__ = "group_embeddings"
 
     group_id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), ForeignKey("groups.id"), primary_key=True
     )
-    # JSON-serialised list[float] — 11 dimensions
     # Layout: [3 commodity | 3 role | 3 geo | 2 zeros]
-    embedding: Mapped[Optional[list]] = mapped_column(JSONB, nullable=True)
+    embedding: Mapped[Optional[list]] = mapped_column(Vector(11), nullable=True)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=lambda: datetime.now(timezone.utc)
     )

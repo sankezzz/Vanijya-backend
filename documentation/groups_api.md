@@ -122,8 +122,15 @@ Four tables are created by migration `3f8a2c1d9e74`.
 | Column | Type | Notes |
 |---|---|---|
 | `group_id` | UUID PK FK → groups.id | |
-| `embedding` | JSONB | `list[float]` — 11 dimensions |
+| `embedding` | **VECTOR(11)** | 11-dim pgvector column — replaces JSONB as of migration `a3b4c5d6e7f8` |
 | `updated_at` | TIMESTAMP | |
+
+**HNSW index** (cosine distance, created by migration `a3b4c5d6e7f8`):
+```sql
+CREATE INDEX ix_group_embeddings_hnsw
+  ON group_embeddings USING hnsw (embedding vector_cosine_ops);
+```
+This index powers the ANN search in the recommendation engine — without it the engine falls back to a full table scan.
 
 ---
 
@@ -131,10 +138,10 @@ Four tables are created by migration `3f8a2c1d9e74`.
 
 ```
 app/modules/groups/
-  models.py     ← SQLAlchemy ORM
+  models.py     ← SQLAlchemy ORM (GroupEmbedding uses Vector(11))
   schemas.py    ← Pydantic request/response DTOs
-  vector.py     ← Group IS vector builder, cosine similarity, activity score
-  service.py    ← All business logic
+  vector.py     ← Group IS vector builder, activity score, final score blend
+  service.py    ← All business logic (HNSW ANN + activity reranking)
   router.py     ← 18 thin FastAPI route handlers
   __init__.py
 ```
@@ -605,7 +612,28 @@ POST /api/v1/groups/join-by-link/abc123xyz456def7?user_id=a1b2c3d4-e5f6-7890-abc
 
 ### `GET /api/v1/groups/suggestions/{user_id}`
 
-Returns top 20 group suggestions ranked by cosine similarity (75%) + activity score (25%). Excludes groups the user is already in and `private` groups.
+Returns top 20 group suggestions ranked by semantic similarity (75%) + activity score (25%). Excludes groups the user is already in and `private` groups.
+
+**Two-stage pipeline:**
+
+```
+Stage 1 — HNSW ANN (SQL, fast)
+  pgvector <=> operator on group_embeddings
+  Fetches top 80 semantically closest groups, already filtered:
+    - accessibility != 'private'
+    - group not already joined by user
+  Cost: O(log N) — independent of total group count
+
+Stage 2 — Activity reranking (Python, cheap)
+  For each of the 80 candidates, blends:
+    semantic_score × 0.75  +  activity_score × 0.25
+  activity_score = log1p(messages_24h × 0.4
+                       + active_members_7d × 0.4
+                       + member_growth_7d × 0.2) / log1p(100)
+  Returns top 20 after sorting
+```
+
+**Why two stages?** HNSW gives you the most relevant groups by profile match in microseconds. Activity reranking then surfaces groups that are also *active*, not just semantically close.
 
 **Example:**
 ```

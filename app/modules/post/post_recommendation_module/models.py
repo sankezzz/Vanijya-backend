@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, String, UniqueConstraint
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
+from pgvector.sqlalchemy import Vector
 
 from app.core.database.base import Base
 
@@ -13,7 +13,7 @@ class PostEmbedding(Base):
     post_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("posts.id", ondelete="CASCADE"), primary_key=True
     )
-    vector: Mapped[list] = mapped_column(JSONB, nullable=False)
+    vector: Mapped[list] = mapped_column(Vector(11), nullable=False)
     partition: Mapped[str] = mapped_column(String(10), nullable=False, default="hot")
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)

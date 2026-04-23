@@ -17,14 +17,27 @@
 
 ## How It Works — Overview
 
-The recommendation engine runs in three layers:
+The recommendation engine runs in four layers:
 
 ```
-Publish time  →  post vector built + stored in post_embeddings
-Feed request  →  user vector built → cosine similarity vs. pool
+Publish time  →  post vector (11-dim) built + stored in post_embeddings (VECTOR(11))
+Feed request  →  user vector built
+                 → HNSW ANN fetch: top N posts per partition ordered by cosine distance
+                 → exact weighted cosine (FEED_WEIGHTS) applied in Python
                  → rerank by taste + freshness + engagement + social
                  → diversity cap → top 25 returned
 ```
+
+### Storage
+
+`post_embeddings.vector` is a native **pgvector `VECTOR(11)`** column with an HNSW index:
+
+```sql
+CREATE INDEX ix_post_embeddings_hnsw
+  ON post_embeddings USING hnsw (vector vector_cosine_ops);
+```
+
+This replaces the previous JSONB storage (migrated by `a3b4c5d6e7f8`).
 
 ### Partitions
 
@@ -38,6 +51,20 @@ Posts age through three partitions automatically (background job, hourly):
 
 Posts outside these windows are soft-expired (`is_active = false`) and never served.
 
+**Candidate fetch per partition (HNSW, not random):**
+
+The engine queries each partition using pgvector's `<=>` operator, so the candidates it fetches are already the most semantically relevant posts for this user — not an arbitrary sample:
+
+```sql
+SELECT post_id, category, vector
+FROM post_embeddings
+WHERE partition = 'hot' AND is_active = true
+ORDER BY vector <=> '[user_vec]'::vector   -- HNSW index used here
+LIMIT 50
+```
+
+Python then applies exact **weighted cosine similarity** (`FEED_WEIGHTS`: commodity 3×, role 2×, geo 1.5×, qty 1×) on the returned vectors for the final `vec_score`.
+
 ### Scoring Formula
 
 ```
@@ -46,7 +73,7 @@ final_score = vec_score × taste_weight × (1 + engagement) × freshness × soci
 
 | Factor | What it is |
 |--------|-----------|
-| `vec_score` | Weighted cosine similarity between user and post vectors (commodity 3×, role 2×, geo 1.5×, qty 1×) |
+| `vec_score` | Weighted cosine similarity between user and post vectors (commodity 3×, role 2×, geo 1.5×, qty 1×), computed in Python after HNSW pre-filtering |
 | `taste_weight` | log1p-scaled share of user's historical interactions for this category |
 | `engagement` | `log1p(saves×3 + comments×2 + likes) / 6.9`, capped at 1.0 |
 | `freshness` | `1.4` if < 2 h old, `1.2` if < 6 h, `1.0` otherwise |

@@ -16,6 +16,7 @@ from datetime import datetime, timezone
 from typing import Optional
 from uuid import UUID
 
+from sqlalchemy import text
 from sqlalchemy.orm import Session, joinedload
 
 from app.modules.profile.models import Profile, Profile_Commodity, Role
@@ -40,7 +41,6 @@ from app.modules.groups.vector import (
     build_match_reasons,
     compute_activity_score,
     compute_final_score,
-    cosine_similarity,
 )
 from app.modules.connections.encoding.vector import build_query_vector
 
@@ -541,8 +541,7 @@ def get_group_suggestions(
 ) -> list[GroupSuggestionOut]:
     """
     Two-stage group recommendation:
-      Stage 1 — in-Python cosine similarity between user's WANT vector
-                and each group's IS embedding.
+      Stage 1 — pgvector HNSW cosine ANN (<=> operator) pre-filters candidates.
       Stage 2 — activity reranking via group_activity_cache.
       Final    — weighted blend (75 % semantic + 25 % activity).
     """
@@ -561,28 +560,46 @@ def get_group_suggestions(
         qty_max=int(profile.quantity_max),
     )
 
-    # ── 2. Load groups the user is NOT already a member of ─────────────────
-    member_group_ids = [
+    vec_str = "[" + ",".join(str(v) for v in want_vec) + "]"
+
+    # ── 2. Get user's current group memberships ─────────────────────────────
+    member_set = {
         row[0]
         for row in db.query(GroupMember.group_id)
         .filter(GroupMember.user_id == user_id)
         .all()
-    ]
+    }
 
-    embeddings = (
-        db.query(GroupEmbedding)
-        .filter(GroupEmbedding.embedding.isnot(None))
-        .all()
-    )
-    # Exclude groups user is already in
-    member_set = set(member_group_ids)
-    embeddings = [e for e in embeddings if e.group_id not in member_set]
+    # ── 3. HNSW ANN: fetch top candidates, excluding private groups ─────────
+    # Overfetch (top_k * 4) to allow Python-side member filtering.
+    candidate_rows = db.execute(
+        text("""
+            SELECT ge.group_id,
+                   1 - (ge.embedding <=> CAST(:vec AS vector)) AS similarity
+            FROM group_embeddings ge
+            JOIN groups g ON g.id = ge.group_id
+            WHERE ge.embedding IS NOT NULL
+              AND g.accessibility != 'private'
+            ORDER BY ge.embedding <=> CAST(:vec AS vector)
+            LIMIT :limit
+        """),
+        {"vec": vec_str, "limit": top_k * 4},
+    ).mappings().all()
 
-    if not embeddings:
+    # Filter out groups the user already belongs to
+    candidates = [
+        (r["group_id"], float(r["similarity"]))
+        for r in candidate_rows
+        if r["group_id"] not in member_set
+    ][:top_k * 2]  # keep a buffer for activity reranking
+
+    if not candidates:
         return []
 
-    # ── 3. Load groups + activity caches in bulk ────────────────────────────
-    group_ids = [e.group_id for e in embeddings]
+    # ── 4. Load groups + activity caches in bulk ────────────────────────────
+    group_ids = [gid for gid, _ in candidates]
+    sim_by_id = {gid: sim for gid, sim in candidates}
+
     groups = {
         g.id: g
         for g in db.query(Group).filter(Group.id.in_(group_ids)).all()
@@ -594,33 +611,26 @@ def get_group_suggestions(
         .all()
     }
 
-    # ── 4. Score each group ─────────────────────────────────────────────────
+    # ── 5. Activity reranking — weighted blend ──────────────────────────────
     scored: list[tuple[float, Group, float, float]] = []
-    for emb in embeddings:
-        group = groups.get(emb.group_id)
-        if group is None or not emb.embedding:
+    for gid, sim in candidates:
+        group = groups.get(gid)
+        if group is None:
             continue
 
-        # Skip private groups (user isn't a member and wasn't invited)
-        if group.accessibility == "private":
-            continue
-
-        sim = cosine_similarity(want_vec, emb.embedding)
-
-        cache = activities.get(group.id)
+        cache = activities.get(gid)
         act = compute_activity_score(
             messages_24h=cache.messages_24h if cache else 0,
             active_members_7d=cache.active_members_7d if cache else 0,
             member_growth_7d=cache.member_growth_7d if cache else 0,
         )
-
         final = compute_final_score(sim, act)
         scored.append((final, group, sim, act))
 
-    # ── 5. Sort and return top-K ────────────────────────────────────────────
     scored.sort(key=lambda x: x[0], reverse=True)
     top = scored[:top_k]
 
+    # ── 6. Build response ───────────────────────────────────────────────────
     results: list[GroupSuggestionOut] = []
     for final_score, group, sim, act in top:
         reasons = build_match_reasons(

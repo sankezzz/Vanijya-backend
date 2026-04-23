@@ -24,18 +24,18 @@ A concise reference for anyone working on the vector-based matching engine.
 Users are matched by encoding their profile into a fixed-size floating-point vector and running a cosine similarity search against all stored vectors using the **pgvector HNSW index** on Supabase (Postgres).
 
 ```
-User profile  ──encode──►  vector(11)  ──stored in──►  "Users".embedding
+User profile  ──encode──►  vector(11)  ──stored in──►  user_embeddings.is_vector
                                                               │
-Search request ──encode──►  query vector  ──ANN search──────►│
+Search request ──encode──►  WANT vector  ──HNSW ANN (<=>)───►│
                                                               ▼
-                                                     ranked matches
+                                                     top-20 ranked matches
 ```
 
 Every user has **two logical vectors**:
 
 | Name | Purpose | Stored? |
 |---|---|---|
-| **IS vector** (candidate) | What the user *is* — their profile | ✅ Yes, in `embedding` column |
+| **IS vector** (candidate) | What the user *is* — their profile | ✅ Yes, in `user_embeddings.is_vector` |
 | **WANT vector** (query) | What the user *wants* — built at query time | ❌ Never stored |
 
 ---
@@ -176,68 +176,75 @@ All weights live in `app/config.py`. Changing any of them **invalidates all stor
 ### Schema
 
 ```sql
-CREATE EXTENSION IF NOT EXISTS vector;
+-- user_embeddings table (created by alembic migration b5e7f9a2c3d1)
+-- Column type migrated JSONB → VECTOR(11) by migration a3b4c5d6e7f8
 
-ALTER TABLE "Users"
-    ADD COLUMN IF NOT EXISTS embedding vector(11);
+CREATE TABLE user_embeddings (
+    user_id   UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+    is_vector VECTOR(11),          -- 11-dim IS vector, nullable until first profile save
+    updated_at TIMESTAMP NOT NULL
+);
 
-CREATE INDEX IF NOT EXISTS users_embedding_hnsw_idx
-    ON "Users" USING hnsw (embedding vector_cosine_ops);
+-- HNSW index for cosine ANN search (migration a3b4c5d6e7f8)
+CREATE INDEX ix_user_embeddings_hnsw
+    ON user_embeddings USING hnsw (is_vector vector_cosine_ops);
 ```
 
-The migration script (`migrate_pgvec.py`) runs these automatically — no manual SQL needed.
+Schema setup is handled entirely by **Alembic migrations** — no manual SQL or separate scripts needed. Run `alembic upgrade head` once on a fresh database.
 
 ### Key files
 
 | File | Responsibility |
 |---|---|
-| `app/db/postgres.py` | SQLAlchemy async engine + session factory |
-| `app/db/pgvector.py` | `fetch_user`, `vector_search`, `update_embedding`, `list_to_pgvec` |
+| `app/modules/profile/models.py` | `UserEmbedding` ORM model (`Vector(11)` column) |
+| `app/modules/profile/service.py` | `_upsert_user_embedding()` — builds and stores IS vector on profile create/update |
+| `app/modules/connections/service.py` | `get_recommendations()`, `custom_recommendation_search()` — HNSW ANN query |
+| `app/modules/connections/encoding/vector.py` | `build_candidate_vector()`, `build_query_vector()` |
 
-### `vector_search` query
+### Live ANN query (`connections/service.py`)
 
 ```sql
-SELECT user_id, role, commodity, city, state,
-       min_quantity_mt, max_quantity_mt,
-       1 - (embedding <=> CAST(:vec AS vector)) AS similarity
-FROM "Users"
-WHERE user_id != :exclude_id
-  AND embedding IS NOT NULL
-ORDER BY embedding <=> CAST(:vec AS vector)
-LIMIT :k
+SELECT user_id,
+       1 - (is_vector <=> CAST(:vec AS vector)) AS similarity
+FROM user_embeddings
+WHERE user_id != :uid
+  AND is_vector IS NOT NULL
+ORDER BY is_vector <=> CAST(:vec AS vector)   -- HNSW walks the graph
+LIMIT 20
 ```
 
-`<=>` is pgvector's cosine distance operator. `1 - distance = similarity`. Results are ordered best-first.
+`<=>` is pgvector's cosine distance operator. `1 - distance = similarity`. Results are returned best-first. The HNSW index makes this O(log N) regardless of how many users are in the table.
 
 ---
 
 ## 7. API Endpoints
 
-All endpoints are under the `APIRouter` with prefix `/recommendations`.
+All recommendation endpoints live under the connections router (`/recommendations`).
 
 ### `GET /recommendations/{user_id}`
 
 Fetch top 20 matches for an existing user.
 
-1. Loads the user's full profile from Postgres.
-2. Builds their WANT vector.
-3. Runs ANN cosine search, excluding the user themselves.
+1. Loads the user's profile (role + commodities) from DB.
+2. Builds their WANT vector using `build_query_vector()`.
+3. Runs HNSW ANN cosine search via pgvector `<=>`, excluding the user themselves.
+4. Returns top 20 with full profile info and similarity score.
 
 **Response:**
 ```json
 {
-  "user_id": 42,
+  "user_id": "c37a3257-dc3f-43be-9fb0-33cf918b11ff",
   "role": "trader",
-  "commodity": "rice; cotton",
+  "commodity": ["rice", "cotton"],
   "qty_range": "100–500mt",
   "total": 20,
   "results": [
     {
-      "user_id": 7,
+      "user_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Ravi Kumar",
       "role": "exporter",
-      "commodity": "rice",
-      "city": "Mumbai",
-      "state": "Maharashtra",
+      "commodity": ["rice"],
+      "is_verified": true,
       "qty_range": "200–800mt",
       "similarity": 0.9312
     }
@@ -247,18 +254,9 @@ Fetch top 20 matches for an existing user.
 
 ---
 
-### `GET /recommendations/{user_id}/refresh`
-
-Recomputes and **persists** the user's IS vector, then returns fresh recommendations. Use this after:
-- Encoding logic changes (`vector.py`)
-- Boost weight changes (`config.py`)
-- A user's profile is updated in the DB
-
----
-
 ### `POST /recommendations/search`
 
-Ad-hoc search without needing an existing `user_id`. Useful for previewing matches before registration.
+Ad-hoc search without needing an existing `user_id`. Useful for previewing matches before or during signup.
 
 **Request body:**
 ```json
@@ -276,25 +274,33 @@ Ad-hoc search without needing an existing `user_id`. Useful for previewing match
 
 ---
 
-## 8. Migration Script
+## 8. Migration
 
-`migrate_pgvec.py` is the single tool for setting up and backfilling the embedding column.
+Schema setup is fully managed by **Alembic**. No separate scripts are needed.
 
 ```bash
-# First time setup, or backfill only users missing embeddings:
-python migrate_pgvec.py
+# Apply all migrations (including pgvector setup and HNSW indexes):
+alembic upgrade head
 
-# After changing encoding logic or boost weights — wipe and rebuild everything:
-python migrate_pgvec.py --reset
+# Roll back the pgvector migration if needed:
+alembic downgrade f6a7b8c9d0e1
 ```
 
-What it does in order:
-1. Connects to Supabase via `DATABASE_URL` from `.env`
-2. Runs the schema setup (`CREATE EXTENSION`, `ADD COLUMN`, `CREATE INDEX`) — all idempotent
-3. If `--reset`: sets all `embedding` columns to `NULL`
-4. Fetches all users where `embedding IS NULL`
-5. Builds the IS vector for each user via `build_candidate_vector`
-6. Batch-writes vectors in groups of 100 using `executemany`
+**What the migrations do:**
+
+| Revision | What it creates |
+|---|---|
+| `b5e7f9a2c3d1` | `user_embeddings` table with `is_vector JSONB` |
+| `a3b4c5d6e7f8` | Converts `is_vector` to `VECTOR(11)`, creates HNSW index |
+
+**After changing encoding logic or boost weights**, IS vectors in the DB are stale. Rebuild them by re-saving every profile (which triggers `_upsert_user_embedding`). For a bulk rebuild in development:
+
+```sql
+-- Force all embeddings to rebuild on next profile update
+UPDATE user_embeddings SET is_vector = NULL;
+```
+
+Then call `GET /recommendations/{user_id}/refresh` equivalent or re-run the profile update endpoint for each user.
 
 ---
 

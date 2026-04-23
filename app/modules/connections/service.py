@@ -5,15 +5,15 @@ Sections:
   A. Follow graph       (user_connections — UUID FK → users.id)
   B. Message requests   (message_requests — UUID FK → users.id)
   C. User search        (profile + profile_commodities + commodities + roles)
-  D. Recommendations    (user_embeddings JSONB — cosine similarity in Python)
+  D. Recommendations    (user_embeddings pgvector — HNSW cosine ANN via <=>)
 """
 from __future__ import annotations
 
 from datetime import datetime, timezone
 from uuid import UUID
 
-import numpy as np
 from fastapi import HTTPException
+from sqlalchemy import text
 from sqlalchemy.orm import Session, joinedload
 
 from app.modules.connections.models import MessageRequest, UserConnection
@@ -22,7 +22,6 @@ from app.modules.profile.models import (
     Profile,
     Profile_Commodity,
     Role,
-    UserEmbedding,
 )
 from app.modules.connections.encoding.vector import build_query_vector
 
@@ -80,12 +79,9 @@ def _fmt_profile(profile: Profile) -> dict:
     }
 
 
-def _cosine_similarity(a: list[float], b: list[float]) -> float:
-    va, vb = np.array(a, dtype=float), np.array(b, dtype=float)
-    norm_a, norm_b = np.linalg.norm(va), np.linalg.norm(vb)
-    if norm_a == 0 or norm_b == 0:
-        return 0.0
-    return float(np.dot(va, vb) / (norm_a * norm_b))
+def _to_pgvec(vec: list[float]) -> str:
+    """Format a Python float list as a pgvector literal: '[v1,v2,...]'"""
+    return "[" + ",".join(str(v) for v in vec) + "]"
 
 
 # ---------------------------------------------------------------------------
@@ -326,16 +322,15 @@ def search_suggestions(db: Session, q: str) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
-# D. Recommendations  (cosine similarity against user_embeddings JSONB)
+# D. Recommendations  (pgvector HNSW cosine ANN via <=>)
 # ---------------------------------------------------------------------------
 
 def get_recommendations(db: Session, user_id: UUID) -> dict:
     """
     Top-K user matches for the calling user.
     1. Builds WANT vector from their profile.
-    2. Loads all other user embeddings (IS vectors) from user_embeddings.
-    3. Computes cosine similarity in Python.
-    4. Returns top-20 with full profile info.
+    2. Runs pgvector HNSW ANN search against user_embeddings.
+    3. Returns top-20 with full profile info.
     """
     profile = _load_profile(db, user_id)
     if not profile:
@@ -355,19 +350,20 @@ def get_recommendations(db: Session, user_id: UUID) -> dict:
         qty_max=int(profile.quantity_max),
     )
 
-    embeddings = (
-        db.query(UserEmbedding)
-        .filter(UserEmbedding.user_id != user_id)
-        .all()
-    )
+    rows = db.execute(
+        text("""
+            SELECT user_id,
+                   1 - (is_vector <=> CAST(:vec AS vector)) AS similarity
+            FROM user_embeddings
+            WHERE user_id != CAST(:uid AS uuid)
+              AND is_vector IS NOT NULL
+            ORDER BY is_vector <=> CAST(:vec AS vector)
+            LIMIT :k
+        """),
+        {"vec": _to_pgvec(want_vec), "uid": str(user_id), "k": TOP_K},
+    ).mappings().all()
 
-    scored = [
-        (round(_cosine_similarity(want_vec, emb.is_vector), 4), emb.user_id)
-        for emb in embeddings
-        if emb.is_vector
-    ]
-    scored.sort(key=lambda x: x[0], reverse=True)
-    top = scored[:TOP_K]
+    top = [(round(float(r["similarity"]), 4), r["user_id"]) for r in rows]
 
     match_profiles = _load_profiles_bulk(db, [uid for _, uid in top])
     results = [
@@ -377,12 +373,12 @@ def get_recommendations(db: Session, user_id: UUID) -> dict:
     ]
 
     return {
-        "user_id": str(user_id),
-        "role":    role_str,
+        "user_id":   str(user_id),
+        "role":      role_str,
         "commodity": commodity_names,
         "qty_range": f"{int(profile.quantity_min)}–{int(profile.quantity_max)}mt",
-        "total":   len(results),
-        "results": results,
+        "total":     len(results),
+        "results":   results,
     }
 
 
@@ -408,15 +404,19 @@ def custom_recommendation_search(
         qty_max=qty_max_mt,
     )
 
-    embeddings = db.query(UserEmbedding).all()
+    rows = db.execute(
+        text("""
+            SELECT user_id,
+                   1 - (is_vector <=> CAST(:vec AS vector)) AS similarity
+            FROM user_embeddings
+            WHERE is_vector IS NOT NULL
+            ORDER BY is_vector <=> CAST(:vec AS vector)
+            LIMIT :k
+        """),
+        {"vec": _to_pgvec(want_vec), "k": TOP_K},
+    ).mappings().all()
 
-    scored = [
-        (round(_cosine_similarity(want_vec, emb.is_vector), 4), emb.user_id)
-        for emb in embeddings
-        if emb.is_vector
-    ]
-    scored.sort(key=lambda x: x[0], reverse=True)
-    top = scored[:TOP_K]
+    top = [(round(float(r["similarity"]), 4), r["user_id"]) for r in rows]
 
     match_profiles = _load_profiles_bulk(db, [uid for _, uid in top])
     results = [

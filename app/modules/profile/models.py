@@ -4,8 +4,9 @@ from decimal import Decimal
 from typing import Optional
 
 from sqlalchemy import DateTime, Float, ForeignKey, Integer, Numeric, String, UniqueConstraint
-from sqlalchemy.dialects.postgresql import UUID as PGUUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from pgvector.sqlalchemy import Vector
 
 from app.core.database.base import Base
 
@@ -170,8 +171,8 @@ class UserEmbedding(Base):
     user_id: Mapped[uuid.UUID] = mapped_column(
         PGUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
     )
-    # JSON-serialised list[float] — 11 dimensions
-    is_vector: Mapped[Optional[list]] = mapped_column(JSONB, nullable=True)
+    # 11-dim pgvector IS vector — indexed with HNSW for cosine ANN search
+    is_vector: Mapped[Optional[list]] = mapped_column(Vector(11), nullable=True)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=lambda: datetime.now(timezone.utc)
     )

@@ -8,6 +8,7 @@ pydantic[email]
 numpy
 alembic
 psycopg2-binary
+pgvector
 greenlet
 PyJWT
 python-multipart

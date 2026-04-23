@@ -8,6 +8,7 @@ Taste path  – record_interaction(): called by post service on every engagement
 import math
 from datetime import datetime, timezone, timedelta
 
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
@@ -21,7 +22,9 @@ from app.modules.post.post_recommendation_module.models import (
     PostEmbedding, PopularPost, SeenPost, UserTasteProfile,
 )
 from app.modules.post.post_recommendation_module.vector import (
-    build_post_vector, build_user_feed_vector, weighted_cosine_similarity,
+    build_post_vector,
+    build_user_feed_vector,
+    weighted_cosine_similarity,
 )
 from app.modules.profile.models import Profile, Profile_Commodity
 from app.modules.connections.models import UserConnection
@@ -165,15 +168,37 @@ def _record_seen(db: Session, profile_id: int, post_ids: list[int]) -> None:
 
 
 def _query_partition(
-    db: Session, partition: str, limit: int, exclude_ids: set[int]
-) -> list[PostEmbedding]:
-    q = db.query(PostEmbedding).filter(
-        PostEmbedding.partition == partition,
-        PostEmbedding.is_active == True,
+    db: Session, partition: str, limit: int, exclude_ids: set[int], user_vec: list[float]
+) -> list[dict]:
+    """
+    HNSW ANN pre-filter: fetches the most relevant posts in a partition
+    ordered by approximate cosine distance. Returns raw vectors so the
+    caller can apply exact weighted_cosine_similarity for the final vec_score.
+    """
+    vec_str = "[" + ",".join(str(v) for v in user_vec) + "]"
+
+    exclude_clause = (
+        f"AND post_id NOT IN ({','.join(str(i) for i in exclude_ids)})"
+        if exclude_ids else ""
     )
-    if exclude_ids:
-        q = q.filter(~PostEmbedding.post_id.in_(exclude_ids))
-    return q.limit(limit).all()
+
+    rows = db.execute(
+        text(f"""
+            SELECT post_id, category, vector
+            FROM post_embeddings
+            WHERE partition = :partition
+              AND is_active = true
+              {exclude_clause}
+            ORDER BY vector <=> CAST(:vec AS vector)
+            LIMIT :limit
+        """),
+        {"vec": vec_str, "partition": partition, "limit": limit},
+    ).mappings().all()
+
+    return [
+        {"post_id": r["post_id"], "category": r["category"], "vector": list(r["vector"])}
+        for r in rows
+    ]
 
 
 def _get_popular_posts(
@@ -324,25 +349,25 @@ def get_recommended_posts(db: Session, profile_id: int, dry_run: bool = False) -
     pool_exclude: set[int] = set(seen_ids)
     pool: list[dict] = []
 
-    hot_embs = _query_partition(db, "hot", FETCH_TARGET, pool_exclude)
+    hot_embs = _query_partition(db, "hot", FETCH_TARGET, pool_exclude, user_vec)
     for emb in hot_embs:
-        score = weighted_cosine_similarity(user_vec, emb.vector)
-        pool.append({"post_id": emb.post_id, "category": emb.category, "vec_score": score})
-        pool_exclude.add(emb.post_id)
+        score = weighted_cosine_similarity(user_vec, emb["vector"])
+        pool.append({"post_id": emb["post_id"], "category": emb["category"], "vec_score": score})
+        pool_exclude.add(emb["post_id"])
 
     if len(pool) < MIN_POOL_SIZE:
-        warm_embs = _query_partition(db, "warm", FETCH_TARGET - len(pool), pool_exclude)
+        warm_embs = _query_partition(db, "warm", FETCH_TARGET - len(pool), pool_exclude, user_vec)
         for emb in warm_embs:
-            score = weighted_cosine_similarity(user_vec, emb.vector)
-            pool.append({"post_id": emb.post_id, "category": emb.category, "vec_score": score})
-            pool_exclude.add(emb.post_id)
+            score = weighted_cosine_similarity(user_vec, emb["vector"])
+            pool.append({"post_id": emb["post_id"], "category": emb["category"], "vec_score": score})
+            pool_exclude.add(emb["post_id"])
 
     if len(pool) < MIN_POOL_SIZE:
-        cold_embs = _query_partition(db, "cold", FETCH_TARGET - len(pool), pool_exclude)
+        cold_embs = _query_partition(db, "cold", FETCH_TARGET - len(pool), pool_exclude, user_vec)
         for emb in cold_embs:
-            score = weighted_cosine_similarity(user_vec, emb.vector)
-            pool.append({"post_id": emb.post_id, "category": emb.category, "vec_score": score})
-            pool_exclude.add(emb.post_id)
+            score = weighted_cosine_similarity(user_vec, emb["vector"])
+            pool.append({"post_id": emb["post_id"], "category": emb["category"], "vec_score": score})
+            pool_exclude.add(emb["post_id"])
 
     popular = _get_popular_posts(db, commodity_idxs or {0, 1, 2}, pool_exclude)
     pool.extend(popular)
