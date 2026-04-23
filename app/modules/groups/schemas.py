@@ -91,8 +91,9 @@ class GroupOut(BaseModel):
 class GroupMemberOut(BaseModel):
     user_id: UUID
     name: str
-    role_name: str          # Trader / Broker / Exporter
-    photo_url: Optional[str] = None
+    role: str               # Trader / Broker / Exporter
+    avatar_url: Optional[str] = None
+    is_admin: bool
     is_verified: bool
     member_role: str        # admin | member
     is_frozen: bool
@@ -116,3 +117,10 @@ class GroupListOut(BaseModel):
     total: int
     page: int
     per_page: int
+
+
+class GroupMembersPageOut(BaseModel):
+    members: List[GroupMemberOut]
+    total: int
+    page: int
+    limit: int

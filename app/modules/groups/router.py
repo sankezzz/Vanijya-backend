@@ -192,10 +192,10 @@ def get_members_api(
     group_id: UUID,
     user_id: UUID = Query(..., description="Acting user's UUID"),
     page: int = Query(1, ge=1),
-    per_page: int = Query(20, ge=1, le=100),
+    limit: int = Query(20, ge=1, le=100),
     db: Session = Depends(get_db),
 ):
-    result = _handle(get_members, db, group_id, user_id, page=page, per_page=per_page)
+    result = _handle(get_members, db, group_id, user_id, page=page, limit=limit)
     return ok(result, "Members fetched")
 
 

@@ -367,15 +367,15 @@ def get_members(
     group_id: UUID,
     user_id: UUID,
     page: int = 1,
-    per_page: int = 20,
+    limit: int = 20,
 ) -> dict:
     _get_group_or_raise(db, group_id)
 
     memberships = (
         db.query(GroupMember)
         .filter(GroupMember.group_id == group_id)
-        .offset((page - 1) * per_page)
-        .limit(per_page)
+        .offset((page - 1) * limit)
+        .limit(limit)
         .all()
     )
     total = db.query(GroupMember).filter(GroupMember.group_id == group_id).count()
@@ -396,8 +396,9 @@ def get_members(
             GroupMemberOut(
                 user_id=m.user_id,
                 name=p.name if p else "Unknown",
-                role_name=p.role.name if p and p.role else "Unknown",
-                photo_url=None,
+                role=p.role.name if p and p.role else "Unknown",
+                avatar_url=p.avatar_url if p else None,
+                is_admin=(m.role == "admin"),
                 is_verified=p.is_verified if p else False,
                 member_role=m.role,
                 is_frozen=m.is_frozen,
@@ -406,7 +407,7 @@ def get_members(
             )
         )
 
-    return {"members": out, "total": total, "page": page, "per_page": per_page}
+    return {"members": out, "total": total, "page": page, "limit": limit}
 
 
 def add_members(

@@ -158,7 +158,7 @@ All endpoints are under `/api/v1/groups`. No token required.
 | `PATCH` | `/api/v1/groups/{group_id}/permissions?user_id=<uuid>` | **Admin** | Update accessibility/posting/chat rules |
 | `POST` | `/api/v1/groups/{group_id}/join?user_id=<uuid>` | Any user | Join a public group |
 | `DELETE` | `/api/v1/groups/{group_id}/leave?user_id=<uuid>` | Member | Leave the group |
-| `GET` | `/api/v1/groups/{group_id}/members?user_id=<uuid>` | Any user | List members (paginated) |
+| `GET` | `/api/v1/groups/{group_id}/members?user_id=<uuid>&page=1&limit=20` | Any user | List members (paginated) |
 | `POST` | `/api/v1/groups/{group_id}/members/add?user_id=<uuid>` | **Admin** | Add members by user ID |
 | `DELETE` | `/api/v1/groups/{group_id}/members/{target_user_id}?user_id=<uuid>` | **Admin** | Remove a member |
 | `POST` | `/api/v1/groups/{group_id}/members/{target_user_id}/freeze?user_id=<uuid>` | **Admin** | Freeze a member |
@@ -369,10 +369,49 @@ DELETE /api/v1/groups/{group_id}/leave?user_id=<uuid>
 ### List Members
 
 ```
-GET /api/v1/groups/{group_id}/members?user_id=<uuid>&page=1&per_page=20
+GET /api/v1/groups/{group_id}/members?user_id=<uuid>&page=1&limit=20
 ```
 
-**Success `200`:** Returns paginated list of `GroupMemberOut` objects.
+| Query Param | Required | Type | Description |
+|---|---|---|---|
+| `user_id` | Yes | UUID | Acting user's UUID |
+| `page` | No | int | Default `1` |
+| `limit` | No | int | Default `20`, max `100` |
+
+**Examples:**
+```
+GET /api/v1/groups/{group_id}/members?user_id=<uuid>
+GET /api/v1/groups/{group_id}/members?user_id=<uuid>&page=2&limit=20
+```
+
+**Success `200`:**
+```json
+{
+    "success": true,
+    "message": "Members fetched",
+    "data": {
+        "members": [
+            {
+                "user_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                "name": "Ravi Kumar",
+                "role": "Trader",
+                "avatar_url": "https://…/storage/v1/object/public/avatars/ravi.jpg",
+                "is_admin": true,
+                "is_verified": true,
+                "member_role": "admin",
+                "is_frozen": false,
+                "is_muted": false,
+                "joined_at": "2026-04-16T16:00:00.000000+00:00"
+            }
+        ],
+        "total": 150,
+        "page": 1,
+        "limit": 20
+    }
+}
+```
+
+> **Pagination note:** Use `total` and `limit` to determine whether a "Load more" button should be shown: hide it when `page * limit >= total`.
 
 ---
 
@@ -625,8 +664,9 @@ GET https://vanijyaa-backend.onrender.com/api/v1/groups/suggestions/c37a3257-dc3
 {
     "user_id": "uuid",
     "name": "Ravi Kumar",
-    "role_name": "Trader",
-    "photo_url": null,
+    "role": "Trader",
+    "avatar_url": "string | null",
+    "is_admin": true,
     "is_verified": true,
     "member_role": "admin",
     "is_frozen": false,
@@ -634,6 +674,37 @@ GET https://vanijyaa-backend.onrender.com/api/v1/groups/suggestions/c37a3257-dc3
     "joined_at": "ISO timestamp"
 }
 ```
+
+| Field | Type | Description |
+|---|---|---|
+| `user_id` | UUID | Member's user ID |
+| `name` | string | Display name from profile |
+| `role` | string | Occupation role — `Trader`, `Broker`, `Exporter` |
+| `avatar_url` | string \| null | Profile picture URL from Supabase storage |
+| `is_admin` | bool | `true` if `member_role == "admin"` |
+| `is_verified` | bool | Whether the user's profile is verified |
+| `member_role` | string | `admin` or `member` |
+| `is_frozen` | bool | Frozen members cannot post or chat |
+| `is_muted` | bool | Per-user notification preference |
+| `joined_at` | ISO timestamp | When the user joined this group |
+
+### GroupMembersPageOut — paginated members response
+
+```json
+{
+    "members": [ /* array of GroupMemberOut */ ],
+    "total": 150,
+    "page": 1,
+    "limit": 20
+}
+```
+
+| Field | Type | Description |
+|---|---|---|
+| `members` | array | Page of `GroupMemberOut` objects |
+| `total` | int | Total member count across all pages |
+| `page` | int | Current page number |
+| `limit` | int | Page size used for this request |
 
 ---
 
@@ -686,7 +757,7 @@ All errors follow FastAPI's shape:
 5.  POST /api/v1/groups/?user_id=<uuid>                                       → create group
 6.  GET  /api/v1/groups/suggestions/{user_id}                                 → see suggestions
 7.  POST /api/v1/groups/{group_id}/join?user_id=<uuid_2>                      → 2nd user joins
-8.  GET  /api/v1/groups/{group_id}/members?user_id=<uuid>                     → list members
+8.  GET  /api/v1/groups/{group_id}/members?user_id=<uuid>&page=1&limit=20     → list members (paginated)
 9.  GET  /api/v1/groups/{group_id}/invite-link?user_id=<uuid>                 → get invite token
 10. POST /api/v1/groups/join-by-link/{token}?user_id=<uuid_3>                 → join via link
 11. POST /api/v1/groups/{group_id}/members/{uid}/freeze?user_id=<admin_uuid>  → freeze member
