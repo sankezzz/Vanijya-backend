@@ -73,23 +73,12 @@ def _uniq(ids: Iterable[int]) -> list[int]:
 def create_user(db: Session, user_id: UUID, payload: UserCreate) -> UserResponse:
     existing = db.query(User).filter(User.id == user_id).first()
     if existing:
-        if existing.is_deleted:
-            return _reactivate_user(db, existing)
         return UserResponse(
             id=existing.id,
             phone_number=existing.phone_number,
             country_code=existing.country_code,
             created_at=existing.created_at,
         )
-
-    # Check if the phone number belongs to a soft-deleted account
-    deleted_user = db.query(User).filter(
-        User.country_code == payload.country_code,
-        User.phone_number == payload.phone_number,
-        User.is_deleted == True,  # noqa: E712
-    ).first()
-    if deleted_user:
-        return _reactivate_user(db, deleted_user)
 
     if db.query(User.id).filter(
         User.country_code == payload.country_code,
@@ -104,32 +93,6 @@ def create_user(db: Session, user_id: UUID, payload: UserCreate) -> UserResponse
             phone_number=payload.phone_number,
         )
         db.add(user)
-        db.commit()
-        db.refresh(user)
-        return UserResponse(
-            id=user.id,
-            phone_number=user.phone_number,
-            country_code=user.country_code,
-            created_at=user.created_at,
-        )
-    except Exception:
-        db.rollback()
-        raise
-
-
-def _reactivate_user(db: Session, user: User) -> UserResponse:
-    """Reactivate a soft-deleted user and wipe their old profile so they start fresh."""
-    try:
-        # Delete old profile — cascades to commodities, interests, documents
-        old_profile = db.query(Profile).filter(Profile.users_id == user.id).first()
-        if old_profile:
-            db.delete(old_profile)
-
-        user.is_deleted = False
-        user.deleted_at = None
-        user.is_active = True
-        user.access_token = None
-        user.fcm_token = None
         db.commit()
         db.refresh(user)
         return UserResponse(
@@ -397,13 +360,11 @@ def delete_profile(db: Session, user_id: UUID) -> None:
 
 
 def delete_user(db: Session, user_id: UUID) -> None:
-    user = db.query(User).filter(User.id == user_id, User.is_deleted == False).first()  # noqa: E712
+    user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise ProfileNotFoundError("User not found")
     try:
-        user.is_deleted = True
-        user.deleted_at = datetime.now(timezone.utc)
-        user.is_active = False
+        db.delete(user)
         db.commit()
     except Exception:
         db.rollback()

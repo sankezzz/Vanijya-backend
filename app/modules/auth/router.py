@@ -49,7 +49,7 @@ def firebase_verify(payload: FirebaseVerifyRequest, db: Session = Depends(get_db
         User.phone_number == phone_number,
     ).first()
 
-    # Brand new user — no row at all
+    # New user — no row in DB at all
     if existing_user is None:
         onboarding_token = issue_onboarding_token(phone_number, country_code)
         return ok(
@@ -57,16 +57,7 @@ def firebase_verify(payload: FirebaseVerifyRequest, db: Session = Depends(get_db
             "OTP verified. Use the onboarding token to complete registration.",
         )
 
-    # Soft-deleted user re-registering — _reactivate_user will restore them by phone
-    if existing_user.is_deleted:
-        onboarding_token = issue_onboarding_token(phone_number, country_code)
-        return ok(
-            VerifyOTPResponse(is_new_user=True, onboarding_token=onboarding_token),
-            "OTP verified. Use the onboarding token to complete registration.",
-        )
-
-    # User exists but never finished onboarding (no profile) — reuse their existing
-    # UUID so POST /profile/user doesn't raise a phone conflict
+    # User exists but never finished onboarding (no profile yet) — reuse their UUID
     if existing_user.profile is None:
         onboarding_token = create_onboarding_token(
             existing_user.id, phone_number, country_code
@@ -76,7 +67,7 @@ def firebase_verify(payload: FirebaseVerifyRequest, db: Session = Depends(get_db
             "OTP verified. Use the onboarding token to complete registration.",
         )
 
-    # Fully registered returning user
+    # Returning user — fully registered
     return ok(
         VerifyOTPResponse(is_new_user=False, user_id=str(existing_user.id), profile_id=existing_user.profile.id),
         "Welcome back. Use your saved user_id to continue.",

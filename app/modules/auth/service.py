@@ -1,8 +1,7 @@
-import hashlib
 import json
 import os
 from pathlib import Path
-from uuid import UUID
+from uuid import uuid4
 
 import firebase_admin
 from firebase_admin import auth as firebase_auth, credentials
@@ -68,14 +67,6 @@ def verify_firebase_token(firebase_id_token: str) -> tuple[str, str]:
     return phone_number, country_code
 
 
-def _stable_uuid_for_phone(phone_number: str, country_code: str) -> UUID:
-    """Derive a deterministic UUID from the phone number so repeated firebase-verify
-    calls before the user row is created always produce the same UUID."""
-    digest = hashlib.sha256(f"{country_code}{phone_number}".encode()).digest()
-    return UUID(bytes=digest[:16])
-
-
 def issue_onboarding_token(phone_number: str, country_code: str) -> str:
     """Create a short-lived onboarding token for new user registration."""
-    user_id = _stable_uuid_for_phone(phone_number, country_code)
-    return create_onboarding_token(user_id, phone_number, country_code)
+    return create_onboarding_token(uuid4(), phone_number, country_code)

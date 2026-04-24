@@ -73,9 +73,8 @@ Content-Type: application/json
 
 **Success `200` — needs onboarding** (`is_new_user: true`):
 
-Returned in three situations:
+Returned in two situations:
 - Brand new phone number (never registered)
-- Previously deleted account re-registering (account will be reactivated in Step 3)
 - Existing user who never finished onboarding (no profile created yet)
 
 ```json
@@ -145,9 +144,7 @@ No request body — phone number and country code are read directly from the tok
 
 **Save the `id`** — this is the user's UUID. Store it locally and pass it in all subsequent API calls.
 
-> **Re-registration after account deletion:** If this user previously deleted their account, this call automatically reactivates it and wipes the old profile so they start fresh. The response looks identical to a new user — proceed to Step 4 normally.
-
-**Error `409`** — active account already registered with this phone number:
+**Error `409`** — account already registered with this phone number:
 ```json
 { "detail": "Phone number already registered" }
 ```
@@ -297,16 +294,6 @@ RETURNING USER
 [Client]  User enters OTP → signInWithCredential()         → get idToken
 POST /auth/firebase-verify  { firebase_id_token }          → { is_new_user: false, user_id: "<uuid>" }
                                                               ↑ skip all steps — save user_id to local storage
-
-RE-REGISTERING (previously deleted account)
-────────────────────────────────────────────
-[Client]  FirebaseAuth.verifyPhoneNumber(+91XXXXXXXXXX)   → Firebase sends SMS
-[Client]  User enters OTP → signInWithCredential()         → get idToken
-POST /auth/firebase-verify  { firebase_id_token }          → { is_new_user: true, onboarding_token }
-                                                              ↑ same response as new user
-POST /profile/user          ← onboarding_token             → account reactivated, old profile wiped ← SAVE UUID
-POST /profile/              ← onboarding_token             → fresh profile created
-PATCH /profile/user/fcm-token?user_id=<uuid>               → device registered for push
 ```
 
 ---

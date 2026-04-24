@@ -19,8 +19,6 @@ class User(Base):
     country_code: Mapped[str] = mapped_column(String(5))
     phone_number: Mapped[str] = mapped_column(String(15))
     is_active: Mapped[bool] = mapped_column(default=True)
-    is_deleted: Mapped[bool] = mapped_column(default=False)
-    deleted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))
     fcm_token: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
     access_token: Mapped[Optional[str]] = mapped_column(String(2000), nullable=True)

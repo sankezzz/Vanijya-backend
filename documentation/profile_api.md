@@ -151,13 +151,13 @@ Authorization: Bearer <onboarding_token>
 
 | Method | Endpoint | Auth | What it does |
 |---|---|---|---|
-| `POST` | `/profile/user` | Bearer onboarding token | Create user row — or reactivate soft-deleted account |
+| `POST` | `/profile/user` | Bearer onboarding token | Create user row |
 | `POST` | `/profile/` | Bearer onboarding token | Create profile (step 2 of onboarding) |
 | `GET` | `/profile/me` | `?user_id=<uuid>` | Fetch your own full profile |
 | `PATCH` | `/profile/` | `?user_id=<uuid>` | Update your profile |
 | `PATCH` | `/profile/avatar` | `?user_id=<uuid>` | Upload / replace profile avatar |
 | `DELETE` | `/profile/` | `?user_id=<uuid>` | Hard delete profile row only |
-| `DELETE` | `/profile/user` | `?user_id=<uuid>` | Soft delete entire account (reversible) |
+| `DELETE` | `/profile/user` | `?user_id=<uuid>` | Permanently delete user and all associated data |
 | `GET` | `/profile/{profile_id}` | None (public) | Public view of any profile |
 
 ---
@@ -173,7 +173,7 @@ Step 2: POST /profile/        ← creates Profile + commodities + interests
 
 Both steps must use the **same onboarding token** issued in Section 4.
 
-> **Re-registration (soft-deleted accounts):** If a user previously deleted their account and registers again with the same phone number, Step 1 automatically reactivates their account and wipes their old profile data so they can start fresh.
+> If a user's phone number already has a user row but no profile yet (incomplete onboarding), Step 1 reuses the existing UUID so there is no phone conflict.
 
 ---
 
@@ -419,9 +419,9 @@ Pass the complete new list. Items not in the list are removed. Items already pre
 
 ---
 
-### `DELETE /profile/user` — Soft Delete Account
+### `DELETE /profile/user` — Permanently Delete Account
 
-Marks the user account as deleted (`is_deleted=true`, `deleted_at=now()`). The user row is **not removed** from the database — it can be reactivated if they re-register with the same phone number.
+Hard deletes the user row from the database. All associated data is removed immediately via `ON DELETE CASCADE` — profile, embeddings, group memberships, news engagement, and cluster taste records are all gone. This is **not reversible**. If the same phone number registers again afterwards, it is treated as a completely new user.
 
 ```bash
 curl -X DELETE "http://localhost:8000/profile/user?user_id=c37a3257-dc3f-43be-9fb0-33cf918b11ff"
@@ -434,9 +434,6 @@ curl -X DELETE "http://localhost:8000/profile/user?user_id=c37a3257-dc3f-43be-9f
     "message": "User and all associated data deleted successfully",
     "data": null
 }
-```
-
-> **Re-registration after deletion:** If this user registers again with the same phone number, their account is reactivated and their old profile is wiped so they can fill in fresh data.
 
 ---
 
@@ -501,8 +498,7 @@ curl http://localhost:8000/profile/1
 ## 8. Database Schema
 
 ```
-users                  — auth identity (phone, country_code, fcm_token, access_token,
-                         is_active, is_deleted, deleted_at)
+users                  — auth identity (phone, country_code, fcm_token, access_token, is_active)
 roles                  — trader / broker / exporter
 profile                — main profile (city, state, latitude, longitude, avatar_url, ...)
 commodities            — rice / cotton / sugar / ...
@@ -513,17 +509,16 @@ profile_documents      — uploaded docs per profile (CASCADE on profile delete)
 user_embeddings        — IS vector for matching (built on profile create/update)
 ```
 
-**FK cascade chain on user delete:**
+**FK cascade chain on user delete (`DELETE /profile/user`):**
 ```
-users (soft delete) — no hard cascade triggered by API
-users (hard delete via DB) → profile → profile_commodities
-                                     → profile_interests
-                                     → profile_documents
-                          → user_embeddings
-                          → news_engagement
-                          → user_cluster_taste
-                          → group_members
-                          → groups.created_by SET NULL
+users → profile → profile_commodities
+                → profile_interests
+                → profile_documents
+      → user_embeddings
+      → news_engagement
+      → user_cluster_taste
+      → group_members
+      → groups.created_by SET NULL
 ```
 
 Run migrations:
@@ -608,6 +603,6 @@ curl -X PATCH "http://localhost:8000/profile/?user_id=<USER_ID>" \
 # 9. Public profile view (replace PROFILE_ID with the int id from step 6 response)
 curl http://localhost:8000/profile/<PROFILE_ID>
 
-# 10. Soft delete account
+# 10. Permanently delete account (removes user row and all data via CASCADE)
 curl -X DELETE "http://localhost:8000/profile/user?user_id=<USER_ID>"
 ```
