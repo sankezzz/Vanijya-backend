@@ -2,6 +2,7 @@ from datetime import datetime, timedelta, timezone
 from uuid import UUID
 
 from sqlalchemy import func
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import Session, joinedload
 
 from app.modules.news.models import (
@@ -172,16 +173,22 @@ def _ensure_cold_start(db: Session, user_id: UUID, role: str) -> None:
     )
     if exists:
         return
-    for cluster_id, weight in COLD_START_DEFAULTS.get(role, {}).items():
-        db.add(
-            UserClusterTaste(
-                user_id=user_id,
-                cluster_id=cluster_id,
-                taste_weight=weight,
-                is_seeded=True,
+    rows = [
+        {
+            "user_id": user_id,
+            "cluster_id": cluster_id,
+            "taste_weight": weight,
+            "is_seeded": True,
+        }
+        for cluster_id, weight in COLD_START_DEFAULTS.get(role, {}).items()
+    ]
+    if rows:
+        db.execute(
+            pg_insert(UserClusterTaste).values(rows).on_conflict_do_nothing(
+                index_elements=["user_id", "cluster_id"]
             )
         )
-    db.commit()
+        db.commit()
 
 
 def _taste_weights(db: Session, user_id: UUID) -> dict[int, float]:

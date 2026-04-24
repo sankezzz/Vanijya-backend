@@ -10,6 +10,13 @@ from datetime import datetime, timezone, timedelta
 
 from sqlalchemy import text
 from sqlalchemy.orm import Session
+
+
+def _parse_vec(v) -> list[float]:
+    """pgvector returns vectors as strings '[0.1,0.2,...]' through raw SQL."""
+    if isinstance(v, str):
+        return [float(x) for x in v.strip("[]").split(",")]
+    return list(v)
 from sqlalchemy.exc import IntegrityError
 
 from app.modules.post.post_recommendation_module.constants import (
@@ -196,7 +203,7 @@ def _query_partition(
     ).mappings().all()
 
     return [
-        {"post_id": r["post_id"], "category": r["category"], "vector": list(r["vector"])}
+        {"post_id": r["post_id"], "category": r["category"], "vector": _parse_vec(r["vector"])}
         for r in rows
     ]
 
