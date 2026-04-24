@@ -4,8 +4,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: str
-    SYNC_DATABASE_URL: str
+    DATABASE_URL: str          # postgresql+asyncpg://...
+    SYNC_DATABASE_URL: str     # postgresql+psycopg2://...
     REDIS_URL: str = "redis://localhost:6379/0"
 
     # Auth — Firebase Phone Auth (OTP sent client-side, backend only verifies ID token)
