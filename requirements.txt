@@ -19,3 +19,4 @@ google-auth
 firebase-admin
 redis
 websocket-client
+supabase

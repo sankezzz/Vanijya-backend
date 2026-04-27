@@ -1,3 +1,7 @@
+import asyncio
+import os
+import uuid
+
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
@@ -12,7 +16,55 @@ from app.modules.post.schemas import (
     LikeResponse, SaveResponse, ShareResponse,
 )
 from app.modules.post.post_recommendation_module import service as rec_service
+from app.shared.utils.storage import (
+    ALLOWED_IMAGE_TYPES,
+    StorageError,
+    delete_object,
+    ext_for,
+    generate_signed_upload_url,
+    object_exists,
+    path_from_url,
+    public_url,
+)
 
+_POST_STORAGE_BUCKET = os.environ.get("POST_STORAGE_BUCKET", "posts")
+
+
+# ----------------------------------------------------------------------------
+# Image upload
+# ----------------------------------------------------------------------------
+
+class PostImageUploadError(Exception):
+    pass
+
+
+class PostStorageUnavailableError(Exception):
+    pass
+
+
+async def get_post_upload_url(profile_id: int, content_type: str) -> dict:
+    if content_type not in ALLOWED_IMAGE_TYPES:
+        raise PostImageUploadError(
+            f"Unsupported type '{content_type}'. Allowed: image/jpeg, image/png, image/webp."
+        )
+
+    path = f"{profile_id}/{uuid.uuid4()}{ext_for(content_type)}"
+
+    try:
+        result = await generate_signed_upload_url(_POST_STORAGE_BUCKET, path)
+    except StorageError as e:
+        raise PostImageUploadError(str(e))
+
+    return {
+        **result,
+        "image_url": public_url(_POST_STORAGE_BUCKET, path),
+        "content_type": content_type,
+    }
+
+
+# ----------------------------------------------------------------------------
+# Errors
+# ----------------------------------------------------------------------------
 
 class PostNotFoundError(Exception):
     pass
@@ -103,7 +155,35 @@ def _profile_location(db: Session, profile_id: int) -> tuple[float, float]:
 # Post CRUD
 # ----------------------------------------------------------------------------
 
-def create_post(db: Session, profile_id: int, payload: PostCreate) -> PostResponse:
+async def create_post(db: Session, profile_id: int, payload: PostCreate) -> PostResponse:
+    if payload.image_url:
+        try:
+            path = path_from_url(_POST_STORAGE_BUCKET, payload.image_url)
+        except StorageError:
+            raise PostImageUploadError("image_url does not belong to the posts storage bucket")
+
+        parts = path.strip("/").split("/")
+        if len(parts) < 2:
+            raise PostImageUploadError("Invalid storage path")
+        if parts[0] != str(profile_id):
+            raise PostImageUploadError("Image does not belong to this profile")
+
+        result = None
+        for delay in (0.15, 0.35):
+            result = await object_exists(_POST_STORAGE_BUCKET, path)
+            if result is True or result is None:
+                break
+            await asyncio.sleep(delay)
+        else:
+            result = await object_exists(_POST_STORAGE_BUCKET, path)
+
+        if result is None:
+            raise PostStorageUnavailableError("Storage verification temporarily unavailable")
+        if result is not True:
+            raise PostImageUploadError(
+                "Image not found in storage — complete the upload before creating a post"
+            )
+
     post = Post(
         profile_id=profile_id,
         category_id=payload.category_id,
@@ -162,10 +242,12 @@ def update_post(db: Session, post_id: int, profile_id: int, payload: PostUpdate)
     return _to_post_response(db, post, profile_id)
 
 
-def delete_post(db: Session, post_id: int, profile_id: int) -> None:
+async def delete_post(db: Session, post_id: int, profile_id: int) -> None:
     post = _get_post_or_raise(db, post_id)
     if post.profile_id != profile_id:
         raise PostForbiddenError("You can only delete your own posts")
+
+    image_url = post.image_url
 
     try:
         rec_service.remove_post_index(db, post_id)
@@ -174,6 +256,13 @@ def delete_post(db: Session, post_id: int, profile_id: int) -> None:
 
     db.delete(post)
     db.commit()
+
+    if image_url:
+        try:
+            old_path = path_from_url(_POST_STORAGE_BUCKET, image_url)
+            await delete_object(_POST_STORAGE_BUCKET, old_path)
+        except StorageError:
+            pass
 
 
 def get_feed(db: Session, viewer_profile_id: int, limit: int = 20, offset: int = 0) -> list[PostResponse]:

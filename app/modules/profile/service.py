@@ -1,18 +1,23 @@
+import asyncio
 import os
 from datetime import datetime, timezone
 from typing import Iterable
 from uuid import UUID
 
-import httpx
-from fastapi import UploadFile
 from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 
-_ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp"}
-_ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
+from app.shared.utils.storage import (
+    ALLOWED_IMAGE_TYPES,
+    StorageError,
+    delete_object,
+    ext_for,
+    generate_signed_upload_url,
+    object_exists,
+    path_from_url,
+    public_url,
+)
 
-_SUPABASE_URL = os.environ["DATABASE_STORAGE_URL"].rstrip("/")
-_SUPABASE_SERVICE_KEY = os.environ["DATABASE_SERVICE_KEY"]
 _STORAGE_BUCKET = os.environ.get("DATABASE_STORAGE_BUCKET", "avatars")
 
 from app.modules.profile.models import (
@@ -56,6 +61,9 @@ class ProfileNotFoundError(Exception):
     pass
 
 class ProfileValidationError(Exception):
+    pass
+
+class ProfileStorageUnavailableError(Exception):
     pass
 
 class UserConflictError(Exception):
@@ -450,37 +458,77 @@ def submit_verification(db: Session, user_id: UUID, payload: VerifyProfileReques
 # Avatar upload
 # ---------------------------------------------------------------------------
 
-async def update_avatar(db: Session, user_id: UUID, avatar: UploadFile) -> dict:
-    profile = db.query(Profile).filter(Profile.users_id == user_id).first()
+async def get_avatar_upload_url(db: Session, profile_id: int, content_type: str) -> dict:
+    if content_type not in ALLOWED_IMAGE_TYPES:
+        raise ProfileValidationError(
+            f"Unsupported type '{content_type}'. Allowed: image/jpeg, image/png, image/webp."
+        )
+
+    profile = db.query(Profile).filter(Profile.id == profile_id).first()
     if not profile:
         raise ProfileNotFoundError("Profile not found")
 
-    if avatar.content_type not in _ALLOWED_IMAGE_TYPES:
-        raise ProfileValidationError(
-            f"Unsupported image type '{avatar.content_type}'. Allowed: jpeg, png, webp."
-        )
+    path = f"{profile_id}{ext_for(content_type)}"
 
-    ext = os.path.splitext(avatar.filename or "")[1].lower()
-    if ext not in _ALLOWED_EXTENSIONS:
-        ext = ".jpg"
+    # Clear any existing file at this path so Supabase won't reject with "Duplicate"
+    try:
+        await delete_object(_STORAGE_BUCKET, path)
+    except StorageError:
+        pass
 
-    storage_path = f"{user_id}{ext}"
-    content = await avatar.read()
+    try:
+        result = await generate_signed_upload_url(_STORAGE_BUCKET, path)
+    except StorageError as e:
+        raise ProfileValidationError(str(e))
 
-    upload_url = f"{_SUPABASE_URL}/storage/v1/object/{_STORAGE_BUCKET}/{storage_path}"
-    headers = {
-        "Authorization": f"Bearer {_SUPABASE_SERVICE_KEY}",
-        "Content-Type": avatar.content_type,
-        "x-upsert": "true",
+    return {
+        **result,
+        "avatar_url": public_url(_STORAGE_BUCKET, path),
+        "content_type": content_type,
     }
 
-    async with httpx.AsyncClient() as client:
-        resp = await client.put(upload_url, content=content, headers=headers)
 
-    if resp.status_code not in (200, 201):
-        raise ProfileValidationError(f"Storage upload failed: {resp.text}")
+async def save_avatar_url(db: Session, profile_id: int, avatar_url: str) -> dict:
+    # Validate URL and ownership before any DB hit
+    try:
+        path = path_from_url(_STORAGE_BUCKET, avatar_url)
+    except StorageError:
+        raise ProfileValidationError("avatar_url does not belong to the avatars storage bucket")
 
-    avatar_url = f"{_SUPABASE_URL}/storage/v1/object/public/{_STORAGE_BUCKET}/{storage_path}"
+    stem = path.rsplit(".", 1)[0]
+    if stem != str(profile_id):
+        raise ProfileValidationError("Avatar does not belong to this profile")
+
+    profile = db.query(Profile).filter(Profile.id == profile_id).first()
+    if not profile:
+        raise ProfileNotFoundError("Profile not found")
+
+    # Verify with retry; distinguish infra failure from missing file
+    result = None
+    for delay in (0.15, 0.35):
+        result = await object_exists(_STORAGE_BUCKET, path)
+        if result is True or result is None:
+            break
+        await asyncio.sleep(delay)
+    else:
+        result = await object_exists(_STORAGE_BUCKET, path)
+
+    if result is None:
+        raise ProfileStorageUnavailableError("Storage verification temporarily unavailable")
+    if result is not True:
+        raise ProfileValidationError(
+            "Avatar image not found in storage — complete the upload before saving"
+        )
+
+    # If the extension changed (e.g. PNG → JPG), delete the old orphaned file.
+    if profile.avatar_url and profile.avatar_url != avatar_url:
+        try:
+            old_path = path_from_url(_STORAGE_BUCKET, profile.avatar_url)
+            new_path = path_from_url(_STORAGE_BUCKET, avatar_url)
+            if old_path != new_path:
+                await delete_object(_STORAGE_BUCKET, old_path)
+        except StorageError:
+            pass
 
     profile.avatar_url = avatar_url
     db.commit()
