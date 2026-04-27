@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
+from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from uuid import UUID
 
@@ -19,12 +19,14 @@ from app.modules.profile.service import (
     delete_profile,
     delete_user,
     update_profile,
-    update_avatar,
+    get_avatar_upload_url,
+    save_avatar_url,
     update_fcm_token,
     store_access_token,
     submit_verification,
     ProfileConflictError,
     ProfileNotFoundError,
+    ProfileStorageUnavailableError,
     ProfileValidationError,
     UserConflictError,
 )
@@ -125,19 +127,41 @@ def get_my_profile_api(
         raise HTTPException(status_code=404, detail=str(e))
 
 
+@router.get("/avatar-upload-url")
+async def get_avatar_upload_url_api(
+    profile_id: int = Query(..., description="Your profile ID"),
+    content_type: str = Query(..., description="image/jpeg | image/png | image/webp"),
+    db: Session = Depends(get_db),
+):
+    """
+    Step 1 of 3 — get a signed upload URL for the avatar.
+    Step 2: PUT the image bytes directly to upload_url (Content-Type must match).
+    Step 3: PATCH /profile/avatar with { avatar_url } to save to DB.
+    """
+    try:
+        result = await get_avatar_upload_url(db, profile_id, content_type)
+        return ok(result, "Upload URL generated")
+    except ProfileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except ProfileValidationError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 @router.patch("/avatar")
-async def update_avatar_api(
-    user_id: UUID = Query(..., description="Acting user's UUID"),
-    avatar: UploadFile = File(..., description="Profile image (jpeg/png/webp)"),
+async def save_avatar_url_api(
+    profile_id: int = Query(..., description="Your profile ID"),
+    avatar_url: str = Body(..., embed=True, description="Public URL returned after Supabase upload"),
     db: Session = Depends(get_db),
 ):
     try:
-        result = await update_avatar(db, user_id, avatar)
+        result = await save_avatar_url(db, profile_id, avatar_url)
         return ok(result, "Avatar updated successfully")
     except ProfileNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except ProfileValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except ProfileStorageUnavailableError as e:
+        raise HTTPException(status_code=503, detail=str(e))
 
 
 @router.patch("/")

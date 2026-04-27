@@ -64,17 +64,23 @@ def path_from_url(bucket: str, url: str) -> str:
     return url[idx + len(marker):].rstrip("?")
 
 
-async def object_exists(bucket: str, path: str) -> bool:
-    """Return True if the object is present and publicly accessible in the bucket."""
+async def object_exists(bucket: str, path: str) -> bool | None:
+    """
+    True  = file exists
+    False = file not found (404)
+    None  = infra/network error — caller should return 503
+    """
     url = public_url(bucket, path)
 
-    def _head() -> bool:
+    def _head() -> bool | None:
         req = urllib.request.Request(url, method="HEAD")
         try:
             with urllib.request.urlopen(req, timeout=5) as r:
                 return r.status == 200
-        except (urllib.error.HTTPError, urllib.error.URLError, Exception):
-            return False
+        except urllib.error.HTTPError as e:
+            return False if e.code < 500 else None
+        except (urllib.error.URLError, Exception):
+            return None
 
     return await asyncio.to_thread(_head)
 

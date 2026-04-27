@@ -10,17 +10,43 @@ router = APIRouter(prefix="/posts", tags=["Posts"])
 
 
 # ----------------------------------------------------------------------------
+# Image upload
+# ----------------------------------------------------------------------------
+
+@router.post("/upload-image")
+async def get_post_upload_url_api(
+    profile_id: int = Query(..., description="Your profile ID"),
+    content_type: str = Query(..., description="image/jpeg | image/png | image/webp"),
+):
+    """
+    Step 1 of 3 — get a signed upload URL.
+    Step 2: PUT the image bytes directly to upload_url (Content-Type must match).
+    Step 3: POST /posts/ with the returned image_url in the body.
+    """
+    try:
+        result = await service.get_post_upload_url(profile_id, content_type)
+        return ok(result, "Upload URL generated")
+    except service.PostImageUploadError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+# ----------------------------------------------------------------------------
 # Post CRUD
 # ----------------------------------------------------------------------------
 
 @router.post("/", status_code=201)
-def create_post_api(
+async def create_post_api(
     payload: PostCreate,
     profile_id: int = Query(..., description="Your profile ID"),
     db: Session = Depends(get_db),
 ):
-    result = service.create_post(db, profile_id, payload)
-    return ok(result, "Post created successfully")
+    try:
+        result = await service.create_post(db, profile_id, payload)
+        return ok(result, "Post created successfully")
+    except service.PostImageUploadError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except service.PostStorageUnavailableError as e:
+        raise HTTPException(status_code=503, detail=str(e))
 
 
 @router.get("/")
@@ -97,13 +123,13 @@ def update_post_api(
 
 
 @router.delete("/{post_id}", status_code=204)
-def delete_post_api(
+async def delete_post_api(
     post_id: int,
     profile_id: int = Query(..., description="Your profile ID"),
     db: Session = Depends(get_db),
 ):
     try:
-        service.delete_post(db, post_id, profile_id)
+        await service.delete_post(db, post_id, profile_id)
     except service.PostNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except service.PostForbiddenError as e:
