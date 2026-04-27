@@ -20,6 +20,7 @@ from app.modules.feed.router import router as feed_router
 from app.modules.chat.presentation.router import router as chat_router
 from app.modules.chat.presentation.ws_router import ws_router as chat_ws_router
 from app.modules.deeplink.router import router as deeplink_router
+from app.modules.safety.router import router as safety_router
 from app.modules.news.tasks import ingest, recalc_trending, update_taste, archive_old
 from app.core.database.session import SessionLocal
 
@@ -100,3 +101,6 @@ app.include_router(chat_ws_router)
 
 # Deep link / share module
 app.include_router(deeplink_router)
+
+# Safety module (block / report)
+app.include_router(safety_router)

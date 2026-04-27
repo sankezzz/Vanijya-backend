@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Optional
 from uuid import UUID
 
-from app.modules.chat.domain.entities import ConversationEntity, MessageEntity
+from app.modules.chat.domain.entities import ConvSendGuard, ConversationEntity, MessageEntity
 
 
 class IChatRepository(ABC):
@@ -60,6 +60,30 @@ class IChatRepository(ABC):
 
     @abstractmethod
     def get_other_member_id(self, conv_id: UUID, user_id: UUID) -> Optional[UUID]:
+        ...
+
+    @abstractmethod
+    def get_conv_send_info(self, conv_id: UUID, sender_id: UUID) -> Optional[ConvSendGuard]:
+        """Single-query check: membership + status + receiver_id + sender profile."""
+        ...
+
+    @abstractmethod
+    def persist_message(
+        self,
+        msg_id: UUID,
+        sent_at: datetime,
+        context_type: str,
+        context_id: UUID,
+        sender_id: UUID,
+        body: Optional[str],
+        message_type: str,
+        media_url: Optional[str],
+        media_metadata: Optional[dict],
+        location_lat: Optional[float],
+        location_lon: Optional[float],
+        reply_to_id: Optional[UUID],
+    ) -> None:
+        """Fire-and-forget INSERT used as a background task after WS push."""
         ...
 
     # ── Group helpers ─────────────────────────────────────────────────────────

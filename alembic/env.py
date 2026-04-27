@@ -44,6 +44,10 @@ from app.modules.chat.data.models import (  # noqa: F401
     Message,
     ChatAttachment,
 )
+from app.modules.safety.models import (  # noqa: F401
+    UserBlock,
+    UserReport,
+)
 
 from app.core.config import settings
 

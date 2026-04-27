@@ -55,3 +55,12 @@ class ConvStatus:
     REQUESTED = "requested"
     ACTIVE    = "active"
     BLOCKED   = "blocked"
+
+
+@dataclass
+class ConvSendGuard:
+    """Lightweight result from get_conv_send_info — only what send_message needs."""
+    status: str
+    initiator_id: Optional[UUID]
+    receiver_id: UUID
+    sender_snap: UserSnap

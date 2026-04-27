@@ -8,7 +8,7 @@ from sqlalchemy import and_, func
 from sqlalchemy.orm import Session, aliased
 
 from app.modules.chat.data.models import ChatAttachment, Conversation, ConversationMember, Message
-from app.modules.chat.domain.entities import ConvStatus, ConversationEntity, LastMessage, MessageEntity, UserSnap
+from app.modules.chat.domain.entities import ConvSendGuard, ConvStatus, ConversationEntity, LastMessage, MessageEntity, UserSnap
 from app.modules.chat.domain.repository import IChatRepository
 from app.modules.groups.models import Group, GroupMember
 from app.modules.profile.models import Profile
@@ -254,6 +254,96 @@ class ChatRepository(IChatRepository):
             .first()
         )
         return row[0] if row else None
+
+    def get_conv_send_info(self, conv_id: UUID, sender_id: UUID) -> Optional[ConvSendGuard]:
+        """
+        Single JOIN query replacing 10 separate queries in the old send path:
+          - verifies sender is a member (join cm_sender)
+          - fetches the other member's user_id (join cm_receiver)
+          - fetches conversation status + initiator_id
+          - fetches sender's profile for the message payload
+        Returns None if conv doesn't exist or sender is not a member.
+        """
+        cm_sender   = aliased(ConversationMember)
+        cm_receiver = aliased(ConversationMember)
+
+        row = (
+            self.db.query(
+                Conversation.status,
+                Conversation.initiator_id,
+                cm_receiver.user_id.label("receiver_id"),
+                Profile.id.label("profile_id"),
+                Profile.name,
+                Profile.is_verified,
+            )
+            .join(cm_sender,   and_(cm_sender.conversation_id   == Conversation.id, cm_sender.user_id   == sender_id))
+            .join(cm_receiver, and_(cm_receiver.conversation_id == Conversation.id, cm_receiver.user_id != sender_id))
+            .join(Profile, Profile.users_id == sender_id)
+            .filter(Conversation.id == conv_id)
+            .first()
+        )
+
+        if row is None:
+            return None
+
+        return ConvSendGuard(
+            status=row.status,
+            initiator_id=row.initiator_id,
+            receiver_id=row.receiver_id,
+            sender_snap=UserSnap(
+                user_id=sender_id,
+                profile_id=row.profile_id,
+                name=row.name,
+                is_verified=row.is_verified,
+            ),
+        )
+
+    def persist_message(
+        self,
+        msg_id: UUID,
+        sent_at: datetime,
+        context_type: str,
+        context_id: UUID,
+        sender_id: UUID,
+        body: Optional[str],
+        message_type: str,
+        media_url: Optional[str],
+        media_metadata: Optional[dict],
+        location_lat: Optional[float],
+        location_lon: Optional[float],
+        reply_to_id: Optional[UUID],
+    ) -> None:
+        """
+        Background INSERT — runs after HTTP response is already sent.
+        Creates its own session because the request session is closed by this point.
+        """
+        from app.core.database.session import SessionLocal
+        db = SessionLocal()
+        try:
+            msg = Message(
+                id=msg_id,
+                context_type=context_type,
+                context_id=context_id,
+                sender_id=sender_id,
+                message_type=message_type,
+                body=body,
+                media_url=media_url,
+                media_metadata=media_metadata,
+                location_lat=location_lat,
+                location_lon=location_lon,
+                reply_to_id=reply_to_id,
+                is_deleted=False,
+                created_at=sent_at,
+            )
+            db.add(msg)
+            if context_type == "dm":
+                db.query(Conversation).filter(Conversation.id == context_id).update({"updated_at": sent_at})
+            db.commit()
+        except Exception:
+            db.rollback()
+            raise
+        finally:
+            db.close()
 
     # ── Group helpers ─────────────────────────────────────────────────────────
 

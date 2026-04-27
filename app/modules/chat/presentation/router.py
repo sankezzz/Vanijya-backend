@@ -1,10 +1,10 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
-from uuid import UUID
+from uuid import UUID, uuid4
 
-from fastapi import APIRouter, BackgroundTasks, Depends, Query
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
 
-from app.modules.chat.domain.entities import ConversationEntity, LastMessage, MessageEntity, UserSnap
+from app.modules.chat.domain.entities import ConvStatus, ConversationEntity, LastMessage, MessageEntity, UserSnap
 from app.modules.chat.domain.use_cases import (
     AcceptConversationUseCase,
     DeclineConversationUseCase,
@@ -14,7 +14,6 @@ from app.modules.chat.domain.use_cases import (
     MarkReadUseCase,
     OpenChatUseCase,
     SendGroupMessageUseCase,
-    SendMessageUseCase,
 )
 from app.modules.chat.presentation.connection_manager import manager
 from app.modules.chat.presentation.dependencies import (
@@ -27,7 +26,6 @@ from app.modules.chat.presentation.dependencies import (
     get_mark_read_uc,
     get_messages_uc,
     get_open_chat_uc,
-    get_send_message_uc,
 )
 from app.modules.chat.domain.repository import IChatRepository
 from app.modules.chat.presentation.schemas import GroupMessageRequest, OpenChatRequest, SendMessageRequest
@@ -125,33 +123,57 @@ def get_messages(
 
 
 @router.post("/{user_id}/conversations/{conv_id}/messages", status_code=201)
-def send_message(
+async def send_message(
     user_id: UUID,
     conv_id: UUID,
     payload: SendMessageRequest,
     background_tasks: BackgroundTasks,
-    uc: SendMessageUseCase = Depends(get_send_message_uc),
     repo: IChatRepository = Depends(get_chat_repo),
 ):
-    message = uc.execute(
-        sender_id=user_id,
-        conv_id=conv_id,
-        body=payload.body,
-        message_type=payload.message_type,
-        media_url=payload.media_url,
-        media_metadata=payload.media_metadata,
-        location_lat=payload.location_lat,
-        location_lon=payload.location_lon,
-        reply_to_id=payload.reply_to_id,
+    # 1 query: membership check + status + receiver_id + sender profile
+    guard = repo.get_conv_send_info(conv_id, user_id)
+    if guard is None:
+        raise HTTPException(status_code=404, detail="Conversation not found or you are not a member.")
+    if guard.status == ConvStatus.BLOCKED:
+        raise HTTPException(status_code=403, detail="This conversation is blocked.")
+    if guard.status == ConvStatus.REQUESTED and (guard.initiator_id is None or user_id != guard.initiator_id):
+        raise HTTPException(status_code=403, detail="Waiting for the other person to accept the chat request.")
+
+    # Build message in memory — no DB needed
+    msg_id  = uuid4()
+    sent_at = datetime.now(timezone.utc)
+    msg_dict = {
+        "id":             str(msg_id),
+        "context_id":     str(conv_id),
+        "context_type":   "dm",
+        "sender":         _snap(guard.sender_snap),
+        "message_type":   payload.message_type,
+        "body":           payload.body,
+        "media_url":      payload.media_url,
+        "media_metadata": payload.media_metadata,
+        "location_lat":   payload.location_lat,
+        "location_lon":   payload.location_lon,
+        "reply_to_id":    str(payload.reply_to_id) if payload.reply_to_id else None,
+        "is_deleted":     False,
+        "sent_at":        sent_at.isoformat(),
+    }
+
+    # Push to receiver IMMEDIATELY — before any DB write
+    await manager.push(
+        guard.receiver_id,
+        {"event": "new_message", "data": {"conversation_id": str(conv_id), "message": msg_dict}},
     )
-    msg_dict = _msg(message)
-    receiver_id = repo.get_other_member_id(conv_id, user_id)
-    if receiver_id:
-        background_tasks.add_task(
-            manager.push,
-            receiver_id,
-            {"event": "new_message", "data": {"conversation_id": str(conv_id), "message": msg_dict}},
-        )
+
+    # Persist to DB in background — own session, non-blocking
+    background_tasks.add_task(
+        repo.persist_message,
+        msg_id, sent_at, "dm", conv_id, user_id,
+        payload.body, payload.message_type,
+        payload.media_url, payload.media_metadata,
+        payload.location_lat, payload.location_lon,
+        payload.reply_to_id,
+    )
+
     return ok({"message": msg_dict}, "Message sent")
 
 
