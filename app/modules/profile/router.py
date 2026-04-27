@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
+from fastapi import APIRouter, Body, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from uuid import UUID
 
@@ -19,7 +19,8 @@ from app.modules.profile.service import (
     delete_profile,
     delete_user,
     update_profile,
-    update_avatar,
+    get_avatar_upload_url,
+    save_avatar_url,
     update_fcm_token,
     store_access_token,
     submit_verification,
@@ -125,19 +126,32 @@ def get_my_profile_api(
         raise HTTPException(status_code=404, detail=str(e))
 
 
-@router.patch("/avatar")
-async def update_avatar_api(
+@router.get("/avatar-upload-url")
+async def get_avatar_upload_url_api(
     user_id: UUID = Query(..., description="Acting user's UUID"),
-    avatar: UploadFile = File(..., description="Profile image (jpeg/png/webp)"),
+    content_type: str = Query(..., description="image/jpeg | image/png | image/webp"),
     db: Session = Depends(get_db),
 ):
     try:
-        result = await update_avatar(db, user_id, avatar)
-        return ok(result, "Avatar updated successfully")
+        result = await get_avatar_upload_url(db, user_id, content_type)
+        return ok(result, "Upload URL generated")
     except ProfileNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except ProfileValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.patch("/avatar")
+def save_avatar_url_api(
+    user_id: UUID = Query(..., description="Acting user's UUID"),
+    avatar_url: str = Body(..., embed=True, description="Public URL from Supabase after upload"),
+    db: Session = Depends(get_db),
+):
+    try:
+        result = save_avatar_url(db, user_id, avatar_url)
+        return ok(result, "Avatar updated successfully")
+    except ProfileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 @router.patch("/")

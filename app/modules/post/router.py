@@ -10,6 +10,22 @@ router = APIRouter(prefix="/posts", tags=["Posts"])
 
 
 # ----------------------------------------------------------------------------
+# Image upload
+# ----------------------------------------------------------------------------
+
+@router.post("/upload-image")
+async def get_post_upload_url_api(
+    profile_id: int = Query(..., description="Your profile ID"),
+    content_type: str = Query(..., description="image/jpeg | image/png | image/webp"),
+):
+    try:
+        result = await service.get_post_upload_url(profile_id, content_type)
+        return ok(result, "Upload URL generated")
+    except service.PostImageUploadError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+# ----------------------------------------------------------------------------
 # Post CRUD
 # ----------------------------------------------------------------------------
 

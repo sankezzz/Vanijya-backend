@@ -1,3 +1,6 @@
+import os
+import uuid
+
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
@@ -5,6 +8,15 @@ from datetime import datetime, timezone, timedelta
 
 from app.modules.post.models import Post, PostView, PostLike, PostComment, PostShare, PostSave
 from app.modules.profile.models import Profile
+from app.shared.utils.storage import (
+    ALLOWED_IMAGE_TYPES,
+    StorageError,
+    ext_for,
+    generate_signed_upload_url,
+    public_url,
+)
+
+_POST_STORAGE_BUCKET = os.environ.get("POST_STORAGE_BUCKET", "posts")
 from app.modules.connections.models import UserConnection
 from app.modules.post.schemas import (
     PostCreate, PostUpdate, PostResponse,
@@ -13,6 +25,38 @@ from app.modules.post.schemas import (
 )
 from app.modules.post.post_recommendation_module import service as rec_service
 
+
+# ----------------------------------------------------------------------------
+# Image upload
+# ----------------------------------------------------------------------------
+
+class PostImageUploadError(Exception):
+    pass
+
+
+async def get_post_upload_url(profile_id: int, content_type: str) -> dict:
+    if content_type not in ALLOWED_IMAGE_TYPES:
+        raise PostImageUploadError(
+            f"Unsupported type '{content_type}'. Allowed: image/jpeg, image/png, image/webp."
+        )
+
+    path = f"{profile_id}/{uuid.uuid4()}{ext_for(content_type)}"
+
+    try:
+        result = await generate_signed_upload_url(_POST_STORAGE_BUCKET, path)
+    except StorageError as e:
+        raise PostImageUploadError(str(e))
+
+    return {
+        **result,
+        "image_url": public_url(_POST_STORAGE_BUCKET, path),
+        "content_type": content_type,
+    }
+
+
+# ----------------------------------------------------------------------------
+# Errors
+# ----------------------------------------------------------------------------
 
 class PostNotFoundError(Exception):
     pass
