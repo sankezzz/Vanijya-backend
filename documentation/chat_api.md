@@ -156,6 +156,13 @@ Returned by send/get-messages endpoints. Same shape for both DM and group messag
 | `document` | Optional caption | Required | PDF / file |
 | `location` | Optional label | — | Use `location_lat` + `location_lon` |
 | `system` | Required | — | System-generated messages (not sent by users) |
+| `post` | Optional caption | — | In-app shared post — pass `post_id` (int) in `media_metadata` |
+| `news` | Optional caption | — | In-app shared news article — pass `article_id` (UUID string) in `media_metadata` |
+| `user` | Optional caption | — | In-app shared user profile — pass `profile_id` (int) in `media_metadata` |
+
+> **In-app sharing example:**  
+> `{ "message_type": "post", "media_metadata": { "post_id": 42 }, "body": "Check this out!" }`  
+> See [Sharing API](sharing.md) for full in-app and external share flows.
 
 ---
 
@@ -391,6 +398,8 @@ When has_more is false → no more history.
 **`POST /api/v1/chat/{user_id}/conversations/{conv_id}/messages`**
 
 Sends a message in an existing conversation.
+
+> **Low-latency architecture:** The WebSocket push to the receiver happens **before** the message is written to the database. The DB write runs in a background task so it never blocks the response. This means the receiver sees the message in near-real-time while persistence happens asynchronously.
 
 > **Send gate:**
 > - `requested` → only the **initiator** may send (the other user must accept first)
@@ -1033,6 +1042,9 @@ python scripts/test_group_chat.py
 | `document` | File icon + filename from `media_url` |
 | `location` | Map pin with optional label (`body`) |
 | `system` | Centered system label (e.g. "Rajesh accepted your request") |
+| `post` | PostCard widget — fetch `GET /posts/{media_metadata.post_id}`; tap navigates to post screen |
+| `news` | NewsCard widget — fetch `GET /news/{media_metadata.article_id}`; tap navigates to article screen |
+| `user` | UserCard widget — fetch `GET /profile/{media_metadata.profile_id}`; tap navigates to profile screen |
 
 ### Reply-to UI
 

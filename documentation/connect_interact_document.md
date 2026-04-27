@@ -107,7 +107,7 @@ No token required on any endpoint.
 | `PATCH` | `/connections/{user_id}/message-request/{request_id}/decline` | Decline a request |
 | `GET` | `/connections/{user_id}/message-requests/received` | Pending inbox |
 | `GET` | `/connections/{user_id}/message-requests/sent` | Requests sent |
-| `GET` | `/connections/{user_id}/search` | Search profiles with filters |
+| `GET` | `/connections/{user_id}/search` | Search profiles — filters: `q`, `role`, `commodity`, `city`, `verified_only`; pagination: `page`, `limit` |
 | `GET` | `/connections/search/suggestions?q=...` | Name/business suggestions |
 
 ---
@@ -364,23 +364,30 @@ All requests sent by `user_id`, across all statuses.
 
 Search profiles on the platform. `user_id` is always excluded from results. All filter params optional.
 
-| Query Param | Required | Type | Description |
-|---|---|---|---|
-| `q` | No | string | Partial match on name or business name |
-| `role` | No | string | Exact: `trader`, `broker`, `exporter` |
-| `commodity` | No | string | Partial match on commodity name |
+| Query Param | Required | Type | Default | Description |
+|---|---|---|---|---|
+| `q` | No | string | — | Partial match on name or business name |
+| `role` | No | string | — | Exact: `trader`, `broker`, `exporter` |
+| `commodity` | No | string | — | Partial match on commodity name |
+| `city` | No | string | — | Partial match on city name |
+| `verified_only` | No | bool | `false` | When `true`, return only verified users |
+| `page` | No | int | `1` | Page number (1-based) |
+| `limit` | No | int | `20` | Results per page (max 100) |
 
 **Examples:**
 ```
 GET /connections/c37a3257-.../search?q=ravi
 GET /connections/c37a3257-.../search?role=exporter&commodity=rice
-GET /connections/c37a3257-.../search
+GET /connections/c37a3257-.../search?city=mumbai&verified_only=true
+GET /connections/c37a3257-.../search?page=2&limit=10
 ```
 
 **Success `200`:**
 ```json
 {
     "total": 2,
+    "page": 1,
+    "limit": 20,
     "results": [
         {
             "user_id": "a1b2c3d4-...",
@@ -388,6 +395,7 @@ GET /connections/c37a3257-.../search
             "business_name": "Shah Exports",
             "role": "exporter",
             "commodity": ["sugar"],
+            "city": "Mumbai",
             "is_verified": true,
             "qty_range": "1000–5000mt"
         }

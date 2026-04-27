@@ -228,7 +228,8 @@ Fetch top 20 matches for an existing user.
 1. Loads the user's profile (role + commodities) from DB.
 2. Builds their WANT vector using `build_query_vector()`.
 3. Runs HNSW ANN cosine search via pgvector `<=>`, excluding the user themselves.
-4. Returns top 20 with full profile info and similarity score.
+4. **Filters out users the requesting user is already following** — results only contain users not yet connected.
+5. Returns top 20 with full profile info and similarity score.
 
 **Response:**
 ```json

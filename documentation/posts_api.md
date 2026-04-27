@@ -36,20 +36,22 @@
 
 ## Table of Contents
 
-1. [Create Post](#1-create-post)
-2. [Get Feed](#2-get-feed)
-3. [Get My Posts](#3-get-my-posts)
-4. [Get Saved Posts](#4-get-saved-posts)
-5. [Get Single Post](#5-get-single-post)
-6. [Update Post](#6-update-post)
-7. [Delete Post](#7-delete-post)
-8. [Like / Unlike Post](#8-like--unlike-post)
-9. [Get Comments](#9-get-comments)
-10. [Add Comment](#10-add-comment)
-11. [Delete Comment](#11-delete-comment)
-12. [Share Post](#12-share-post)
-13. [Save / Unsave Post](#13-save--unsave-post)
-14. [Error Reference](#14-error-reference)
+1. [Upload Post Image](#1-upload-post-image)
+2. [Create Post](#2-create-post)
+3. [Get Feed](#3-get-feed)
+4. [Get My Posts](#4-get-my-posts)
+5. [Get Following Feed](#5-get-following-feed)
+6. [Get Saved Posts](#6-get-saved-posts)
+7. [Get Single Post](#7-get-single-post)
+8. [Update Post](#8-update-post)
+9. [Delete Post](#9-delete-post)
+10. [Like / Unlike Post](#10-like--unlike-post)
+11. [Get Comments](#11-get-comments)
+12. [Add Comment](#12-add-comment)
+13. [Delete Comment](#13-delete-comment)
+14. [Share Post](#14-share-post)
+15. [Save / Unsave Post](#15-save--unsave-post)
+16. [Error Reference](#16-error-reference)
 
 ---
 
@@ -109,7 +111,64 @@ Every endpoint that returns a post will include this shape inside `data`:
 
 ---
 
-## 1. Create Post
+## 1. Upload Post Image
+
+**`POST /posts/upload-image?profile_id={profile_id}&content_type={content_type}`**
+
+Generates a short-lived signed upload URL for storing a post image in Supabase Storage. Use this **before** creating the post. Images are uploaded directly from the client to Supabase — the backend never receives the file bytes.
+
+### 3-Step Flow
+
+```
+Step 1 — POST /posts/upload-image   → get { upload_url, image_url }
+Step 2 — PUT {upload_url}           → upload image bytes directly (Content-Type must match)
+Step 3 — POST /posts/              → create post with image_url from Step 1
+```
+
+### Query Parameters
+
+| Param | Type | Required | Notes |
+|-------|------|----------|-------|
+| `profile_id` | int | Yes | Your profile ID |
+| `content_type` | string | Yes | `image/jpeg`, `image/png`, or `image/webp` |
+
+### Response — `200 OK`
+
+```json
+{
+  "success": true,
+  "message": "Upload URL generated",
+  "data": {
+    "upload_url": "https://<project>.supabase.co/storage/v1/object/sign/post-images/3_abc123.jpg?token=...",
+    "image_url": "https://<project>.supabase.co/storage/v1/object/public/post-images/3_abc123.jpg"
+  }
+}
+```
+
+| Field | Description |
+|-------|-------------|
+| `upload_url` | Signed PUT URL — send image bytes here with matching `Content-Type` header. Expires quickly. |
+| `image_url` | Public URL to store in the post — pass this as `image_url` in `POST /posts/` |
+
+### Step 2 — Client-side PUT
+
+```http
+PUT {upload_url}
+Content-Type: image/jpeg
+
+<binary image bytes>
+```
+
+### Errors
+
+| Status | Reason |
+|--------|--------|
+| `400` | Unsupported `content_type` — must be `image/jpeg`, `image/png`, or `image/webp` |
+| `503` | Supabase Storage unavailable |
+
+---
+
+## 2. Create Post
 
 **`POST /posts/?profile_id={profile_id}`**
 
@@ -214,7 +273,7 @@ Every endpoint that returns a post will include this shape inside `data`:
 
 ---
 
-## 2. Get Feed
+## 3. Get Feed
 
 **`GET /posts/?profile_id={profile_id}&limit={limit}&offset={offset}`**
 
@@ -265,7 +324,7 @@ Returns all posts (newest first). View counts are NOT incremented by the feed �
 
 ---
 
-## 3. Get My Posts
+## 4. Get My Posts
 
 **`GET /posts/mine?profile_id={profile_id}&limit={limit}&offset={offset}`**
 
@@ -273,7 +332,7 @@ Returns only posts created by the given `profile_id`, newest first.
 
 ### Query Parameters
 
-Same as [Get Feed](#2-get-feed).
+Same as [Get Feed](#3-get-feed).
 
 ### Response — `200 OK`
 
@@ -281,7 +340,23 @@ Same shape as Get Feed. `data` is an array of post objects.
 
 ---
 
-## 4. Get Saved Posts
+## 5. Get Following Feed
+
+**`GET /posts/following?profile_id={profile_id}&limit={limit}&offset={offset}`**
+
+Returns posts from users that the given profile follows, filtered to the **last 7 days**, newest first. Only shows posts the viewer is allowed to see (`is_public: true` or targeted at viewer's role).
+
+### Query Parameters
+
+Same as [Get Feed](#3-get-feed).
+
+### Response — `200 OK`
+
+Same shape as Get Feed. `data` is an array of post objects (may be `[]` if not following anyone or no recent posts).
+
+---
+
+## 6. Get Saved Posts
 
 **`GET /posts/saved?profile_id={profile_id}&limit={limit}&offset={offset}`**
 
@@ -289,7 +364,7 @@ Returns posts the profile has saved, ordered by most-recently-saved first.
 
 ### Query Parameters
 
-Same as [Get Feed](#2-get-feed).
+Same as [Get Feed](#3-get-feed).
 
 ### Response — `200 OK`
 
@@ -297,7 +372,7 @@ Same shape as Get Feed. `data` is an array of post objects.
 
 ---
 
-## 5. Get Single Post
+## 7. Get Single Post
 
 **`GET /posts/{post_id}?profile_id={profile_id}`**
 
@@ -349,7 +424,7 @@ Fetches a single post. **Increments `view_count` by 1** (only once per profile �
 
 ---
 
-## 6. Update Post
+## 8. Update Post
 
 **`PATCH /posts/{post_id}?profile_id={profile_id}`**
 
@@ -425,7 +500,7 @@ Updates a post. Only the owner (`profile_id` must match `post.profile_id`) can u
 
 ---
 
-## 7. Delete Post
+## 9. Delete Post
 
 **`DELETE /posts/{post_id}?profile_id={profile_id}`**
 
@@ -444,7 +519,7 @@ No response body.
 
 ---
 
-## 8. Like / Unlike Post
+## 10. Like / Unlike Post
 
 **`POST /posts/{post_id}/like?profile_id={profile_id}`**
 
@@ -489,7 +564,7 @@ Toggles the like state. First call = like, second call = unlike. No request body
 
 ---
 
-## 9. Get Comments
+## 11. Get Comments
 
 **`GET /posts/{post_id}/comments?profile_id={profile_id}&limit={limit}&offset={offset}`**
 
@@ -536,7 +611,7 @@ Returns comments on a post, ordered oldest first.
 
 ---
 
-## 10. Add Comment
+## 12. Add Comment
 
 **`POST /posts/{post_id}/comments?profile_id={profile_id}`**
 
@@ -580,7 +655,7 @@ Adds a comment to a post.
 
 ---
 
-## 11. Delete Comment
+## 13. Delete Comment
 
 **`DELETE /posts/{post_id}/comments/{comment_id}?profile_id={profile_id}`**
 
@@ -599,7 +674,7 @@ No response body.
 
 ---
 
-## 12. Share Post
+## 14. Share Post
 
 **`POST /posts/{post_id}/share?profile_id={profile_id}`**
 
@@ -629,7 +704,7 @@ Records a share event (increments `share_count`). No request body needed. Unlike
 
 ---
 
-## 13. Save / Unsave Post
+## 15. Save / Unsave Post
 
 **`POST /posts/{post_id}/save?profile_id={profile_id}`**
 
@@ -667,7 +742,7 @@ Toggles the save state. First call = save, second call = unsave. No request body
 
 ---
 
-## 14. Error Reference
+## 16. Error Reference
 
 All errors follow this shape:
 
@@ -702,9 +777,11 @@ All errors follow this shape:
 
 | Method | Endpoint | Auth (profile_id) | Description |
 |--------|----------|-------------------|-------------|
+| `POST` | `/posts/upload-image` | Query param | Get signed upload URL for post image |
 | `POST` | `/posts/` | Query param | Create a post |
 | `GET` | `/posts/` | Query param | Get feed (all posts) |
 | `GET` | `/posts/mine` | Query param | Get my posts |
+| `GET` | `/posts/following` | Query param | Get following feed (last 7 days) |
 | `GET` | `/posts/saved` | Query param | Get saved posts |
 | `GET` | `/posts/{post_id}` | Query param | Get single post + record view |
 | `PATCH` | `/posts/{post_id}` | Query param | Update post (owner only) |

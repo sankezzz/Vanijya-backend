@@ -156,6 +156,8 @@ Authorization: Bearer <onboarding_token>
 | `GET` | `/profile/me` | `?user_id=<uuid>` | Fetch your own full profile |
 | `PATCH` | `/profile/` | `?user_id=<uuid>` | Update your profile |
 | `PATCH` | `/profile/avatar` | `?user_id=<uuid>` | Upload / replace profile avatar |
+| `PATCH` | `/profile/user/fcm-token` | `?user_id=<uuid>` | Register / update FCM push token |
+| `POST` | `/profile/verify` | `?user_id=<uuid>` | Submit verification documents |
 | `DELETE` | `/profile/` | `?user_id=<uuid>` | Hard delete profile row only |
 | `DELETE` | `/profile/user` | `?user_id=<uuid>` | Permanently delete user and all associated data |
 | `GET` | `/profile/{profile_id}` | None (public) | Public view of any profile |
@@ -415,6 +417,72 @@ Pass the complete new list. Items not in the list are removed. Items already pre
     "message": "Profile updated successfully",
     "data": { "..." }
 }
+```
+
+---
+
+### `PATCH /profile/user/fcm-token`
+
+Register or update the device FCM push token. Call this after login and whenever the token is refreshed by Firebase.
+
+**Example:**
+```bash
+curl -X PATCH "http://localhost:8000/profile/user/fcm-token?user_id=<USER_ID>" \
+  -H "Content-Type: application/json" \
+  -d '{ "fcm_token": "<FIREBASE_FCM_TOKEN>" }'
+```
+
+**Request body:**
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `fcm_token` | string | Yes | Firebase Cloud Messaging device token |
+
+**Success `200`:**
+```json
+{
+    "success": true,
+    "message": "FCM token updated",
+    "data": null
+}
+```
+
+---
+
+### `POST /profile/verify`
+
+Submit identity or business verification documents for admin review. Documents are uploaded as file attachments (multipart/form-data).
+
+**Content-Type:** `multipart/form-data`
+
+**Example:**
+```bash
+curl -X POST "http://localhost:8000/profile/verify?user_id=<USER_ID>" \
+  -F "identity_proof=@/path/to/aadhaar.jpg" \
+  -F "business_proof=@/path/to/gst_cert.pdf"
+```
+
+**Form fields:**
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `identity_proof` | file | No | Government-issued ID scan (jpeg/png/pdf) |
+| `business_proof` | file | No | GST certificate or business registration (jpeg/png/pdf) |
+
+At least one document must be provided.
+
+**Success `200`:**
+```json
+{
+    "success": true,
+    "message": "Verification documents submitted",
+    "data": null
+}
+```
+
+**Error `400`** — no files provided:
+```json
+{ "detail": "At least one document must be provided." }
 ```
 
 ---
