@@ -1,29 +1,34 @@
+import hashlib
 import json
 import os
+import secrets
+import uuid
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from uuid import uuid4
+from uuid import UUID
 
 import firebase_admin
 from firebase_admin import auth as firebase_auth, credentials
+from sqlalchemy.orm import Session
 
-from app.core.security.jwt_handler import create_onboarding_token
+from app.core.config import settings
+from app.core.security.jwt_handler import create_access_token, create_onboarding_token
+from app.modules.auth.models import UserSession
 
 # ---------------------------------------------------------------------------
-# Firebase Admin SDK initialisation (reuse if already initialised)
+# Firebase Admin SDK initialisation
 # ---------------------------------------------------------------------------
 
 def _get_firebase_app() -> firebase_admin.App:
     try:
         return firebase_admin.get_app()
     except ValueError:
-        pass  # not yet initialised
+        pass
 
-    # Production: service account JSON provided as env var string
     sa_json = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
     if sa_json:
         cred = credentials.Certificate(json.loads(sa_json))
     else:
-        # Development: load from service.json next to this repo
         service_json_path = Path(__file__).resolve().parents[4] / "backend" / "service.json"
         cred = credentials.Certificate(str(service_json_path))
 
@@ -34,14 +39,13 @@ _firebase_app = _get_firebase_app()
 
 
 # ---------------------------------------------------------------------------
-# Public API
+# Firebase token verification
 # ---------------------------------------------------------------------------
 
 def verify_firebase_token(firebase_id_token: str) -> tuple[str, str]:
     """
-    Verify a Firebase ID token issued after phone OTP verification.
-
-    Returns (phone_number, country_code) extracted from the token.
+    Verify a Firebase ID token issued after phone OTP.
+    Returns (phone_number, country_code).
     Raises ValueError on invalid / expired tokens.
     """
     try:
@@ -53,20 +57,112 @@ def verify_firebase_token(firebase_id_token: str) -> tuple[str, str]:
     if not phone:
         raise ValueError("Token does not contain a phone number — wrong sign-in method?")
 
-    # Firebase stores phone as E.164: +919876543210
-    # Split into country_code (+91) and phone_number (9876543210)
     if phone.startswith("+91"):
         country_code = "+91"
         phone_number = phone[3:]
     else:
-        # Generic split: first 2–3 chars are the country code
-        # For non-Indian numbers the frontend should send the split explicitly if needed
-        country_code = phone[:3] if phone[2].isdigit() and phone[3:4].isdigit() else phone[:3]
+        country_code = phone[:3] if len(phone) > 3 and phone[3:4].isdigit() else phone[:3]
         phone_number = phone[len(country_code):]
 
     return phone_number, country_code
 
 
+# ---------------------------------------------------------------------------
+# Onboarding token (new / incomplete users — no DB session)
+# ---------------------------------------------------------------------------
+
 def issue_onboarding_token(phone_number: str, country_code: str) -> str:
-    """Create a short-lived onboarding token for new user registration."""
-    return create_onboarding_token(uuid4(), phone_number, country_code)
+    """Short-lived onboarding token for brand-new users before profile creation."""
+    return create_onboarding_token(uuid.uuid4(), phone_number, country_code)
+
+
+# ---------------------------------------------------------------------------
+# Session management
+# ---------------------------------------------------------------------------
+
+def _hash_token(raw: str) -> str:
+    """SHA-256 hex digest — never store the raw refresh token."""
+    return hashlib.sha256(raw.encode()).hexdigest()
+
+
+def create_session(
+    db: Session,
+    user_id: UUID,
+    *,
+    device_info: str | None = None,
+    ip_address: str | None = None,
+) -> tuple[str, str]:
+    """
+    Create a new UserSession row and issue (access_token, refresh_token).
+
+    The refresh token is an opaque random string; only its SHA-256 hash is
+    persisted.  The access token embeds the session UUID as `jti`.
+    """
+    session_id = uuid.uuid4()
+    raw_refresh = secrets.token_urlsafe(48)
+    expires_at = datetime.now(timezone.utc) + timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS)
+
+    session = UserSession(
+        id=session_id,
+        user_id=user_id,
+        refresh_token_hash=_hash_token(raw_refresh),
+        expires_at=expires_at,
+        is_active=True,
+        device_info=device_info,
+        ip_address=ip_address,
+    )
+    db.add(session)
+    db.commit()
+
+    access_token = create_access_token(user_id, session_id)
+    return access_token, raw_refresh
+
+
+def refresh_session(db: Session, raw_refresh_token: str) -> tuple[str, str]:
+    """
+    Validate a refresh token, rotate it, and return a new (access_token, refresh_token).
+    Raises ValueError if the token is invalid, expired, or already revoked.
+    """
+    token_hash = _hash_token(raw_refresh_token)
+    session = (
+        db.query(UserSession)
+        .filter(
+            UserSession.refresh_token_hash == token_hash,
+            UserSession.is_active == True,
+        )
+        .first()
+    )
+
+    if session is None:
+        raise ValueError("Invalid or revoked refresh token.")
+
+    if datetime.now(timezone.utc) > session.expires_at.replace(tzinfo=timezone.utc):
+        session.is_active = False
+        db.commit()
+        raise ValueError("Refresh token has expired. Please sign in again.")
+
+    # Rotate: new refresh token, new access token, same session row
+    new_raw_refresh = secrets.token_urlsafe(48)
+    session.refresh_token_hash = _hash_token(new_raw_refresh)
+    session.last_used_at = datetime.now(timezone.utc)
+    db.commit()
+
+    new_access = create_access_token(session.user_id, session.id)
+    return new_access, new_raw_refresh
+
+
+def revoke_session_by_jti(db: Session, session_id: UUID) -> None:
+    """Deactivate the session identified by the JWT jti (used on logout)."""
+    session = db.query(UserSession).filter(UserSession.id == session_id).first()
+    if session:
+        session.is_active = False
+        db.commit()
+
+
+def revoke_all_sessions(db: Session, user_id: UUID) -> None:
+    """Force-logout: invalidate every active session for a user."""
+    db.query(UserSession).filter(
+        UserSession.user_id == user_id,
+        UserSession.is_active == True,
+    ).update({"is_active": False})
+    db.commit()

@@ -10,6 +10,9 @@ from pgvector.sqlalchemy import Vector
 
 from app.core.database.base import Base
 
+# Imported here so SQLAlchemy can resolve the "UserSession" string in User.sessions
+import app.modules.auth.models  # noqa: F401, E402
+
 
 class User(Base):
     __tablename__ = "users"
@@ -28,6 +31,7 @@ class User(Base):
     )
 
     profile: Mapped[Optional["Profile"]] = relationship("Profile", back_populates="user", passive_deletes=True)
+    sessions: Mapped[list["UserSession"]] = relationship("UserSession", back_populates="user", cascade="all, delete-orphan")  # type: ignore[name-defined]
 
 
 # ---------------------------------------------------------------------------

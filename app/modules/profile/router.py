@@ -1,9 +1,11 @@
-from fastapi import APIRouter, Body, Depends, HTTPException, Query
+from fastapi import APIRouter, Body, Depends, HTTPException, Query, Request
 from sqlalchemy.orm import Session
 from uuid import UUID
 
 from app.dependencies import get_db, get_onboarding_user_id, get_onboarding_claims
-from app.core.security.jwt_handler import OnboardingClaims, create_access_token
+from app.core.security.jwt_handler import OnboardingClaims
+from app.core.config import settings
+from app.modules.auth.service import create_session
 from app.modules.profile.schemas import (
     ProfileCreate,
     ProfileUpdate,
@@ -22,7 +24,6 @@ from app.modules.profile.service import (
     get_avatar_upload_url,
     save_avatar_url,
     update_fcm_token,
-    store_access_token,
     submit_verification,
     ProfileConflictError,
     ProfileNotFoundError,
@@ -61,18 +62,33 @@ def create_user_api(
 @router.post("/")
 def create_profile_api(
     payload: ProfileCreate,
+    request: Request,
     db: Session = Depends(get_db),
     current_user_id: UUID = Depends(get_onboarding_user_id),
 ):
     try:
         result = create_profile(db, current_user_id, payload)
-        return ok({"profile": result}, "Profile created successfully")
     except ProfileNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except ProfileConflictError as e:
         raise HTTPException(status_code=409, detail=str(e))
     except ProfileValidationError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+    # Onboarding complete — issue the first real session for this user
+    ip = request.client.host if request.client else None
+    access_token, refresh_token = create_session(db, current_user_id, ip_address=ip)
+
+    return ok(
+        {
+            "profile": result,
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "token_type": "bearer",
+            "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        },
+        "Profile created successfully.",
+    )
 
 
 # ---------------------------------------------------------------------------

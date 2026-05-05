@@ -6,6 +6,7 @@ from alembic import context
 
 # Import all models so Alembic autogenerate can detect them
 from app.core.database.base import Base
+from app.modules.auth.models import UserSession  # noqa: F401
 from app.modules.profile.models import (  # noqa: F401
     User,
     Profile,
