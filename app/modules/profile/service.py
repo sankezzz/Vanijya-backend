@@ -184,6 +184,7 @@ def _load_profile_for_user(db: Session, user_id: UUID) -> Profile | None:
 def _to_response(profile: Profile, posts_count: int = 0) -> ProfileResponse:
     return ProfileResponse(
         id=profile.id,
+        user_id=profile.users_id,
         name=profile.name,
         role_id=profile.role_id,
         phone_number=profile.user.phone_number,
@@ -476,6 +477,7 @@ def get_profile_by_id(
 
     return ProfilePublicResponse(
         id=profile.id,
+        user_id=profile.users_id,
         name=profile.name,
         role_id=profile.role_id,
         is_user_verified=profile.is_user_verified,
@@ -556,6 +558,7 @@ def get_profile_by_user_id(
 
     return ProfilePublicResponse(
         id=profile.id,
+        user_id=profile.users_id,
         name=profile.name,
         role_id=profile.role_id,
         is_user_verified=profile.is_user_verified,

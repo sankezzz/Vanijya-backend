@@ -82,6 +82,7 @@ class ProfileResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    user_id: UUID           # UUID from users table — matches user_id/author_user_id on other endpoints
     name: str
     role_id: int
     phone_number: str       # from users table — shown as read-only on Edit Profile screen
@@ -105,6 +106,7 @@ class ProfilePublicResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    user_id: UUID           # UUID from users table — matches user_id/author_user_id on other endpoints
     name: str
     role_id: int
     is_user_verified: bool
