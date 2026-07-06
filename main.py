@@ -12,6 +12,10 @@ logging.basicConfig(
 logging.getLogger("app.modules.news_new").setLevel(logging.INFO)
 logging.getLogger("app.core.scheduler").setLevel(logging.INFO)
 
+# Initialize Sentry before the app/routers are built so all requests are traced.
+from app.core.monitoring import init_sentry, install_module_tag_middleware
+init_sentry()
+
 from contextlib import asynccontextmanager
 import socketio
 from fastapi import FastAPI
@@ -46,6 +50,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Vanijyaa API", lifespan=lifespan)
 
+# Tag each request's Sentry transaction with its owning module (no-op if Sentry off).
+install_module_tag_middleware(app)
 
 
 app.get("/", status_code=200)(lambda: {"message": "Server is up and running!"})

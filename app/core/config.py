@@ -22,6 +22,12 @@ class Settings(BaseSettings):
     GNEWS_API_KEY: Optional[str] = None
     GROQ_API_KEY: Optional[str] = None
 
+    # Sentry — error + performance monitoring
+    SENTRY_DSN: Optional[str] = None            # from sentry.io project settings; unset = disabled
+    ENVIRONMENT: str = "development"            # "development" | "staging" | "production"
+    SENTRY_TRACES_SAMPLE_RATE: float = 0.1      # fraction of requests traced for performance (0.1 = 10%; raise locally if needed)
+    SENTRY_PROFILES_SAMPLE_RATE: float = 0.1    # fraction of traced requests profiled (function-level timing)
+
     class Config:
         env_file = ".env"
         extra = "ignore"

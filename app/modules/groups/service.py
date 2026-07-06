@@ -889,7 +889,11 @@ def get_group_suggestions(
     # ── 3. HNSW ANN: fetch top candidates, public groups only ───────────────
     # Only public groups are discoverable for now — private needs admin
     # approval and invite_only needs a link, so neither belongs in suggestions.
-    # Overfetch (top_k * 4) to allow Python-side member filtering.
+    # NOTE: LIMIT must stay <= hnsw.ef_search (pgvector default 40), otherwise
+    # Postgres abandons the HNSW index and does a full sequential scan + sort of
+    # group_embeddings. 35 keeps us under that ceiling while leaving headroom for
+    # Python-side member filtering below.
+    ANN_FETCH = 35
     candidate_rows = db.execute(
         text("""
             SELECT ge.group_id,
@@ -901,7 +905,7 @@ def get_group_suggestions(
             ORDER BY ge.embedding <=> CAST(:vec AS vector)
             LIMIT :limit
         """),
-        {"vec": vec_str, "limit": top_k * 4},
+        {"vec": vec_str, "limit": ANN_FETCH},
     ).mappings().all()
 
     # Filter out groups the user already belongs to

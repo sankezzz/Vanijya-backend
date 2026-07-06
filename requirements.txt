@@ -21,3 +21,4 @@ redis
 websocket-client
 supabase
 python-socketio
+sentry-sdk[fastapi]
