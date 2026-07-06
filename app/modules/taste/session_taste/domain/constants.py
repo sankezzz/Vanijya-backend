@@ -39,9 +39,15 @@ SIGNAL_WEIGHTS: dict[str, tuple[float, float, float]] = {
     "share":               (4.0, 0.0, 6.0),
     "revisit":             (6.0, 0.0, 4.0),
     # ── Connections module ────────────────────────────────────────────────────
-    "connection_view":     (0.5, 0.0, 0.2),   # viewed a profile card
-    "connection_accept":   (5.0, 0.0, 4.0),   # accepted a suggested connection
-    "connection_dismiss":  (0.0, 2.0, 0.0),   # dismissed a suggestion (neg; conf=0)
+    "connection_view":     (0.5, 0.0, 0.2),   # viewed a profile card (mild)
+    "connection_follow":   (5.0, 0.0, 4.0),   # followed a user (strong intent)
+    "connection_msg":      (5.0, 0.0, 4.0),   # sent a message request (strong intent)
+    "connection_accept":   (5.0, 0.0, 4.0),   # legacy — accepted a suggested connection
+    "connection_dismiss":  (0.0, 2.0, 0.0),   # legacy — dismissed a suggestion (neg; conf=0)
+    # ── Groups module ─────────────────────────────────────────────────────────
+    "group_view":          (0.5, 0.0, 0.2),   # opened a group / suggestion (mild)
+    "group_join":          (5.0, 0.0, 4.0),   # joined a group (strong intent)
+    "group_dismiss":       (0.0, 2.0, 0.0),   # dismissed a suggestion (neg; conf=0)
     # ── Feed module ───────────────────────────────────────────────────────────
     "feed_skip":           (0.0, 1.0, 0.0),   # scrolled past without pause
     "feed_pause":          (1.0, 0.0, 0.3),   # brief pause (non-open dwell)

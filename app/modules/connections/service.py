@@ -29,6 +29,15 @@ from app.modules.profile.models import (
 )
 from app.modules.connections.encoding.vector import build_query_vector
 from app.modules.connections.weights_config import ALL_COMMODITIES
+from app.modules.taste.session_taste import ActionType
+from app.modules.taste.amplify import (
+    commodity_boost,
+    commodity_ids_for,
+    get_amplify_weights,
+    write_commodity_signals,
+)
+
+_MODULE = "connections"
 
 TOP_K = 20
 _SEEN_TTL = 172_800  # 48 hours — set once at key creation, never reset
@@ -177,7 +186,16 @@ def _to_pgvec(vec: list[float]) -> str:
 # A. Follow graph
 # ---------------------------------------------------------------------------
 
-def follow_user(db: Session, follower_id: UUID, following_id: UUID) -> dict:
+def follow_user(
+    db: Session,
+    follower_id: UUID,
+    following_id: UUID,
+    *,
+    rc: "redis_lib.Redis | None" = None,
+    actor_profile_id: int | None = None,
+    commodity_ids: list[int] | None = None,
+    role_id: int | None = None,
+) -> dict:
     if follower_id == following_id:
         raise HTTPException(status_code=400, detail="Cannot follow yourself.")
     existing = db.query(UserConnection).filter(
@@ -196,6 +214,14 @@ def follow_user(db: Session, follower_id: UUID, following_id: UUID) -> dict:
         {"followers_count": Profile.followers_count + 1}
     )
     db.commit()
+
+    # Taste signal (fire-and-forget) — following is a strong intent signal.
+    if actor_profile_id is not None:
+        write_commodity_signals(
+            rc, actor_profile_id, _MODULE,
+            commodity_ids or [], ActionType.CONNECTION_FOLLOW, role_id,
+        )
+
     return {"status": "following", "following_id": str(following_id)}
 
 
@@ -286,9 +312,22 @@ def send_message_request(
     sender_id: UUID,
     receiver_id: UUID,
     first_message: str | None = None,
+    *,
+    rc: "redis_lib.Redis | None" = None,
+    actor_profile_id: int | None = None,
+    commodity_ids: list[int] | None = None,
+    role_id: int | None = None,
 ) -> dict:
     if sender_id == receiver_id:
         raise HTTPException(status_code=400, detail="Cannot send a request to yourself.")
+
+    def _record() -> None:
+        if actor_profile_id is not None:
+            write_commodity_signals(
+                rc, actor_profile_id, _MODULE,
+                commodity_ids or [], ActionType.CONNECTION_MSG, role_id,
+            )
+
     existing = db.query(MessageRequest).filter(
         MessageRequest.sender_id == sender_id,
         MessageRequest.receiver_id == receiver_id,
@@ -302,6 +341,7 @@ def send_message_request(
             existing.first_message = first_message
             db.commit()
             db.refresh(existing)
+            _record()
             return {"id": existing.id, "status": existing.status, "sent_at": existing.sent_at}
         if existing.status == "accepted":
             raise HTTPException(status_code=409, detail="You are already connected with this user.")
@@ -310,6 +350,7 @@ def send_message_request(
     db.add(req)
     db.commit()
     db.refresh(req)
+    _record()
     return {"id": req.id, "status": req.status, "sent_at": req.sent_at}
 
 
@@ -630,6 +671,19 @@ def _get_seen_ids(r: redis_lib.Redis, user_id: UUID) -> list[str]:
         return []
 
 
+def record_profile_view(
+    rc: redis_lib.Redis,
+    viewer_profile_id: int,
+    commodity_ids: list[int],
+    role_id: int | None = None,
+) -> None:
+    """Redis-only taste signal — the viewer opened a profile card. No DB write."""
+    write_commodity_signals(
+        rc, viewer_profile_id, _MODULE,
+        commodity_ids, ActionType.CONNECTION_VIEW, role_id,
+    )
+
+
 def get_recommendations(
     db: Session,
     r: redis_lib.Redis,
@@ -728,6 +782,22 @@ def get_recommendations(
         for sim, uid in top
         if uid in match_profiles
     ]
+
+    # ── Amplify (Mechanism 1): re-rank this page by blended taste ───────────────
+    # persistent (DB) + module session + global session, confidence-gated. Each
+    # candidate is nudged by its hottest session-active commodity. This reorders
+    # the already-fetched page only; a larger-pool re-rank is a future step.
+    try:
+        weights = get_amplify_weights(db, r, profile.id, _MODULE)
+        if weights:
+            results.sort(
+                key=lambda res: res["similarity"] * commodity_boost(
+                    weights, commodity_ids_for(db, res.get("commodity", []))
+                ),
+                reverse=True,
+            )
+    except Exception:
+        pass
 
     return {
         "user_id":         str(user_id),

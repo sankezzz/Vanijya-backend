@@ -84,10 +84,18 @@ from app.modules.groups.vector import (
     compute_final_score,
 )
 from app.modules.connections.encoding.vector import build_query_vector
+from app.modules.taste.session_taste import ActionType
+from app.modules.taste.amplify import (
+    commodity_boost,
+    commodity_ids_for,
+    get_amplify_weights,
+    write_commodity_signals,
+)
 
 # role_id → string name used in vector encoding
 ROLE_ID_TO_NAME = {1: "trader", 2: "broker", 3: "exporter"}
 TOP_K = 20
+_MODULE = "groups"
 
 # ---------------------------------------------------------------------------
 # Group search intent parsing
@@ -456,7 +464,14 @@ def delete_group(db: Session, group_id: UUID, user_id: UUID) -> None:
 # Membership operations
 # ---------------------------------------------------------------------------
 
-def join_group(db: Session, group_id: UUID, user_id: UUID) -> dict:
+def join_group(
+    db: Session,
+    group_id: UUID,
+    user_id: UUID,
+    *,
+    rc=None,
+    actor_profile_id: int | None = None,
+) -> dict:
     group = _get_group_or_raise(db, group_id)
 
     if group.accessibility == "invite_only":
@@ -465,6 +480,15 @@ def join_group(db: Session, group_id: UUID, user_id: UUID) -> dict:
     existing = _get_membership(db, group_id, user_id)
     if existing:
         raise GroupConflictError("Already a member of this group")
+
+    def _record() -> None:
+        # group_join — strong intent. Commodities resolved from the group itself.
+        if actor_profile_id is not None:
+            write_commodity_signals(
+                rc, actor_profile_id, _MODULE,
+                commodity_ids_for(db, group.commodity or []),
+                ActionType.GROUP_JOIN,
+            )
 
     if group.accessibility == "private":
         existing_req = (
@@ -486,6 +510,7 @@ def join_group(db: Session, group_id: UUID, user_id: UUID) -> dict:
             db.rollback()
             raise
 
+        _record()
         return {"status": "pending", "message": "Join request sent. Waiting for admin approval."}
 
     try:
@@ -496,6 +521,7 @@ def join_group(db: Session, group_id: UUID, user_id: UUID) -> dict:
         db.rollback()
         raise
 
+    _record()
     return {"status": "joined", "role": "member", "joined_at": datetime.now(timezone.utc).isoformat()}
 
 
@@ -843,12 +869,25 @@ def join_by_invite_link(
 # Group Recommendation Engine
 # ---------------------------------------------------------------------------
 
+def record_group_view(
+    rc,
+    viewer_profile_id: int,
+    commodity_ids: list[int],
+) -> None:
+    """Redis-only taste signal — the viewer opened a group / suggestion. No DB write."""
+    write_commodity_signals(
+        rc, viewer_profile_id, _MODULE,
+        commodity_ids, ActionType.GROUP_VIEW,
+    )
+
+
 def get_group_suggestions(
     db: Session,
     user_id: UUID,
     top_k: int = TOP_K,
     page: int = 1,
     limit: int = 20,
+    rc=None,
 ) -> dict:
     """
     Two-stage group recommendation:
@@ -934,6 +973,14 @@ def get_group_suggestions(
     }
 
     # ── 5. Activity reranking — weighted blend ──────────────────────────────
+    # Amplify (Mechanism 1): blended taste (persistent + module + global session)
+    # boosts semantic similarity BEFORE the activity blend:
+    #     final = 0.75 × (semantic × commodity_boost) + 0.25 × activity
+    try:
+        weights = get_amplify_weights(db, rc, profile.id, _MODULE) if rc is not None else {}
+    except Exception:
+        weights = {}
+
     scored: list[tuple[float, Group, float, float]] = []
     for gid, sim in candidates:
         group = groups.get(gid)
@@ -946,7 +993,11 @@ def get_group_suggestions(
             active_members_7d=cache.active_members_7d if cache else 0,
             member_growth_7d=cache.member_growth_7d if cache else 0,
         )
-        final = compute_final_score(sim, act)
+        boost = (
+            commodity_boost(weights, commodity_ids_for(db, group.commodity or []))
+            if weights else 1.0
+        )
+        final = compute_final_score(sim * boost, act)
         scored.append((final, group, sim, act))
 
     scored.sort(key=lambda x: x[0], reverse=True)

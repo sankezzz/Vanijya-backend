@@ -43,10 +43,12 @@ Notes:
 """
 from uuid import UUID
 
+import redis as redis_lib
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
-from app.dependencies import get_current_user, get_current_user_id, get_db
+from app.core.redis_client import get_redis
+from app.dependencies import CurrentUser, get_current_user, get_current_user_id, get_db
 from app.modules.groups.schemas import (
     AddMembersRequest,
     GroupCreate,
@@ -55,6 +57,7 @@ from app.modules.groups.schemas import (
     GroupDealUpdate,
     GroupPermissionsUpdate,
     GroupUpdate,
+    GroupViewSignal,
     ReportGroupRequest,
 )
 from app.modules.groups.service import (
@@ -74,6 +77,7 @@ from app.modules.groups.service import (
     get_group_image_upload_url,
     get_group_media_upload_url,
     get_group_suggestions,
+    record_group_view,
     get_join_requests,
     get_members,
     get_my_admin_pending_requests,
@@ -168,9 +172,28 @@ def suggest_groups(
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
     db: Session = Depends(get_db),
+    r: redis_lib.Redis = Depends(get_redis),
 ):
-    results = _handle(get_group_suggestions, db, user_id, page=page, limit=limit)
+    results = _handle(get_group_suggestions, db, user_id, page=page, limit=limit, rc=r)
     return ok(results, "Group suggestions fetched")
+
+
+# ── Group view signal (Redis-only taste; no DB write) ─────────────────────────
+# Must be ABOVE /:id routes to prevent UUID path conflict.
+
+@router.post("/view", status_code=204)
+def record_group_view_api(
+    payload: GroupViewSignal,
+    user: CurrentUser = Depends(get_current_user),
+    r: redis_lib.Redis = Depends(get_redis),
+):
+    """Fire when the user opens a group / suggestion card. Records a mild taste
+    signal for the group's commodities. Best-effort — never fails the request."""
+    record_group_view(
+        r,
+        viewer_profile_id=user.profile_id,
+        commodity_ids=payload.commodity_ids,
+    )
 
 
 # ── 2. GET / — list groups with optional filters ─────────────────────────────
@@ -291,10 +314,14 @@ def update_permissions_api(
 @router.post("/{group_id}/join")
 def join_group_api(
     group_id: UUID,
-    user_id: UUID = Depends(get_current_user_id),
+    user: CurrentUser = Depends(get_current_user),
     db: Session = Depends(get_db),
+    r: redis_lib.Redis = Depends(get_redis),
 ):
-    result = _handle(join_group, db, group_id, user_id)
+    result = _handle(
+        join_group, db, group_id, user.user_id,
+        rc=r, actor_profile_id=user.profile_id,
+    )
     return ok(result, "Joined group")
 
 

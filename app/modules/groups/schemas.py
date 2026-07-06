@@ -11,6 +11,13 @@ from pydantic import BaseModel, Field
 # Request schemas
 # ---------------------------------------------------------------------------
 
+class GroupViewSignal(BaseModel):
+    """Fired when the user opens a group / suggestion card. Redis-only taste
+    signal — no DB write. commodity_ids belong to the viewed group."""
+    group_id: UUID
+    commodity_ids: List[int] = Field(default_factory=list)
+
+
 class GroupCreate(BaseModel):
     name: str = Field(..., min_length=3, max_length=200)
     description: Optional[str] = None

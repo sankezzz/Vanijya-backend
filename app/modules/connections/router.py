@@ -15,8 +15,14 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.core.redis_client import get_redis
-from app.dependencies import get_current_user_id, get_db
-from app.modules.connections.schemas import MessageRequestCreate, SearchPayload, SeenPayload
+from app.dependencies import CurrentUser, get_current_user, get_current_user_id, get_db
+from app.modules.connections.schemas import (
+    FollowCreate,
+    MessageRequestCreate,
+    ProfileViewSignal,
+    SearchPayload,
+    SeenPayload,
+)
 from app.modules.connections import service
 from app.shared.utils.response import ok
 
@@ -45,11 +51,22 @@ def suggestions(
 @connections_router.post("/follow/{target_id}", status_code=201)
 def follow(
     target_id: UUID,
-    me: UUID = Depends(get_current_user_id),
+    payload: FollowCreate | None = None,
+    user: CurrentUser = Depends(get_current_user),
     db: Session = Depends(get_db),
+    r: redis_lib.Redis = Depends(get_redis),
 ):
-    """Follow target_id. Returns 409 if already following."""
-    result = service.follow_user(db, follower_id=me, following_id=target_id)
+    """Follow target_id. Returns 409 if already following.
+    Optional body carries the target's commodity_ids/role_id for the taste signal."""
+    result = service.follow_user(
+        db,
+        follower_id=user.user_id,
+        following_id=target_id,
+        rc=r,
+        actor_profile_id=user.profile_id,
+        commodity_ids=payload.commodity_ids if payload else [],
+        role_id=payload.role_id if payload else None,
+    )
     return ok(result, "Now following")
 
 
@@ -103,16 +120,22 @@ def list_following(
 def send_request(
     target_id: UUID,
     payload: MessageRequestCreate | None = None,
-    me: UUID = Depends(get_current_user_id),
+    user: CurrentUser = Depends(get_current_user),
     db: Session = Depends(get_db),
+    r: redis_lib.Redis = Depends(get_redis),
 ):
     """Send a message request to target_id. Returns 409 if one already exists.
-    An optional `first_message` becomes the opening line of the DM once accepted."""
+    An optional `first_message` becomes the opening line of the DM once accepted.
+    Optional commodity_ids/role_id carry the target's taste dimensions."""
     result = service.send_message_request(
         db,
-        sender_id=me,
+        sender_id=user.user_id,
         receiver_id=target_id,
         first_message=payload.first_message if payload else None,
+        rc=r,
+        actor_profile_id=user.profile_id,
+        commodity_ids=payload.commodity_ids if payload else [],
+        role_id=payload.role_id if payload else None,
     )
     return ok(result, "Message request sent")
 
@@ -211,6 +234,26 @@ def get_share_recipients(
     from app.modules.chat.data.repository import ChatRepository
     result = ChatRepository(db).get_share_recipients(me)
     return ok(result, "Share recipients fetched")
+
+
+# ── Profile view signal (Redis-only taste; no DB write) ────────────────────────
+
+@connections_router.post("/view", status_code=204)
+def record_view(
+    payload: ProfileViewSignal,
+    user: CurrentUser = Depends(get_current_user),
+    r: redis_lib.Redis = Depends(get_redis),
+):
+    """Fire when the user opens a profile card. Records a mild taste signal for the
+    viewed profile's commodities. Best-effort — never fails the request."""
+    if payload.target_id == user.user_id:
+        return  # ignore self-views
+    service.record_profile_view(
+        r,
+        viewer_profile_id=user.profile_id,
+        commodity_ids=payload.commodity_ids,
+        role_id=payload.role_id,
+    )
 
 
 # ── Search ────────────────────────────────────────────────────────────────────

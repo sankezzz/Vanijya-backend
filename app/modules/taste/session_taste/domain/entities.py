@@ -29,9 +29,15 @@ class ActionType(str, Enum):
     SHARE           = "share"
     REVISIT         = "revisit"
     # ── Connections ───────────────────────────────────────────────────────────
-    CONNECTION_VIEW    = "connection_view"
-    CONNECTION_ACCEPT  = "connection_accept"
-    CONNECTION_DISMISS = "connection_dismiss"
+    CONNECTION_VIEW    = "connection_view"      # opened a profile card
+    CONNECTION_FOLLOW  = "connection_follow"    # followed a user
+    CONNECTION_MSG     = "connection_msg"       # sent a message request
+    CONNECTION_ACCEPT  = "connection_accept"    # legacy — still read by feed module
+    CONNECTION_DISMISS = "connection_dismiss"   # legacy — still read by feed module
+    # ── Groups ────────────────────────────────────────────────────────────────
+    GROUP_VIEW    = "group_view"      # opened a group / suggestion card
+    GROUP_JOIN    = "group_join"      # joined a group
+    GROUP_DISMISS = "group_dismiss"   # dismissed a group suggestion
     # ── Feed ─────────────────────────────────────────────────────────────────
     FEED_SKIP  = "feed_skip"
     FEED_PAUSE = "feed_pause"
