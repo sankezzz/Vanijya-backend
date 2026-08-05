@@ -21,7 +21,7 @@ Hash field layout:
   _last_event_at           Int    unix timestamp of most recent event
   _last_synced_ts          Int    unix timestamp of last module→global sync
 
-dim prefix mapping:  category→cat  commodity→com  author→aut
+dim prefix mapping:  category→cat  commodity→com  author→aut  city→cit  state→sta
 """
 from __future__ import annotations
 
@@ -44,6 +44,9 @@ _DIM_PREFIX: dict[str, str] = {
     "commodity": "com",
     "author":    "aut",
     "role":      "rol",
+    "city":      "cit",
+    "state":     "sta",
+    "trade_intent": "tin",
 }
 
 
@@ -144,44 +147,62 @@ class RedisModuleSessionRepository(IModuleSessionRepository):
             last_ts=_i(raw.get(base + b":ts")),
         )
 
-    # ── Commodity sync delta ──────────────────────────────────────────────────
+    # ── Cross-platform dimension sync delta ────────────────────────────────────
 
-    def get_commodity_delta_and_snapshot(
+    def get_dimension_delta_and_snapshot(
         self,
         profile_id: int,
         module: str,
-    ) -> tuple[dict[str, float], dict[str, float]]:
+        dimension_type: str,
+    ) -> tuple[dict[str, dict[str, float]], dict[str, dict[str, float]]]:
         raw = self._rc.hgetall(self._key(module, profile_id)) or {}
         if not raw:
             return {}, {}
 
-        dim_keys = self._dim_keys_from_raw(raw, "com:")
-        delta: dict[str, float] = {}
-        snapshot: dict[str, float] = {}
+        pfx = _pfx(dimension_type)
+        dim_keys = self._dim_keys_from_raw(raw, f"{pfx}:")
+        delta: dict[str, dict[str, float]] = {}
+        snapshot: dict[str, dict[str, float]] = {}
 
         for dkey in dim_keys:
-            pos    = _f(raw.get(f"com:{dkey}:pos".encode()))
-            synced = _f(raw.get(f"com:{dkey}:synced".encode()))
-            diff   = pos - synced
-            snapshot[dkey] = pos
-            if diff > 0.01:
-                delta[dkey] = diff
+            pos         = _f(raw.get(f"{pfx}:{dkey}:pos".encode()))
+            neg         = _f(raw.get(f"{pfx}:{dkey}:neg".encode()))
+            conf        = _f(raw.get(f"{pfx}:{dkey}:conf".encode()))
+            pos_synced  = _f(raw.get(f"{pfx}:{dkey}:synced".encode()))
+            neg_synced  = _f(raw.get(f"{pfx}:{dkey}:neg_synced".encode()))
+            conf_synced = _f(raw.get(f"{pfx}:{dkey}:conf_synced".encode()))
+
+            pos_d  = pos - pos_synced
+            neg_d  = neg - neg_synced
+            conf_d = conf - conf_synced
+
+            snapshot[dkey] = {"pos": pos, "neg": neg, "conf": conf}
+            if pos_d > 0.01 or neg_d > 0.01 or conf_d > 0.01:
+                delta[dkey] = {
+                    "pos":  max(pos_d, 0.0),
+                    "neg":  max(neg_d, 0.0),
+                    "conf": max(conf_d, 0.0),
+                }
 
         return delta, snapshot
 
-    def mark_synced(
+    def mark_dimension_synced(
         self,
         profile_id: int,
         module: str,
-        snapshot: dict[str, float],
+        dimension_type: str,
+        snapshot: dict[str, dict[str, float]],
     ) -> None:
         if not snapshot:
             return
         key = self._key(module, profile_id)
+        pfx = _pfx(dimension_type)
         now = int(time.time())
         pipe = self._rc.pipeline(transaction=False)
-        for dkey, pos_val in snapshot.items():
-            pipe.hset(key, f"com:{dkey}:synced", pos_val)
+        for dkey, vals in snapshot.items():
+            pipe.hset(key, f"{pfx}:{dkey}:synced", vals["pos"])
+            pipe.hset(key, f"{pfx}:{dkey}:neg_synced", vals["neg"])
+            pipe.hset(key, f"{pfx}:{dkey}:conf_synced", vals["conf"])
         pipe.hset(key, "_last_synced_ts", now)
         pipe.execute()
 

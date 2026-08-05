@@ -8,10 +8,13 @@ Taste path  – taste_service.get_taste_weights() (post_user_interaction)
 import math
 from datetime import datetime, timezone, timedelta
 
+import redis
 from sqlalchemy import text
 from sqlalchemy.orm import Session, selectinload
 from sqlalchemy.exc import IntegrityError
 
+from app.modules.taste.global_session import merge_weights, sync_module_to_global
+from app.modules.taste.global_taste import read_global_taste_weights
 from app.modules.post.post_recommendation_module.constants import (
     CATEGORY_NAMES, CATEGORY_EXPIRY_DAYS, COMMODITY_ID_TO_IDX,
     FEED_SIZE, FETCH_TARGET,
@@ -217,6 +220,27 @@ def _commodity_multiplier(commodity_weights: dict[str, float], commodity_id: int
     return 1.0 + 0.3 * min(score / max(max_score, 0.05), 1.0)
 
 
+def _location_multiplier(
+    city_weights: dict[str, float],
+    state_weights: dict[str, float],
+    post_city: str | None,
+    post_state: str | None,
+) -> float:
+    """City takes priority; state is the fallback when city has no signal --
+    same self-normalizing shape as _commodity_multiplier."""
+    if post_city and city_weights:
+        score = city_weights.get(post_city.strip().lower(), 0.0)
+        if score > 0:
+            max_score = max(city_weights.values())
+            return 1.0 + 0.3 * min(score / max(max_score, 0.05), 1.0)
+    if post_state and state_weights:
+        score = state_weights.get(post_state.strip().lower(), 0.0)
+        if score > 0:
+            max_score = max(state_weights.values())
+            return 1.0 + 0.3 * min(score / max(max_score, 0.05), 1.0)
+    return 1.0
+
+
 def _freshness(created_at: datetime) -> float:
     if created_at.tzinfo is None:
         created_at = created_at.replace(tzinfo=timezone.utc)
@@ -230,6 +254,8 @@ def _rerank(
     cat_weights: dict[str, float],
     commodity_weights: dict[str, float],
     author_weights: dict[str, float],
+    city_weights: dict[str, float],
+    state_weights: dict[str, float],
     followed_user_ids: set,
 ) -> tuple[list[dict], dict]:
     from app.modules.post.models import Post
@@ -249,7 +275,10 @@ def _rerank(
     profile_ids = list({p.profile_id for p in posts.values()})
     profiles = {
         p.id: p
-        for p in db.query(Profile).filter(Profile.id.in_(profile_ids)).all()
+        for p in db.query(Profile)
+        .options(selectinload(Profile.business))
+        .filter(Profile.id.in_(profile_ids))
+        .all()
     }
 
     scored: list[dict] = []
@@ -272,10 +301,15 @@ def _rerank(
             author_score = author_weights.get(str(post.profile_id), 0.0)
             social = taste_service.get_author_affinity(author_score)
 
+        post_biz = author_profile.business if author_profile else None
+        post_city = post_biz.city if post_biz else None
+        post_state = post_biz.state if post_biz else None
+
         final = (
             c["vec_score"]
             * _category_weight(cat_weights, c["category"])
             * _commodity_multiplier(commodity_weights, post.commodity_id)
+            * _location_multiplier(city_weights, state_weights, post_city, post_state)
             * (1 + engagement)
             * _freshness(post.created_at)
             * social
@@ -470,7 +504,12 @@ def _ensure_fresh_in_pool(
 # Main read path
 # ---------------------------------------------------------------------------
 
-def get_recommended_posts(db: Session, profile_id: int, limit: int = FEED_SIZE) -> list:
+def get_recommended_posts(
+    db: Session,
+    profile_id: int,
+    limit: int = FEED_SIZE,
+    rc: redis.Redis | None = None,
+) -> list:
     profile = (
         db.query(Profile)
         .options(
@@ -507,6 +546,26 @@ def get_recommended_posts(db: Session, profile_id: int, limit: int = FEED_SIZE) 
     cat_weights       = taste_service.get_taste_weights(db, profile_id, "category", profile.role_id)
     commodity_weights = taste_service.get_taste_weights(db, profile_id, "commodity")
     author_weights    = taste_service.get_taste_weights(db, profile_id, "author")
+    # Posts has no legacy per-module persistent table for city/state (unlike
+    # commodity's user_post_taste) -- persistent floor comes from the
+    # cross-platform user_global_taste table directly, same source Connections/
+    # Groups/News use for their own dimensions.
+    city_weights  = read_global_taste_weights(db, profile_id, "city")
+    state_weights = read_global_taste_weights(db, profile_id, "state")
+
+    # Session-taste blend (persistent + module session + global session for
+    # commodity/city/state). Sync once, not per-dimension -- category/author
+    # are 2-layer and don't need a global sync. Silent fallback to pure
+    # persistent weights above on any Redis failure.
+    try:
+        sync_module_to_global(rc, profile_id, "post")
+        cat_weights       = merge_weights(rc, profile_id, "post", "category",  cat_weights)
+        commodity_weights = merge_weights(rc, profile_id, "post", "commodity", commodity_weights)
+        author_weights    = merge_weights(rc, profile_id, "post", "author",    author_weights)
+        city_weights      = merge_weights(rc, profile_id, "post", "city",      city_weights)
+        state_weights     = merge_weights(rc, profile_id, "post", "state",     state_weights)
+    except Exception:
+        pass
 
     followed_user_ids = {
         row.following_id
@@ -556,7 +615,10 @@ def get_recommended_posts(db: Session, profile_id: int, limit: int = FEED_SIZE) 
     )
     pool.extend(fresh)
 
-    scored, posts = _rerank(db, pool, cat_weights, commodity_weights, author_weights, followed_user_ids)
+    scored, posts = _rerank(
+        db, pool, cat_weights, commodity_weights, author_weights,
+        city_weights, state_weights, followed_user_ids,
+    )
     final = _apply_diversity(scored, limit=limit)
 
     return _build_feed_cards(db, final, profile_id, posts=posts, followed_user_ids=followed_user_ids)

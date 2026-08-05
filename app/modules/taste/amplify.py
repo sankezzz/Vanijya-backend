@@ -105,6 +105,124 @@ def write_commodity_signals(
         pass
 
 
+def write_post_signals(
+    rc: _redis.Redis | None,
+    profile_id: int,
+    category: str,
+    commodity_id: int | None,
+    action: ActionType,
+    city: str | None = None,
+    state: str | None = None,
+) -> None:
+    """
+    Fire-and-forget: record one Post interaction's category + commodity (+
+    city/state, from the post author's Business record) into
+    session:post:{profile_id}.
+
+    Author dimension is intentionally NOT written here (deferred) — add it by
+    following the same gate already used in
+    post_user_interaction/service.py's record_interaction:
+    pos_delta >= AUTHOR_MIN_TASTE_DELTA and author_profile_id != profile_id.
+    """
+    if rc is None:
+        return
+    try:
+        now = int(time.time())
+        signals = [
+            SessionSignal(
+                dimension_type="category",
+                dimension_key=category,
+                action=action,
+                occurred_at_unix=now,
+            )
+        ]
+        if commodity_id is not None:
+            signals.append(
+                SessionSignal(
+                    dimension_type="commodity",
+                    dimension_key=str(commodity_id),
+                    action=action,
+                    occurred_at_unix=now,
+                )
+            )
+        if city:
+            signals.append(
+                SessionSignal(
+                    dimension_type="city",
+                    dimension_key=city.strip().lower(),
+                    action=action,
+                    occurred_at_unix=now,
+                )
+            )
+        if state:
+            signals.append(
+                SessionSignal(
+                    dimension_type="state",
+                    dimension_key=state.strip().lower(),
+                    action=action,
+                    occurred_at_unix=now,
+                )
+            )
+        write_signals(rc, profile_id, "post", signals)
+    except Exception:
+        pass
+
+
+def write_news_signals(
+    rc: _redis.Redis | None,
+    profile_id: int,
+    commodity_ids: list[int],
+    location_city: str | None,
+    location_state: str | None,
+    action: ActionType,
+) -> None:
+    """
+    Fire-and-forget: record one News interaction's commodity + city + state
+    into session:news:{profile_id}.
+
+    city/state are now full cross-platform dimensions (3-layer, global-synced)
+    -- superseding the earlier News-local 2-layer "location" dimension.
+    location_city/location_state come directly from EnrichedArticle's LLM-
+    extracted fields (the single primary place the story is about), not from
+    the older state_tags list.
+    """
+    if rc is None:
+        return
+    try:
+        now = int(time.time())
+        signals = [
+            SessionSignal(
+                dimension_type="commodity",
+                dimension_key=str(cid),
+                action=action,
+                occurred_at_unix=now,
+            )
+            for cid in commodity_ids
+        ]
+        if location_city:
+            signals.append(
+                SessionSignal(
+                    dimension_type="city",
+                    dimension_key=location_city.strip().lower(),
+                    action=action,
+                    occurred_at_unix=now,
+                )
+            )
+        if location_state:
+            signals.append(
+                SessionSignal(
+                    dimension_type="state",
+                    dimension_key=location_state.strip().lower(),
+                    action=action,
+                    occurred_at_unix=now,
+                )
+            )
+        if signals:
+            write_signals(rc, profile_id, "news", signals)
+    except Exception:
+        pass
+
+
 # ── Read-side orchestration ────────────────────────────────────────────────────
 
 def get_amplify_weights(
@@ -142,6 +260,33 @@ def get_amplify_weights(
 
 # ── Boost calculation ──────────────────────────────────────────────────────────
 
+def _hottest_boost(
+    weights: dict[str, float],
+    candidate_keys: list[str],
+    boost_max: float,
+    ref: float,
+) -> float:
+    """
+    Score multiplier in [1.0, 1.0 + boost_max] for a single candidate.
+
+    Takes the candidate's HOTTEST matching key (max, not sum) so a
+    many-key candidate can't auto-outrank a focused one. Returns 1.0
+    (no-op) when there's no session/persistent signal for its keys.
+    """
+    if not weights or not candidate_keys:
+        return 1.0
+
+    best = 0.0
+    for key in candidate_keys:
+        w = weights.get(key, 0.0)
+        if w > best:
+            best = w
+
+    if best <= 0.0:
+        return 1.0
+    return 1.0 + boost_max * min(best / max(ref, 0.1), 1.0)
+
+
 def commodity_boost(
     weights: dict[str, float],
     candidate_commodity_ids: list[int],
@@ -149,22 +294,22 @@ def commodity_boost(
     boost_max: float = BOOST_MAX,
     ref: float = BOOST_REF,
 ) -> float:
+    """Commodity-keyed boost — candidate_commodity_ids are DB commodity ids."""
+    return _hottest_boost(weights, [str(cid) for cid in candidate_commodity_ids], boost_max, ref)
+
+
+def location_boost(
+    weights: dict[str, float],
+    candidate_place_names: list[str],
+    *,
+    boost_max: float = BOOST_MAX,
+    ref: float = BOOST_REF,
+) -> float:
     """
-    Score multiplier in [1.0, 1.0 + boost_max] for a single candidate.
-
-    Takes the candidate's HOTTEST matching commodity (max, not sum) so a
-    many-commodity candidate can't auto-outrank a focused one. Returns 1.0
-    (no-op) when there's no session/persistent signal for its commodities.
+    City/state-keyed boost — call once per dimension (city_weights + [post_city],
+    then separately state_weights + [post_state]). candidate_place_names are
+    plain text (city or state name), normalized the same way as the write side
+    (write_news_signals/write_post_signals): stripped + lowercased, no
+    id-mapping table needed.
     """
-    if not weights or not candidate_commodity_ids:
-        return 1.0
-
-    best = 0.0
-    for cid in candidate_commodity_ids:
-        w = weights.get(str(cid), 0.0)
-        if w > best:
-            best = w
-
-    if best <= 0.0:
-        return 1.0
-    return 1.0 + boost_max * min(best / max(ref, 0.1), 1.0)
+    return _hottest_boost(weights, [s.strip().lower() for s in candidate_place_names], boost_max, ref)

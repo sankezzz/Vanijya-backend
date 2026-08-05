@@ -1,8 +1,10 @@
 from uuid import UUID
 
+import redis
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
+from app.core.redis_client import get_redis
 from app.dependencies import get_current_profile_id, get_db
 from app.modules.news_new.feed import service as feed_service
 from app.modules.news_new.feed.service import DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE
@@ -17,9 +19,10 @@ def get_news_feed(
     cursor_article_id: str | None = Query(None),
     profile_id: int = Depends(get_current_profile_id),
     db: Session = Depends(get_db),
+    rc: redis.Redis = Depends(get_redis),
 ):
-    """Recommended feed for the landing page — time-bucketed, Layer 1 + Layer 2 scored."""
-    result = feed_service.get_recommended_feed(db, profile_id, limit, cursor_article_id)
+    """Recommended feed for the landing page — time-bucketed, Layer 1 + Layer 2 scored, session-taste amplified."""
+    result = feed_service.get_recommended_feed(db, profile_id, limit, cursor_article_id, rc)
     return ok(result.model_dump(mode="json"), "Feed fetched successfully")
 
 

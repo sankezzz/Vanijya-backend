@@ -60,6 +60,7 @@ from app.modules.safety.models import (  # noqa: F401
     UserBlock,
     UserReport,
 )
+from app.modules.taste.global_taste.data.models import UserGlobalTaste  # noqa: F401
 
 from app.core.config import settings
 

@@ -42,6 +42,15 @@ class EnrichedArticle(Base):
     commodity_tags: Mapped[list | None] = mapped_column(JSONB, nullable=True)  # ["rice", "cotton", ...]
     state_tags: Mapped[list | None] = mapped_column(JSONB, nullable=True)       # ["Punjab", "Maharashtra", ...]
 
+    # ── Primary location — extracted by LLM directly (text, not geocoded from
+    # lat/lon). Singular: the ONE dominant place the story is centered on,
+    # distinct from state_tags (every state merely mentioned). Feeds the
+    # cross-platform city/state taste dimensions. ─────────────────────────────
+    location_city: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    location_state: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    latitude: Mapped[float | None] = mapped_column(Float, nullable=True)   # supplementary, best-effort
+    longitude: Mapped[float | None] = mapped_column(Float, nullable=True)  # supplementary, best-effort
+
     # ── Summary (OUR generated bullets; provider summary stays on RawArticle) ─
     summary_bullets: Mapped[list | None] = mapped_column(JSONB, nullable=True)  # ["...", "...", "..."]
     summary_long: Mapped[str | None] = mapped_column(Text, nullable=True)       # optional paragraph

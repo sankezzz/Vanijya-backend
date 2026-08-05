@@ -15,9 +15,12 @@ Signal helpers (used by jobs.py):
 """
 from datetime import datetime, timezone, timedelta
 
+import redis
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
+from app.modules.taste.amplify import write_post_signals
+from app.modules.taste.session_taste import ActionType
 from app.modules.post.post_user_interaction.constants import (
     AUTHOR_TASTE_MIN_DELTA,
     CATEGORY_NAMES,
@@ -38,7 +41,7 @@ from app.modules.post.post_user_interaction.models import (
 from app.modules.post.post_user_interaction.schemas import InteractionEventItem
 from app.modules.post.post_user_interaction import taste_service
 from app.modules.post.models import Post
-from app.modules.profile.models import Profile
+from app.modules.profile.models import Business, Profile
 
 
 # ---------------------------------------------------------------------------
@@ -68,6 +71,22 @@ def derive_signal(event_type: str, value_ms: int | None) -> tuple[float, float]:
     return SIGNAL_WEIGHTS.get(key, (0.0, 0.0))
 
 
+def _classify_action(event_type: str, value_ms: int | None) -> ActionType | None:
+    """
+    Maps a raw client event into a session-taste ActionType, reusing the same
+    dwell-bucket boundaries as the persistent taste path (classify_dwell above).
+    Returns None for event types with no session-taste equivalent.
+    """
+    if event_type == "dwell" and value_ms is not None:
+        key = classify_dwell(value_ms)
+    else:
+        key = event_type
+    try:
+        return ActionType(key)
+    except ValueError:
+        return None
+
+
 def _to_int_delta(value: float) -> int:
     """
     Convert a float signal weight to an integer for storage in the current
@@ -86,6 +105,7 @@ def process_interaction_batch(
     db: Session,
     profile_id: int,
     events: list[InteractionEventItem],
+    rc: redis.Redis | None = None,
 ) -> dict:
     """
     Processes a client-submitted batch of interaction events.
@@ -95,17 +115,28 @@ def process_interaction_batch(
     3. Caps dwell value_ms at DWELL_VALUE_CAP_MS.
     4. Bulk-inserts valid events into post_interaction_events (processed_at=NULL).
     5. For dwell events with value_ms >= DWELL_SEEN_MS: upserts into seen_posts.
+    6. After commit: writes category/commodity session-taste signals to Redis,
+       fire-and-forget (author dimension intentionally deferred — see
+       write_post_signals in app/modules/taste/amplify.py).
     """
     now = datetime.now(timezone.utc)
     stale_cutoff = now - timedelta(hours=MAX_EVENT_AGE_HOURS)
 
     raw_post_ids = list({e.post_id for e in events})
-    valid_post_ids: set[int] = {
-        row[0]
-        for row in db.query(Post.id).filter(Post.id.in_(raw_post_ids)).all()
+    # city/state come from the post author's Business record (not a per-post
+    # column) -- Business already has both, independently client-supplied,
+    # no geocoding needed. One extra outer join, same query.
+    post_meta: dict[int, tuple[int, int, str | None, str | None]] = {
+        row[0]: (row[1], row[2], row[3], row[4])
+        for row in db.query(Post.id, Post.category_id, Post.commodity_id, Business.city, Business.state)
+        .outerjoin(Business, Business.profile_id == Post.profile_id)
+        .filter(Post.id.in_(raw_post_ids))
+        .all()
     }
+    valid_post_ids: set[int] = set(post_meta.keys())
 
     rows: list[PostInteractionEvent] = []
+    signal_events: list[tuple[int, str, int | None]] = []
     seen_post_ids: list[int] = []
     dropped = 0
 
@@ -135,6 +166,7 @@ def process_interaction_batch(
             created_at=now,
             processed_at=None,
         ))
+        signal_events.append((event.post_id, event.event_type, value_ms))
 
         if (
             event.event_type == "dwell"
@@ -161,6 +193,20 @@ def process_interaction_batch(
         )
 
     db.commit()
+
+    for post_id, event_type, value_ms in signal_events:
+        meta = post_meta.get(post_id)
+        if meta is None:
+            continue
+        category_id, commodity_id, post_city, post_state = meta
+        category = CATEGORY_NAMES.get(category_id)
+        if not category:
+            continue
+        action = _classify_action(event_type, value_ms)
+        if action is None:
+            continue
+        write_post_signals(rc, profile_id, category, commodity_id, action, city=post_city, state=post_state)
+
     return {"accepted": len(rows), "dropped": dropped}
 
 

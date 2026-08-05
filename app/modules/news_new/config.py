@@ -145,7 +145,11 @@ SYSTEM_PROMPT = f"""You are a commodity-trade news analyst for an Indian trading
       "explanation": <one sentence>
   }},
   "commodity_tags": [<commodity name>, ...],  // commodity names explicitly named in text (e.g., "rice", "sugar", "cotton"). [] if none.
-  "state_tags": [<Indian state name>, ...]    // Indian states explicitly named in text (e.g., "Punjab", "Maharashtra"). [] if none.
+  "state_tags": [<Indian state name>, ...],   // Indian states explicitly named in text (e.g., "Punjab", "Maharashtra"). [] if none.
+  "location_city": <string> | null,           // the ONE primary city this story is centered on. null if unclear/not domestic.
+  "location_state": <string> | null,          // the ONE primary Indian state this story is centered on. null if unclear.
+  "latitude": <float> | null,                 // best-effort approximate coordinates of location_city/state. null if not confidently known.
+  "longitude": <float> | null
 }}
 
 DECISION PROCEDURE (follow in order):
@@ -158,6 +162,7 @@ DECISION PROCEDURE (follow in order):
 7. summary_bullets = exactly the concrete facts from the article.
 8. commodity_tags = list of commodity names explicitly named in the article text (e.g., "rice", "sugar", "cotton", "wheat", "soybean"). Extract only names that appear verbatim — do not infer. [] if none.
 9. state_tags = list of Indian states or union territories explicitly named in the article text (e.g., "Punjab", "Maharashtra", "Uttar Pradesh"). [] if none.
+10. location_city / location_state = the ONE dominant place this story is about (distinct from state_tags, which lists every state merely mentioned) -- e.g. a story about a Nagpur mandi auction has location_city="Nagpur", location_state="Maharashtra" even if other states are mentioned in passing. null/null if the story has no single clear place (e.g. a national policy story, or geo_category="global"). latitude/longitude = best-effort coordinates for that place; null if not confidently known -- do not hallucinate a number.
 
 PRIMARY_FACTOR definitions (and what does NOT belong):
 - policy_regulation: govt/regulator actions on TRADE & COMMODITIES — tariffs, import/export duties, export bans, MSP, procurement, stock limits, licensing. NOT financial-market rules (see financial_mechanics).
@@ -187,10 +192,13 @@ LOW SIGNAL: if title+description+content are too sparse to classify confidently,
 
 EXAMPLES:
 Input: "Govt bans non-basmati rice exports to cool domestic prices; traders scramble"
-Output: {{"primary_factor":"policy_regulation","factor_scores":[{{"factor":"policy_regulation","score":0.95}},{{"factor":"price_volatility","score":0.4}}],"geo_category":"domestic","is_government":true,"summary_bullets":["India bans non-basmati rice exports.","Stated aim is to cool domestic prices.","Traders face disrupted export commitments."],"impact":{{"direction":"negative","score":8.5,"factor":"Export ban","explanation":"An export ban cuts exporter volumes and pressures domestic and global rice trade."}},"commodity_tags":["rice"],"state_tags":[]}}
+Output: {{"primary_factor":"policy_regulation","factor_scores":[{{"factor":"policy_regulation","score":0.95}},{{"factor":"price_volatility","score":0.4}}],"geo_category":"domestic","is_government":true,"summary_bullets":["India bans non-basmati rice exports.","Stated aim is to cool domestic prices.","Traders face disrupted export commitments."],"impact":{{"direction":"negative","score":8.5,"factor":"Export ban","explanation":"An export ban cuts exporter volumes and pressures domestic and global rice trade."}},"commodity_tags":["rice"],"state_tags":[],"location_city":null,"location_state":null,"latitude":null,"longitude":null}}
 
 Input: "Brazil drought slashes soybean output forecast, global prices climb"
-Output: {{"primary_factor":"supply_disruptions","factor_scores":[{{"factor":"supply_disruptions","score":0.9}},{{"factor":"price_volatility","score":0.5}}],"geo_category":"global","is_government":false,"summary_bullets":["Drought in Brazil cuts the soybean output forecast.","Global soybean prices are climbing in response."],"impact":{{"direction":"positive","score":7.0,"factor":"Crop shortfall","explanation":"Reduced global supply lifts soybean prices, favorable for sellers and exporters."}},"commodity_tags":["soybean"],"state_tags":[]}}
+Output: {{"primary_factor":"supply_disruptions","factor_scores":[{{"factor":"supply_disruptions","score":0.9}},{{"factor":"price_volatility","score":0.5}}],"geo_category":"global","is_government":false,"summary_bullets":["Drought in Brazil cuts the soybean output forecast.","Global soybean prices are climbing in response."],"impact":{{"direction":"positive","score":7.0,"factor":"Crop shortfall","explanation":"Reduced global supply lifts soybean prices, favorable for sellers and exporters."}},"commodity_tags":["soybean"],"state_tags":[],"location_city":null,"location_state":null,"latitude":null,"longitude":null}}
+
+Input: "Nagpur APMC reports record onion arrivals as Maharashtra harvest peaks"
+Output: {{"primary_factor":"local_operational","factor_scores":[{{"factor":"local_operational","score":0.9}},{{"factor":"supply_disruptions","score":0.3}}],"geo_category":"domestic","is_government":false,"summary_bullets":["Nagpur APMC records its highest-ever onion arrivals.","Maharashtra's onion harvest is at its seasonal peak."],"impact":{{"direction":"negative","score":4.0,"factor":"Supply glut","explanation":"A surge in local arrivals typically depresses mandi prices for onion."}},"commodity_tags":["onion"],"state_tags":["Maharashtra"],"location_city":"Nagpur","location_state":"Maharashtra","latitude":21.1458,"longitude":79.0882}}
 
 Return only the JSON object."""
 

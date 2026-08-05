@@ -61,12 +61,13 @@ class ReadDimScore:
         return self._repo.read_dim_score(profile_id, module, dimension_type, key)
 
 
-class GetCommoditySyncDelta:
+class GetDimensionSyncDelta:
     """
-    Compute the unsynced commodity delta.
+    Compute the unsynced delta for one cross-platform dimension.
 
     Returns (delta, snapshot). Callers write delta to global session, then
-    pass snapshot to MarkSynced to prevent double-counting on the next call.
+    pass snapshot to MarkDimensionSynced to prevent double-counting on the
+    next call.
     """
 
     def __init__(self, repo: IModuleSessionRepository) -> None:
@@ -76,12 +77,13 @@ class GetCommoditySyncDelta:
         self,
         profile_id: int,
         module: str,
-    ) -> tuple[dict[str, float], dict[str, float]]:
-        return self._repo.get_commodity_delta_and_snapshot(profile_id, module)
+        dimension_type: str,
+    ) -> tuple[dict[str, dict[str, float]], dict[str, dict[str, float]]]:
+        return self._repo.get_dimension_delta_and_snapshot(profile_id, module, dimension_type)
 
 
-class MarkSynced:
-    """Persist the commodity sync snapshot after a successful global write."""
+class MarkDimensionSynced:
+    """Persist the dimension sync snapshot after a successful global write."""
 
     def __init__(self, repo: IModuleSessionRepository) -> None:
         self._repo = repo
@@ -90,6 +92,7 @@ class MarkSynced:
         self,
         profile_id: int,
         module: str,
-        snapshot: dict[str, float],
+        dimension_type: str,
+        snapshot: dict[str, dict[str, float]],
     ) -> None:
-        self._repo.mark_synced(profile_id, module, snapshot)
+        self._repo.mark_dimension_synced(profile_id, module, dimension_type, snapshot)

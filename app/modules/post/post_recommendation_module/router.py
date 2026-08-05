@@ -8,9 +8,11 @@ POST /posts/recommendation/jobs/popular-sync
 
 Interaction events → POST /posts/interactions/batch  (post_user_interaction router)
 """
+import redis
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
+from app.core.redis_client import get_redis
 from app.dependencies import get_current_profile_id, get_db
 from app.modules.post.post_recommendation_module import service, jobs
 from app.modules.post.post_recommendation_module.schemas import (
@@ -28,9 +30,10 @@ def get_feed(
     profile_id: int = Depends(get_current_profile_id),
     db: Session = Depends(get_db),
     limit: int = Query(default=FEED_SIZE, ge=1, le=50),
+    rc: redis.Redis = Depends(get_redis),
 ):
     try:
-        posts = service.get_recommended_posts(db, profile_id, limit=limit)
+        posts = service.get_recommended_posts(db, profile_id, limit=limit, rc=rc)
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc))
     return FeedResponse(posts=posts, has_more=len(posts) >= limit)

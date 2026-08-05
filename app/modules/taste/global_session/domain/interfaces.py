@@ -11,37 +11,41 @@ from .entities import GlobalDimScore
 class IGlobalSessionRepository(ABC):
     """
     Read/write contract for the cross-module Redis global session hash.
-    Active dimension: commodity.  Placeholders: location, quantity.
+    Dimension-type-generic — active: commodity, city, state.
+    Scaffolded, no writer yet: trade_intent. Placeholder: quantity.
     """
 
     @abstractmethod
-    def write_commodity_delta(
+    def write_dimension_delta(
         self,
         profile_id: int,
-        delta: dict[str, float],
+        dimension_type: str,
+        delta: dict[str, dict[str, float]],
     ) -> None:
-        """Atomically add commodity pos deltas from one module sync."""
+        """Atomically add pos/neg/conf deltas for one dimension from one module sync."""
 
     @abstractmethod
-    def read_commodity_weights(self, profile_id: int) -> dict[str, float]:
-        """Return decay-adjusted net scores for all commodity keys."""
+    def read_dimension_weights(self, profile_id: int, dimension_type: str) -> dict[str, float]:
+        """Return decay-adjusted net scores for all keys in one dimension."""
 
     @abstractmethod
-    def read_commodity_score(
+    def read_dimension_score(
         self,
         profile_id: int,
-        commodity_key: str,
+        dimension_type: str,
+        key: str,
     ) -> GlobalDimScore:
-        """Return the full score record for one commodity key."""
+        """Return the full score record for one dimension key."""
 
     @abstractmethod
-    def read_all_commodity_data(
+    def read_all_dimension_data(
         self,
         profile_id: int,
-    ) -> dict[str, dict[str, float]]:
+    ) -> dict[str, dict[str, dict[str, float]]]:
         """
-        Return raw {commodity_key: {pos, neg, conf, cnt}} for the nightly
-        promotion job. No decay applied — job needs raw values.
+        Return raw {dimension_type: {key: {pos, neg, conf, cnt}}} for every
+        dimension type present, for the nightly promotion job. One HGETALL,
+        no decay applied — job needs raw values.
         """
 
     @abstractmethod
@@ -51,3 +55,7 @@ class IGlobalSessionRepository(ABC):
     @abstractmethod
     def session_exists(self, profile_id: int) -> bool:
         """Return True if a live global session hash exists."""
+
+    @abstractmethod
+    def scan_active_profile_ids(self) -> list[int]:
+        """Return every profile_id with a live session:global:* key (nightly job)."""

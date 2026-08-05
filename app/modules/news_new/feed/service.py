@@ -1,9 +1,11 @@
 from datetime import datetime, timedelta, timezone
 from uuid import UUID
 
+import redis
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app.modules.taste.amplify import commodity_boost, commodity_ids_for, get_amplify_weights, location_boost
 from app.modules.news_new.feed.schemas import NewsFeedPage, NewsCard, NewsCardDetail
 from app.modules.news_new.ingestion.models import RawArticle
 from app.modules.news_new.intelligence.models import EnrichedArticle
@@ -22,6 +24,7 @@ from app.modules.profile.models import Business, Commodity, Profile, Profile_Com
 DEFAULT_PAGE_SIZE = 20
 MAX_PAGE_SIZE = 50
 
+_MODULE = "news"
 _ROLE_COL = {1: "role_trader", 2: "role_broker", 3: "role_exporter"}
 
 _BUCKET_HOURS = [12, 24, 48]
@@ -132,6 +135,7 @@ def get_recommended_feed(
     profile_id: int,
     limit: int = DEFAULT_PAGE_SIZE,
     cursor_article_id: str | None = None,
+    rc: redis.Redis | None = None,
 ) -> NewsFeedPage:
     """
     Landing-page recommended feed (GET /news/feed).
@@ -198,6 +202,22 @@ def get_recommended_feed(
         ).all()
     }
 
+    # Session-taste blend (Mechanism 1 — amplify). Commodity, city, and state
+    # are all now real 3-layer (persistent + global + module) dimensions via
+    # get_amplify_weights, since the global-session infra was generalized
+    # beyond commodity-only. Silent fallback to unboosted scoring on any
+    # Redis failure.
+    commodity_weights: dict[str, float] = {}
+    city_weights: dict[str, float] = {}
+    state_weights: dict[str, float] = {}
+    if rc is not None:
+        try:
+            commodity_weights = get_amplify_weights(db, rc, profile_id, _MODULE, "commodity")
+            city_weights = get_amplify_weights(db, rc, profile_id, _MODULE, "city")
+            state_weights = get_amplify_weights(db, rc, profile_id, _MODULE, "state")
+        except Exception:
+            pass
+
     scored: list[tuple[float, RawArticle, EnrichedArticle | None]] = []
     for article in candidates:
         enriched = enriched_map.get(article.id)
@@ -207,7 +227,20 @@ def get_recommended_feed(
             if col:
                 role_score = float(getattr(enriched, col, 0.0))
         profile_boost = compute_profile_boost(user_commodities, user_state, enriched)
-        scored.append((apply_profile_boost(role_score, profile_boost), article, enriched))
+        base_score = apply_profile_boost(role_score, profile_boost)
+
+        session_boost = 1.0
+        city_boost = 1.0
+        state_boost = 1.0
+        if enriched:
+            if commodity_weights:
+                session_boost = commodity_boost(commodity_weights, commodity_ids_for(db, enriched.commodity_tags or []))
+            if city_weights and enriched.location_city:
+                city_boost = location_boost(city_weights, [enriched.location_city])
+            if state_weights and enriched.location_state:
+                state_boost = location_boost(state_weights, [enriched.location_state])
+
+        scored.append((base_score * session_boost * city_boost * state_boost, article, enriched))
 
     scored.sort(key=lambda x: x[0], reverse=True)
 

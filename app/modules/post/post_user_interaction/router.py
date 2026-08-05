@@ -5,9 +5,11 @@ POST /posts/interactions/batch               – submit a batch of interaction e
 POST /posts/interactions/jobs/taste-update   – manually trigger the dwell taste update job
 POST /posts/interactions/jobs/ignore-detect  – manually trigger the ignore detection job
 """
+import redis
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
+from app.core.redis_client import get_redis
 from app.dependencies import get_current_profile_id, get_db
 from app.modules.post.post_user_interaction import service as interaction_service
 from app.modules.post.post_user_interaction import jobs as interaction_jobs
@@ -25,6 +27,7 @@ def submit_interaction_batch(
     payload: InteractionBatchPayload,
     profile_id: int = Depends(get_current_profile_id),
     db: Session = Depends(get_db),
+    rc: redis.Redis = Depends(get_redis),
 ):
     """
     Accepts batched interaction events from the client:
@@ -36,7 +39,7 @@ def submit_interaction_batch(
     Events older than 2 hours or referencing non-existent posts are silently
     dropped; the response reports accepted vs dropped counts.
     """
-    result = interaction_service.process_interaction_batch(db, profile_id, payload.events)
+    result = interaction_service.process_interaction_batch(db, profile_id, payload.events, rc)
     return InteractionBatchResult(**result)
 
 

@@ -8,8 +8,8 @@ Usage:
     from app.modules.taste.session_taste import (
         write_signals,
         read_dimension_weights,
-        get_commodity_delta_and_snapshot,
-        mark_synced,
+        get_dimension_delta_and_snapshot,
+        mark_dimension_synced,
         SessionSignal,
         ActionType,
         IModuleSessionRepository,        # for type annotations
@@ -21,8 +21,8 @@ from __future__ import annotations
 import redis as _redis
 
 from app.modules.taste.session_taste.application.use_cases import (
-    GetCommoditySyncDelta,
-    MarkSynced,
+    GetDimensionSyncDelta,
+    MarkDimensionSynced,
     ReadDimScore,
     ReadDimensionWeights,
     WriteSignals,
@@ -46,6 +46,10 @@ from app.modules.taste.session_taste.domain.constants import (  # re-exported
     TASTE_DECAY_LAMBDA,
     global_commodity_threshold,
     module_commodity_threshold,
+    global_city_threshold,
+    module_city_threshold,
+    global_state_threshold,
+    module_state_threshold,
 )
 from app.modules.taste.session_taste.domain.entities import (  # re-exported
     ActionType,
@@ -101,25 +105,29 @@ def read_dim_score(
     )
 
 
-def get_commodity_delta_and_snapshot(
+def get_dimension_delta_and_snapshot(
     rc: _redis.Redis,
     profile_id: int,
     module: str,
-) -> tuple[dict[str, float], dict[str, float]]:
-    """Compute unsynced commodity delta. Returns (delta, snapshot)."""
-    return GetCommoditySyncDelta(RedisModuleSessionRepository(rc)).execute(
-        profile_id, module
+    dimension_type: str,
+) -> tuple[dict[str, dict[str, float]], dict[str, dict[str, float]]]:
+    """Compute unsynced delta for one cross-platform dimension. Returns (delta, snapshot)."""
+    return GetDimensionSyncDelta(RedisModuleSessionRepository(rc)).execute(
+        profile_id, module, dimension_type
     )
 
 
-def mark_synced(
+def mark_dimension_synced(
     rc: _redis.Redis,
     profile_id: int,
     module: str,
-    snapshot: dict[str, float],
+    dimension_type: str,
+    snapshot: dict[str, dict[str, float]],
 ) -> None:
     """Record sync snapshot after a successful global session write."""
-    MarkSynced(RedisModuleSessionRepository(rc)).execute(profile_id, module, snapshot)
+    MarkDimensionSynced(RedisModuleSessionRepository(rc)).execute(
+        profile_id, module, dimension_type, snapshot
+    )
 
 
 __all__ = [
@@ -127,8 +135,8 @@ __all__ = [
     "write_signals",
     "read_dimension_weights",
     "read_dim_score",
-    "get_commodity_delta_and_snapshot",
-    "mark_synced",
+    "get_dimension_delta_and_snapshot",
+    "mark_dimension_synced",
     # Domain entities (callers need these for constructing signals)
     "SessionSignal",
     "ActionType",
@@ -153,6 +161,10 @@ __all__ = [
     "PROMOTION_FACTOR",
     "module_commodity_threshold",
     "global_commodity_threshold",
+    "module_city_threshold",
+    "global_city_threshold",
+    "module_state_threshold",
+    "global_state_threshold",
     # Exceptions
     "SessionTasteError",
     "SessionWriteError",

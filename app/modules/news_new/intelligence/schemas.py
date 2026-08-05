@@ -38,6 +38,10 @@ class LLMEnrichment(BaseModel):
     summary_bullets: list[str] = []
     commodity_tags: list[str] = Field(default_factory=list)
     state_tags: list[str] = Field(default_factory=list)
+    location_city: str | None = None
+    location_state: str | None = None
+    latitude: float | None = None
+    longitude: float | None = None
     impact: ImpactPayload
 
     @field_validator("primary_factor")

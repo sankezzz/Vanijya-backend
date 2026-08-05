@@ -25,7 +25,7 @@ from app.modules.taste.global_session.application.aggregator import (
 )
 from app.modules.taste.global_session.application.use_cases import (
     ClearGlobalSession,
-    ReadAllCommodityData,
+    ReadAllDimensionData,
     ReadGlobalWeights,
     WriteGlobalDelta,
 )
@@ -72,8 +72,9 @@ def merge_weights(
     """
     Blend persistent + global session + module session into final feed weights.
 
-    Must be called AFTER sync_module_to_global for commodity dimension.
-    For category and author (2-layer), sync has no effect but is still harmless.
+    Must be called AFTER sync_module_to_global for cross-platform dimensions
+    (commodity, city, state). For category and author (2-layer, module-local),
+    sync has no effect but is still harmless.
     """
     m_repo = RedisModuleSessionRepository(rc)
     g_repo = RedisGlobalSessionRepository(rc)
@@ -85,17 +86,18 @@ def merge_weights(
 def read_global_weights(
     rc: _redis.Redis,
     profile_id: int,
+    dimension_type: str,
 ) -> dict[str, float]:
-    """Return decayed commodity weights from global session (no module merge)."""
-    return ReadGlobalWeights(RedisGlobalSessionRepository(rc)).execute(profile_id)
+    """Return decayed weights for one dimension from global session (no module merge)."""
+    return ReadGlobalWeights(RedisGlobalSessionRepository(rc)).execute(profile_id, dimension_type)
 
 
-def read_all_commodity_data(
+def read_all_dimension_data(
     rc: _redis.Redis,
     profile_id: int,
-) -> dict[str, dict[str, float]]:
-    """Raw commodity data for the nightly promotion job."""
-    return ReadAllCommodityData(RedisGlobalSessionRepository(rc)).execute(profile_id)
+) -> dict[str, dict[str, dict[str, float]]]:
+    """Raw data for every dimension type, for the nightly promotion job."""
+    return ReadAllDimensionData(RedisGlobalSessionRepository(rc)).execute(profile_id)
 
 
 def clear_global_session(rc: _redis.Redis, profile_id: int) -> None:
@@ -103,12 +105,18 @@ def clear_global_session(rc: _redis.Redis, profile_id: int) -> None:
     ClearGlobalSession(RedisGlobalSessionRepository(rc)).execute(profile_id)
 
 
+def list_active_global_session_profile_ids(rc: _redis.Redis) -> list[int]:
+    """Every profile_id with a live global session (drives the nightly promotion job)."""
+    return RedisGlobalSessionRepository(rc).scan_active_profile_ids()
+
+
 __all__ = [
     "sync_module_to_global",
     "merge_weights",
     "read_global_weights",
-    "read_all_commodity_data",
+    "read_all_dimension_data",
     "clear_global_session",
+    "list_active_global_session_profile_ids",
     "InfluenceWeights",
     "GlobalDimScore",
     "IGlobalSessionRepository",

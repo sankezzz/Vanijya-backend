@@ -60,10 +60,13 @@ SIGNAL_WEIGHTS: dict[str, tuple[float, float, float]] = {
 AUTHOR_MIN_TASTE_DELTA: float = 2.0
 
 # ── Cross-platform dimensions ─────────────────────────────────────────────────
-# Only these sync from module session → global session.
-# location and quantity are placeholders; activate when their modules are built.
+# These sync from module session → global session, get a 3-layer MergeWeights
+# blend, and are eligible for nightly promotion.
+# trade_intent is scaffolded (recognized by the infra) but has no writer yet --
+# the real feature (declared daily intent + behavioral drift) is on hold.
+# quantity is a placeholder; activate when its module is built.
 
-CROSS_PLATFORM_DIMS: frozenset[str] = frozenset({"commodity"})
+CROSS_PLATFORM_DIMS: frozenset[str] = frozenset({"commodity", "city", "state", "trade_intent"})
 
 # ── Confidence thresholds ─────────────────────────────────────────────────────
 
@@ -84,6 +87,26 @@ def global_commodity_threshold(persistent_score: float) -> float:
     Commodity confidence threshold for global session.
     Harder than module — cross-platform evidence requires more signal.
     """
+    return 12.0 * (1.0 + persistent_score / 100.0)
+
+
+def module_city_threshold(persistent_score: float) -> float:
+    """City confidence threshold for module session. Same shape as commodity."""
+    return 8.0 * (1.0 + persistent_score / 50.0)
+
+
+def global_city_threshold(persistent_score: float) -> float:
+    """City confidence threshold for global session. Same shape as commodity."""
+    return 12.0 * (1.0 + persistent_score / 100.0)
+
+
+def module_state_threshold(persistent_score: float) -> float:
+    """State confidence threshold for module session. Same shape as commodity."""
+    return 8.0 * (1.0 + persistent_score / 50.0)
+
+
+def global_state_threshold(persistent_score: float) -> float:
+    """State confidence threshold for global session. Same shape as commodity."""
     return 12.0 * (1.0 + persistent_score / 100.0)
 
 

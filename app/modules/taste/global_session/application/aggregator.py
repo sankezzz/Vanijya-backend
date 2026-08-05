@@ -17,25 +17,39 @@ from app.modules.taste.global_session.domain.interfaces import IGlobalSessionRep
 from app.modules.taste.session_taste import (
     AUTHOR_SESSION_CONF_THRESHOLD,
     CATEGORY_CONF_THRESHOLD,
+    CROSS_PLATFORM_DIMS,
     GLOBAL_SESSION_MAX_INFLUENCE,
     MODULE_SESSION_MAX_INFLUENCE,
     PERSISTENT_MIN_INFLUENCE,
     IModuleSessionRepository,
+    global_city_threshold,
     global_commodity_threshold,
+    global_state_threshold,
+    module_city_threshold,
     module_commodity_threshold,
+    module_state_threshold,
 )
+
+# Dimensions with a real 3-layer MergeWeights._influence branch (global reads
+# happen for these). trade_intent is in CROSS_PLATFORM_DIMS (so it syncs
+# harmlessly, no-op while nothing writes to it) but has no blend behavior
+# decided yet -- deliberately excluded here until that feature resumes.
+_GLOBAL_BLENDED_DIMS = frozenset({"commodity", "city", "state"})
 
 
 # ── Use case 1: Sync ──────────────────────────────────────────────────────────
 
 class SyncModuleToGlobal:
     """
-    Push unsynced commodity delta from one module session to global session.
+    Push unsynced deltas from one module session to global session, for every
+    cross-platform dimension (CROSS_PLATFORM_DIMS) that has data.
 
-    Called ONCE per feed request before MergeWeights reads global data.
-    Only commodity syncs — CROSS_PLATFORM_DIMS rule enforced here.
-    Write succeeds → mark_synced prevents double-counting on next call.
-    Write fails  → mark_synced is NOT called → safe to retry next request.
+    Called ONCE per feed request before MergeWeights reads global data --
+    callers do not need to know which dimensions are cross-platform; this
+    loops over all of them internally. Dimensions with no data (or no writer
+    yet, e.g. trade_intent) are cheap no-ops.
+    Write succeeds → mark_dimension_synced prevents double-counting on next call.
+    Write fails  → not marked synced → safe to retry next request.
     """
 
     def __init__(
@@ -47,11 +61,14 @@ class SyncModuleToGlobal:
         self._g = global_repo
 
     def execute(self, profile_id: int, module: str) -> None:
-        delta, snapshot = self._m.get_commodity_delta_and_snapshot(profile_id, module)
-        if not delta:
-            return
-        self._g.write_commodity_delta(profile_id, delta)
-        self._m.mark_synced(profile_id, module, snapshot)   # only after write
+        for dimension_type in CROSS_PLATFORM_DIMS:
+            delta, snapshot = self._m.get_dimension_delta_and_snapshot(
+                profile_id, module, dimension_type
+            )
+            if not delta:
+                continue
+            self._g.write_dimension_delta(profile_id, dimension_type, delta)
+            self._m.mark_dimension_synced(profile_id, module, dimension_type, snapshot)
 
 
 # ── Use case 2: Merge ─────────────────────────────────────────────────────────
@@ -74,6 +91,8 @@ class MergeWeights:
         category → 2-layer  (persistent + module)
         commodity → 3-layer (persistent + global + module)
         author   → 2-layer  (persistent + module, lower ceiling)
+        city     → 3-layer  (persistent + global + module)
+        state    → 3-layer  (persistent + global + module)
     """
 
     def __init__(
@@ -94,10 +113,10 @@ class MergeWeights:
         # ── Gather module session scores ──────────────────────────────────────
         module_scores = self._m.read_dimension_scores(profile_id, module, dimension_type)
 
-        # ── Gather global session scores (commodity only) ─────────────────────
+        # ── Gather global session scores (blended dims only) ───────────────────
         global_scores: dict[str, float] = {}
-        if dimension_type == "commodity":
-            global_scores = self._g.read_commodity_weights(profile_id)
+        if dimension_type in _GLOBAL_BLENDED_DIMS:
+            global_scores = self._g.read_dimension_weights(profile_id, dimension_type)
 
         all_keys = set(persistent_weights) | set(module_scores) | set(global_scores)
         if not all_keys:
@@ -141,7 +160,7 @@ class MergeWeights:
             m_threshold = module_commodity_threshold(pers_val)
             g_threshold = global_commodity_threshold(pers_val)
             m_score_obj = self._m.read_dim_score(profile_id, module, dimension_type, key)
-            g_score_obj = self._g.read_commodity_score(profile_id, key)
+            g_score_obj = self._g.read_dimension_score(profile_id, dimension_type, key)
             m_inf = MODULE_SESSION_MAX_INFLUENCE * min(
                 m_score_obj.conf / max(m_threshold, 0.1), 1.0
             )
@@ -157,6 +176,30 @@ class MergeWeights:
                 m_conf / max(threshold, 0.1), 1.0
             )
             g_inf = 0.0
+
+        elif dimension_type == "city":
+            m_threshold = module_city_threshold(pers_val)
+            g_threshold = global_city_threshold(pers_val)
+            m_score_obj = self._m.read_dim_score(profile_id, module, dimension_type, key)
+            g_score_obj = self._g.read_dimension_score(profile_id, dimension_type, key)
+            m_inf = MODULE_SESSION_MAX_INFLUENCE * min(
+                m_score_obj.conf / max(m_threshold, 0.1), 1.0
+            )
+            g_inf = GLOBAL_SESSION_MAX_INFLUENCE * min(
+                g_score_obj.conf / max(g_threshold, 0.1), 1.0
+            )
+
+        elif dimension_type == "state":
+            m_threshold = module_state_threshold(pers_val)
+            g_threshold = global_state_threshold(pers_val)
+            m_score_obj = self._m.read_dim_score(profile_id, module, dimension_type, key)
+            g_score_obj = self._g.read_dimension_score(profile_id, dimension_type, key)
+            m_inf = MODULE_SESSION_MAX_INFLUENCE * min(
+                m_score_obj.conf / max(m_threshold, 0.1), 1.0
+            )
+            g_inf = GLOBAL_SESSION_MAX_INFLUENCE * min(
+                g_score_obj.conf / max(g_threshold, 0.1), 1.0
+            )
 
         else:
             return 1.0, 0.0, 0.0

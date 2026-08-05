@@ -49,29 +49,34 @@ class IModuleSessionRepository(ABC):
         """Return the full score record for one specific dimension key."""
 
     @abstractmethod
-    def get_commodity_delta_and_snapshot(
+    def get_dimension_delta_and_snapshot(
         self,
         profile_id: int,
         module: str,
-    ) -> tuple[dict[str, float], dict[str, float]]:
+        dimension_type: str,
+    ) -> tuple[dict[str, dict[str, float]], dict[str, dict[str, float]]]:
         """
-        Compute the unsynced commodity delta since the last global sync.
+        Compute the unsynced delta (pos, neg, conf) for one cross-platform
+        dimension since the last global sync.
 
         Returns:
-            delta    — {commodity_key: pos_delta_since_last_sync}
-            snapshot — {commodity_key: current_pos}  (pass to mark_synced)
+            delta    — {key: {"pos", "neg", "conf"}} deltas since last sync
+            snapshot — {key: {"pos", "neg", "conf"}} current raw values
+                       (pass to mark_dimension_synced)
         """
 
     @abstractmethod
-    def mark_synced(
+    def mark_dimension_synced(
         self,
         profile_id: int,
         module: str,
-        snapshot: dict[str, float],
+        dimension_type: str,
+        snapshot: dict[str, dict[str, float]],
     ) -> None:
         """
-        Record the synced pos snapshot so next get_commodity_delta only returns
-        the increment that happened after this call.
+        Record the synced pos/neg/conf snapshot so the next
+        get_dimension_delta_and_snapshot call only returns the increment that
+        happened after this call.
         """
 
     @abstractmethod
